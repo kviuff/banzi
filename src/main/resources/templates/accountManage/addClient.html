@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/add.css" rel="stylesheet">
+<style>
+	.layui-form-label{
+		width: 110px;
+		padding: 8px 15px;
+		height: 38px;
+		line-height: 20px;
+		border-width: 1px;
+		border-style: solid;
+		border-radius: 2px 0 0 2px;
+		text-align: center;
+		background-color: #FBFBFB;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		box-sizing: border-box;
+		border-color: #e6e6e6;
+	}
+	.layui-input-block{
+	margin-left: 110px;
+	left: -1px;
+	}
+</style>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<h1></h1>
+				<div class="layui-body-inner">
+					<blockquote class="layui-elem-quote">账号管理<a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+					<!--第二部分-->
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5><span class="span_tu"></span>添加客户</h5>
+						</div>
+						<div class="ibox-content">
+							<form class="layui-form layui-form-pane" id="userForm">
+								<input id="userId" name="userId" th:value="${user.userId}"
+									   type="hidden">
+								<div class="layui-form-item">
+									<label class="layui-form-label">账号</label>
+									<div class="layui-input-block">
+										<input type="text" name="username"  th:value="${user.username}" id="username" autocomplete="off" placeholder="请输入账号" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">初始密码</label>
+									<div class="layui-input-inline">
+										<input type="password" name="password" th:value="${user.password}" placeholder="请输入密码" autocomplete="off" class="layui-input">
+									</div>
+									<div class="layui-form-mid layui-word-aux">请务必填写用户密码</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">公司名</label>
+									<div class="layui-input-block">
+										<input type="text" name="companyName" th:value="${user.companyName}" id="companyName" lay-verify="required" placeholder="请输入公司名称" autocomplete="off" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">位置</label>
+									<div class="layui-input-block">
+										<input type="text" name="area" th:value="${user.area}" id="area" autocomplete="off" placeholder="请输入位置" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">负责人</label>
+									<div class="layui-input-block">
+										<input type="text" name="companyUser" th:value="${user.companyUser}" id="companyUser" autocomplete="off" placeholder="请输入负责人" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">公司电话</label>
+									<div class="layui-input-block">
+										<input type="text" name="companyMobile" th:value="${user.companyMobile}" autocomplete="off" placeholder="请输入公司电话" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">负责人手机</label>
+									<div class="layui-input-block">
+										<input type="text" name="personPhone" th:value="${user.personPhone}" id="personPhone" autocomplete="off" placeholder="请输入负责人电话" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">客户等级</label>
+									<div class="layui-input-block">
+										<select name="customerLevel" th:value="${user.customerLevel}" id="customerLevel" lay-filter="aihao">
+											<option value=""></option>
+											<option value="A级" th:selected="${user.customerLevel=='A级'}">A级</option>
+											<option value="B级" th:selected="${user.customerLevel=='B级'}">B级</option>
+											<option value="C级" th:selected="${user.customerLevel=='C级'}">C级</option>
+										</select>
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">客户类型</label>
+									<div class="layui-input-block">
+										<select name="customerType"  id="customerType" lay-filter="aihao" >
+											<option value=""></option>
+											<option value="中小学" th:selected="${user.customerType=='中小学'}">中小学</option>
+											<option value="幼儿园" th:selected="${user.customerType=='幼儿园'}">幼儿园</option>
+											<option value="高校" th:selected="${user.customerType=='高校'}">高校</option>
+											<option value="医院" th:selected="${user.customerType=='医院'}">医院</option>
+											<option value="政府单位" th:selected="${user.customerType=='政府单位'}">政府单位</option>
+											<option value="商务" th:selected="${user.customerType=='商务'}">商务</option>
+											<option value="部队" th:selected="${user.customerType=='部队'}">部队</option>
+										</select>
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">邮箱地址</label>
+									<div class="layui-input-block">
+										<input type="text" name="email" id="email" th:value="${user.email}" autocomplete="off" placeholder="请输入邮箱地址" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">附件上传</label>
+									<div class="layui-upload layui-input-block">
+										<button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
+										<div class="layui-upload-list">
+											<table class="layui-table">
+												<thead>
+												<tr>
+													<th>文件名</th>
+													<th>操作</th>
+												</tr>
+												</thead>
+												<tbody id="demoList"></tbody>
+											</table>
+										</div>
+										<button type="button" class="layui-btn" id="testListAction">开始上传</button>
+									</div>
+								</div>
+								<input id="accountnumberType" name="accountnumberType" th:value="${user.accountnumberType}" value="" style="display: none" />
+								<input id="attachmentMore"  name="attachmentMore" th:value="${user.attachmentMore}" value="" style="display: none" />
+								<div class="layui-form-item">
+									<div class="layui-input-block">
+										<a class="layui-btn" lay-submit="" lay-filter="demo1" onclick="save()">确认</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<script src="/js/plugins/validate/jquery.validate.min.js" ></script>
+<script src="/js/plugins/validate/messages_zh.min.js"></script>
+<script>
+	layui.use('form', function() {
+		var form = layui.form;
+	});
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+	});
+</script>
+<script type="text/javascript" th:inline="javascript">
+    $().ready(function() {
+        //重要指标
+        var accountnumberType = /*[[${accountnumberType}]]*/
+            console.log(accountnumberType);
+        $("#accountnumberType").val(accountnumberType);
+        var type = /*[[${type}]]*/
+            console.log(type);
+        if(type == "look"){
+            $(".layui-btn").css("display","none");
+        }
+        getAttac();
+
+    });
+    //Demo
+</script>
+<script>
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+
+        //多文件列表示例
+    var demoListView = $('#demoList')
+        ,uploadListIns = upload.render({
+        elem: '#testList'
+        ,url: '/common/sysFile/upload/'
+        ,accept: 'file'
+        ,multiple: true
+        ,auto: false
+        ,bindAction: '#testListAction'
+        ,choose: function(obj){
+            var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+            //读取本地文件
+            obj.preview(function(index, file, result){
+                var tr = $(['<tr id="upload-'+ index +'">'
+                    ,'<td>'+ file.name +'</td>'
+                    ,'<td>'
+                    ,'<button class="layui-btn layui-btn-mini demo-reload layui-hide">重传</button>'
+                    ,'<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
+                    ,'</td>'
+                    ,'</tr>'].join(''));
+
+                //单个重传
+                tr.find('.demo-reload').on('click', function(){
+                    obj.upload(index, file);
+                });
+
+                //删除
+                tr.find('.demo-delete').on('click', function(){
+                    delete files[index]; //删除对应的文件
+                    tr.remove();
+                    uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                });
+
+                demoListView.append(tr);
+            });
+        }
+        ,done: function(res, index, upload){
+            var attachmentMore = $("#attachmentMore").val();
+            attachmentMore=attachmentMore+res.fileName+",";
+            $("#attachmentMore").val(attachmentMore);
+            console.log(res);
+            if(res.code == 0){ //上传成功
+                var tr = demoListView.find('tr#upload-'+ index)
+                    ,tds = tr.children();
+                tds.eq(1).html('<span style="color: #5FB878;">上传成功</span>');
+                return delete this.files[index]; //删除文件队列已经上传成功的文件
+            }
+            this.error(index, upload);
+        }
+        ,error: function(index, upload){
+            var tr = demoListView.find('tr#upload-'+ index)
+                ,tds = tr.children();
+            tds.eq(1).find('.demo-reload').removeClass('layui-hide'); //显示重传
+        }
+    });
+});
+    function save() {
+
+		if($('#userForm').valid()) {
+			//如果用户id是空的 则新增 如果不是空的则修改
+			if ($("#userId").val() == "") {
+				$("#accountnumberType").val("0");
+				$.ajax({
+					type: "POST",
+					dataType: "JSON",
+					url: "/accountManger/account/save",
+					data: $('#userForm').serialize(),// 你的formid
+					success: function (data) {
+						console.log(data);
+						if (data.code == 0) {
+							parent.layer.msg("操作成功");
+							//window.location.href="/accountManger/account/";
+							window.location.href = document.referrer;
+						} else {
+							parent.layer.alert(data.msg)
+						}
+
+					}
+				});
+			} else {
+				$.ajax({
+					cache: true,
+					type: "POST",
+					url: "/accountManger/account/update",
+					data: $('#userForm').serialize(),// 你的formid
+					async: false,
+					error: function (request) {
+						alert("Connection error");
+					},
+					success: function (data) {
+						console.log(data);
+						if (data.code == 0) {
+							parent.layer.msg("操作成功");
+							//window.location.href="/accountManger/account/";
+							window.location.href = document.referrer;
+						} else {
+							parent.layer.alert(data.msg)
+						}
+
+					}
+				});
+			}
+		}
+    }
+
+    function getAttac() {
+		var att = $("#attachmentMore").val();
+		if(att != ""){
+		    var arry = att.split(",");
+		    for(var a = 0; a<arry.length-1 ; a++){
+		        console.log(arry[a].substr(arry[a].lastIndexOf("/")+1));
+                var tr = $(['<tr id="upload-'+ arry[a].substr(arry[a].lastIndexOf("/")+1) +'">'
+                    ,'<td>'+ arry[a].substr(arry[a].lastIndexOf("/")+1) +'</td>'
+                    ,'<td>'
+                    ,'<span style="color: #5FB878;">上传成功</span>'
+                    ,'</td>'
+                    ,'</tr>'].join(''));
+                $('#demoList').append(tr);
+			}
+		}
+    }
+
+	var regValidate = function() {
+		var icon = "<i class='fa fa-times-circle'></i> ";
+		$('#userForm').validate({
+			rules : {
+				username : {
+					required : true,
+					minlength : 2,
+					remote : {
+
+						type: "POST",
+						url: "/sys/user/exit",
+						data : { // 要传递的数据
+							username : function() {
+								return $("#username").val();
+							}
+						}
+					}
+				},
+				password : {
+					required : true,
+					minlength : 6
+				},
+				companyName : {
+					required : true
+				},
+				area : {
+					required : true
+				},
+				companyUser : {
+					required : true
+				},
+				companyMobile : {
+					required : true
+				},
+				personPhone : {
+					required : true
+				},
+				customerLevel : {
+					required : true
+				},
+				customerType : {
+					required : true
+				},
+				responsibleForPhone : {
+					required : true
+				}
+			},
+			messages : {
+				username : {
+					required : icon + "请输入您的用户名",
+					minlength : icon + "用户名必须两个字符以上",
+					remote : icon + "用户名已经存在"
+				},
+				password : {
+					required : icon + "请输入您的密码",
+					minlength : icon + "密码必须6个字符以上"
+				},
+				area : {
+					required : icon + "请填写内容"
+				},
+				companyUser : {
+					required : icon + "请填写内容"
+				},
+				companyMobile : {
+					required : icon + "请填写内容"
+				},
+				personPhone : {
+					required : icon + "请填写内容"
+				},
+				customerLevel : {
+					required : icon + "请填写内容"
+				},
+				customerType : {
+					required : icon + "请填写内容"
+				},
+				responsibleForPhone : {
+					required : icon + "请填写内容"
+				}
+			}
+		});
+	}
+</script>
+</body>
+</html>

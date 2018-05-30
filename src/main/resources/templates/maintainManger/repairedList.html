@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+	.layui-form-label {
+		width: 77px;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="layui-body-inner" >
+						<blockquote class="layui-elem-quote">机器列表 <a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+						<form class="layui-form">
+						<input type="hidden" th:value="${userId}" id="userId" name="userId">
+						<input type="hidden" th:value="${prop1}" id="prop1" name="prop1">
+						<div class="layui-form-item">
+							<label class="layui-form-label">机器列表</label>
+							<div class="layui-input-block">
+								<select name="machineType" lay-verify="required" id="selectList"  lay-filter="list">
+									<!--<option value=""></option>-->
+									<option value="1" delected>新风机列表</option>
+									<option value="2">饮水机列表</option>
+									<option value="3">智能灯列表</option>
+									<option value="4">老饮水机列表</option>
+								</select>
+							</div>
+						</div>
+						</form>
+						<!--第二部分-->
+						<div class="ibox float-e-margins">
+							<table id="exampleTable" data-mobile-responsive="true">
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+	<div th:include="include :: footer"></div>
+
+	<script>
+        //JavaScript代码区域
+        layui.use('form', function() {
+            var element = layui.element;
+            var form = layui.form;
+
+			//监听机器列表
+			form.on('select(list)', function(data){
+				reLoad();
+			});
+        });
+	</script>
+
+
+	<script type="text/javascript" src="/js/appjs/maintainManger/repairedList.js"></script>
+</body>
+</html>

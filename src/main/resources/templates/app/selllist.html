@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="/app/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/app/js/flexible.js"></script>
+    <script type="text/javascript" src="/app/js/touche.js"></script>
+    <script type="text/javascript" src="/app/js/p-pull-refresh.js"></script>
+    <link rel="stylesheet" href="/app/css/reset.css" />
+    <link rel="stylesheet" href="/app/css/sellList.css" />
+    <script>
+        //具体数据的请求可以参考此网址     http://www.jq22.com/jquery-info5444
+        $(function() {
+            var $statu = $('.loading-warp .text');
+            var pullRefresh = $('#wrapper').pPullRefresh({
+                $el: $('#wrapper'),
+                $loadingEl: $('.loading-warp'),
+                sendData: null,
+                url: 'test.php',
+                autoHide: true,
+                callbacks: {
+//						pullStart: function(){
+//							$statu.text('松开开始刷新');
+//						},
+//						start: function(){
+//							$statu.text('数据刷新中···');
+//						},
+//						success: function(response){
+//							$statu.text('数据刷新成功！');
+//						},
+//						end: function(){
+//							$statu.text('下拉刷新结束');
+//						},
+//						error: function(){
+//							$statu.text('找不到请求地址,数据刷新失败');
+//						}
+                }
+            });
+        })
+    </script>
+</head>
+
+<body>
+<section id="wrapper">
+    <section class="loading-warp">
+        <div class="box">
+            <div>
+                <img src="/app/img/loading.gif" />
+                <span class="text">下拉开始刷新</span>
+            </div>
+        </div>
+    </section>
+    <section th:each="user : ${pageUtils.rows}">
+        <dl>
+            <!--<dt>-->
+                <!--<img src="img/list.jpg"  />-->
+            <!--</dt>-->
+            <dd>
+                <li class="title" th:text="${user.name}"></li>
+                <!--<li>前端设计</li>-->
+            </dd>
+        </dl>
+    </section>
+
+</section>
+</body>
+
+</html>

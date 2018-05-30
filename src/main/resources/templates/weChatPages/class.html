@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="/js/appjs/h5/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="/js/appjs/h5/js/flexible.js" ></script>
+		<link rel="stylesheet" href="/js/appjs/h5/css/reset.css" />
+		<link rel="stylesheet" href="/js/appjs/h5/css/class.css" />
+		<style>
+			input[type=search]{
+				border-radius: 5px;
+				border: 1px solid #ebebeb;
+				width: 98%;
+				height: 30px;
+				outline: none;
+			}
+			input[type=search]::-webkit-input-placeholder{
+				color: blue;
+			}
+			input[type=search]::-webkit-search-cancel-button{
+				-webkit-appearance: none;
+			}
+			input[type=search]::-webkit-search-cancel-button{
+				-webkit-appearance: none;
+				position: relative;
+				height: 20px;
+				width: 20px;
+				border-radius: 50%;
+				background-color: #EBEBEB;
+			}
+
+			input[type=search]::-webkit-search-cancel-button:after{
+				position: absolute;
+				content: 'x';
+				left: 25%;
+				top: -12%;
+				font-size: 20px;
+				color: #000;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<form id="searchForm" action="#">
+			<section>
+				input type="text" value="" /><img src="/js/appjs/h5/img/搜索@2x.png" id="searchBtn"/><span>班级查询</span>
+			</section>
+				</form>
+		</header>
+		<input type="hidden" th:value="${userId}" id="userId"/>
+		<main>
+			<section>
+				<h2><img src="/js/appjs/h5/img/全部@2x.png" /><span>查询结果</span></h2>
+			</section>
+			<ul id="list">
+				<li><span>&emsp;位置&emsp;</span><span>PM2.5</span><span>Co2</span><span>湿度</span><span>温度</span></li>
+				<!--<li><span>1年1班</span><span>23</span><span>23</span><span>23</span><span>26</span></li>-->
+				<!--<li><span>1年1班</span><span>23</span><span>23</span><span>23</span><span>26</span></li>-->
+				<!--<li><span>1年1班</span><span>23</span><span>23</span><span>23</span><span>26</span></li>-->
+				<!--<li><span>1年1班</span><span>23</span><span>23</span><span>23</span><span>26</span></li>-->
+				<!--<li><span>1年1班</span><span>23</span><span>23</span><span>23</span><span>26</span></li>-->
+			</ul>
+		</main>
+		<script>
+			$(function(){
+				load()
+			});
+			function load(){
+				$.ajax({
+					cache : true,
+					type : "POST",
+					url : "/monitoring/monitoring/classList",
+					data : {
+						//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
+						offset:0,
+						limit:100000,
+						userId:$("#userId").val(),
+						machineType:1,
+						userName:$("#userName").val()
+					},
+					success : function(data) {
+						console.log(data);
+						if(data.rows.length>0){
+							for(var a = 0;a<data.rows.length;a++){
+								var jsonObj =  JSON.parse(data.rows[a].paramJson);
+								console.log(jsonObj)
+								var html='<li onclick="detailPage(\''+data.rows[a].id+'\')"><span>'+data.rows[a].belongRegion+'</span><span>'+jsonObj.pm+'</span><span>'+jsonObj.co2+'</span><span>'+jsonObj.humidity+'</span><span>'+jsonObj.temperature+'</span></li>';
+								$("#list").append(html);
+							}
+						}
+
+
+					}
+				});
+			}
+			function detailPage(id){
+				window.location.href="/monitoring/monitoring/WechatClassDetail?id="+id;
+			}
+
+			$('#searchForm').on('submit',function(event) {
+				event.preventDefault();
+				$("#list").empty();
+				load();
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="/js/appjs/h5/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="/js/appjs/h5/js/flexible.js" ></script>
+		<link rel="stylesheet" href="/js/appjs/h5/css/reset.css" />
+		<link rel="stylesheet" href="/js/appjs/h5/css/classDetail.css" />
+	</head>
+	<body>
+		<main>
+			<input type="hidden" th:value="${id}" id="id"/>
+			<h2 id="belongRegion">一年级一班</h2>
+			<section class="m-t-n">
+				<section class="card">
+					<section class="card-title">
+						<h2 class="title-left"><img src="/js/appjs/h5/img/pm2.5(1)@2x.png" /></h2>
+						<span class="title-right">PM2.5</span>
+					</section>
+					<section class="card-body">
+						<dl class="">
+							<dt>
+								室外
+							</dt>
+							<dd id="Wpm">
+								34
+							</dd>
+						</dl>
+						<dl class="">
+							<dt>
+								室内
+							</dt>
+							<dd id="Npm">
+								34
+							</dd>
+						</dl>
+					</section>
+				</section>
+				<section class="card">
+					<section class="card-title">
+						<h2 class="title-left"><img src="/js/appjs/h5/img/二氧化碳@2x.png"/></h2>
+						<span class="title-right">Co2</span>
+					</section>
+					<section class="card-body">
+						<dl class="">
+							<dt>
+								室外
+							</dt>
+							<dd id="Wco">
+								34
+							</dd>
+						</dl>
+						<dl class="">
+							<dt>
+								室内
+							</dt>
+							<dd id="Nco">
+								34
+							</dd>
+						</dl>
+					</section>
+				</section>
+			</section>
+			<section>
+				<section class="card">
+					<section class="card-title">
+						<h2 class="title-left"><img src="/js/appjs/h5/img/风速@2x.png"/></h2>
+						<span class="title-right">风速</span>
+					</section>
+					<section class="card-body">
+						<dl class="">
+							<dt>
+								室外
+							</dt>
+							<dd id="Ws">
+								34
+							</dd>
+						</dl>
+						<dl class="">
+							<dt>
+								档位
+							</dt>
+							<dd id="stall">
+								--
+							</dd>
+						</dl>
+					</section>
+				</section>
+				<section class="card">
+					<section class="card-title">
+						<h2 class="title-left"><img src="/js/appjs/h5/img/湿度@2x.png"/></h2>
+						<span class="title-right">湿度</span>
+					</section>
+					<section class="card-body">
+						<dl class="">
+							<dt>
+								室外
+							</dt>
+							<dd id="Whumidity">
+								34
+							</dd>
+						</dl>
+						<dl class="">
+							<dt>
+								室内
+							</dt>
+							<dd id="Nhumidity">
+								34
+							</dd>
+						</dl>
+					</section>
+				</section>
+			</section>
+			<section class="m-n">
+				<section class="card m-l-n">
+					<section class="card-title">
+						<h2 class="title-left"><img src="/js/appjs/h5/img/温度@2x.png"/></h2>
+						<span class="title-right">温度</span>
+					</section>
+					<section class="card-body">
+						<dl class="">
+							<dt>
+								室外
+							</dt>
+							<dd id="Wtemperature">
+								34
+							</dd>
+						</dl>
+						<dl class="">
+							<dt>
+								室内
+							</dt>
+							<dd id="Ntemperature">
+								34
+							</dd>
+						</dl>
+					</section>
+				</section>
+			</section>
+			<h2 class="machine">
+				机器情况
+			</h2>
+			<section class="card large">
+				<section class="card-title">
+					<h2 class="title-left">机器型号</h2>
+					<span class="title-right">SJI00053</span>
+				</section>
+				<section class="card-body">
+					<dl class="">
+						<dt>
+							品牌
+						</dt>
+						<dd id="brand">
+							--
+						</dd>
+					</dl>
+				</section>
+				<section class="card-body">
+					<dl class="">
+						<dt>
+							机器状态
+						</dt>
+						<dd id="status">
+							开机
+						</dd>
+					</dl>
+				</section>
+			</section>
+		</main>
+	</body>
+	<script>
+		$(function(){
+			load()
+		});
+		function load(){
+			$.ajax({
+				cache : true,
+				type : "POST",
+				url : "/monitoring/monitoring/detailList",
+				data : {
+					//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
+					id:$("#id").val()
+				},
+				success : function(data) {
+					console.log(data);
+					//室外
+					$("#Wpm").text(data.weather.pm25);
+					$("#Ws").text(data.weather.windSpd);
+					$("#Whumidity").text(data.weather.hum);
+					$("#Wtemperature").text(data.weather.temp);
+					$("#brand").text(data.monitoring.brand);//品牌
+					$("#stall").text(data.monitoring.stall);//档位
+					//室内
+					var jsonObj =  JSON.parse(data.monitoring.paramJson);
+					if(data.monitoring.status == "1"){//开机
+						$("#belongRegion").text(data.monitoring.belongRegion);
+						$("#Npm").text(jsonObj.pm);
+						$("#Nco").text(jsonObj.co2);
+						$("#Nhumidity").text(jsonObj.humidity);
+						$("#Ntemperature").text(jsonObj.temperature);
+						$("#status").text("开机");
+					}else if(data.monitoring.status == "2"){//关机
+						$("#belongRegion").text(data.monitoring.belongRegion);
+						$("#Npm").text("--");
+						$("#Nco").text("--");
+						$("#Nhumidity").text("--");
+						$("#Ntemperature").text("--");
+						$("#status").text("关机");
+					}
+
+				}
+			});
+		}
+
+	</script>
+</html>

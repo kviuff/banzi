@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+	.layui-form-label {
+		width: 77px;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="layui-body-inner" >
+						<blockquote class="layui-elem-quote">机器保养 <a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+						<!--第二部分-->
+						<div class="ibox float-e-margins">
+							<input type="hidden" id="userId" name="userId" th:value="${userId}">
+							<input type="hidden" id="machineType" name="machineType" th:value="${machineType}">
+							<input type="hidden" id="prop1" name="prop1" value="0">
+							<a class="btn btn-primary btn-sm " href="#" mce_href="#" title="生成保养单" onclick="look1()">生成保养单</a>
+							<table id="exampleTable" data-mobile-responsive="true">
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+	<div th:include="include :: footer"></div>
+	<script>
+        //Demo
+        layui.use('form', function() {
+            var form = layui.form;
+
+            form.on('select(list)', function(data){
+                reLoad();
+            });
+        });
+	</script>
+	<script>
+        //JavaScript代码区域
+        layui.use('element', function() {
+            var element = layui.element;
+            var form = layui.form;
+        });
+	</script>
+	<script type="text/javascript" src="/js/appjs/maintainManger/machineUpkeep.js"></script>
+</body>
+</html>

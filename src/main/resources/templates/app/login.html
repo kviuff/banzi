@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/app/css/reset.css" />
+    <link rel="stylesheet" href="/app/css/login.css" />
+</head>
+<body>
+<header>
+    <section class="logo">
+        <img src="/app/img/list.jpg"  />
+    </section>
+</header>
+<main>
+    <ul>
+        <li><input type="text" id="username1" placeholder="请输入您的用户名账号"／></li>
+        <li><input type="password" id="password1" placeholder="密码"／></li>
+    </ul>
+    <button onclick="login();">登录</button>
+</main>
+
+
+
+<script type="text/javascript" src="/app/js/jquery.min.js" ></script>
+<script type="text/javascript" src="/app/js/flexible.js" ></script>
+<script type="text/javascript" src="/js/plugins/layer/layer.min.js"></script>
+<script>
+
+
+
+    function login() {
+        var uName =$('#username1').val();
+        var psw = $('#password1').val();
+        $.ajax({
+            type: "POST",
+            url: "/applogin/dologin",
+            data: {
+                username1 : uName,
+                password1 : psw
+            },
+            success: function (r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    window.location.href = '/applogin/index';
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

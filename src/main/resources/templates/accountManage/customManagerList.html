@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+	.addNav{
+		display:inline-block;
+		/*width:120px;*/
+		color:#333;
+		float:right;
+	}
+	.addNav li{
+		height:30px;
+		line-height:30px;
+	}
+
+	#chief{
+		padding:20px;
+	}
+	.layui-form-label {
+		width: 77px;
+	}
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<h1></h1>
+				<div class="layui-body-inner">
+					<blockquote class="layui-elem-quote">客户管理</blockquote>
+					<!--第二部分-->
+					<div class="ibox float-e-margins">
+						<form class="layui-form" action="">
+							<div class="layui-form-item">
+								<input type="hidden" name="userIdCreate" id="userIdCreate" th:value="${userIdCreate}">
+								<label class="layui-form-label" style="width: 80px;">查询客户</label>
+								<div class="layui-input-block">
+									<input type="text" name="sname" id="sname" required lay-verify="required" placeholder="请输入客户姓名" autocomplete="off" class="layui-input">
+								</div>
+								<div class="layui-input-block">
+									<button type="button" class="layui-btn layui-btn-sm" id="tsale" >迁移客户</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="ibox-content padding_none">
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+<div th:include="include :: footer"></div>
+<script type="text/javascript" th:inline="javascript">
+    $("#sname").on("input propertychange",function(){
+        reLoad()
+    })
+</script>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+<script>
+	layui.use('form', function() {
+		var form = layui.form;
+	});
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+	});
+</script>
+<script type="text/javascript" src="/js/appjs/accountManger/customManagerList.js"></script>
+<script type="text/javascript">
+
+	$("#tsale").on("click", function() {
+		layer.open({
+			title: "迁移客户",
+			type: 1,
+			btn: ['确定', '取消'],
+			area: ['340px', '200px'],
+			content: $('#chief'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+			yes: function(index,layero){
+				var chiefId = $("#chiefList").val();
+				if (chiefId == "") {
+					layer.msg("请选择销售");
+					return;
+				} else {
+					var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+					if (rows.length == 0) {
+						layer.msg("请选择要迁移的客户");
+						return;
+					} else {
+						var ids = new Array();
+						// 遍历所有选择的行数据，取每条数据对应的ID
+						$.each(rows, function(i, row) {
+							ids[i] = row['userId'];
+						});
+						$.ajax({
+							type : 'POST',
+							data : {
+								"ids" : ids,
+								"chief" : chiefId
+							},
+							url : '/accountManger/account/transferClient',
+							success : function(r) {
+								if (r.code == 0) {
+									layer.msg(r.msg);
+									reLoad();
+								} else {
+									layer.msg(r.msg);
+								}
+							}
+						});
+					}
+				}
+			}
+		});
+	});
+</script>
+</body>
+<div id="chief" hidden>
+	<form class="layui-form" action="">
+		<div class="layui-form-item">
+			<label class="layui-form-label">选择销售</label>
+			<div class="layui-input-block">
+				<select name="chiefList" id="chiefList" lay-verify="required">
+					<option value=""></option>
+					<option th:each="user : ${UserList}" th:value="${user.userId}" th:text="${user.username}"></option>
+				</select>
+			</div>
+		</div>
+	</form>
+</div>
+</html>

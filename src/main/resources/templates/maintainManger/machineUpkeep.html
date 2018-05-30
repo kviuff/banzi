@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+	.layui-form-label {
+		width: 77px;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="layui-body-inner" >
+						<blockquote class="layui-elem-quote">机器保养 </blockquote>
+						<!--第二部分-->
+						<div class="ibox float-e-margins">
+							<div class="ibox-content padding_none" style="padding-bottom:0 !important";>
+								<form class="layui-form" action="">
+									<div class="layui-form-item">
+										<label class="layui-form-label">选择用户</label>
+										<div class="layui-input-block">
+											<input type="text" name="userName" id="userName" required lay-verify="required" placeholder="请输入用户（模糊查询）" class="layui-input" style="width:300px;">
+
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">选择机器</label>
+										<div class="layui-input-block">
+											<select name="machineType" lay-verify="required" id="machineType"  lay-filter="list">
+												<!--<option value=""></option>-->
+												<option value="1" selected>新风机</option>
+												<option value="2">饮水机</option>
+												<option value="4">老饮水机</option>
+											</select>
+										</div>
+									</div>
+									<!--<div class="layui-form-item">
+										<label class="layui-form-label">选择机型</label>
+										<div class="layui-input-block">
+											<input type="text" name="monitorModeCode" id="monitorModeCode" required lay-verify="required" placeholder="请输入机型（模糊查询）" class="layui-input" style="width:300px;">
+
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">查询机器</label>
+										<div class="layui-input-block">
+											<input type="text" name="monitorCode" id="monitorCode" required lay-verify="required" placeholder="请输入机器编号（模糊查询）" class="layui-input" style="width:300px;">
+										</div>
+									</div><br>
+									<div class="layui-form-item">
+										<div class="layui-input-block">
+											<button type="reset" class="layui-btn layui-btn-sm" onclick="sear('1')">剩余一周保养</button>
+											<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="demo1 " onclick="sear('2')">剩余二周保养</button>
+											<input type="hidden" id="oneWeek" name="oneWeek" th:value="${oneWeek}">
+											<input type="hidden" id="twoWeek" name="twoWeek" th:value="${twoWeek}">
+											<input type="hidden" id="prop6" name="prop6">
+										</div>
+									</div>-->
+								</form>
+							</div>
+							<input type="hidden" id="prop1" name="prop1" value="0">
+							<table id="exampleTable" data-mobile-responsive="true">
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+	<div th:include="include :: footer"></div>
+	<script>
+        //Demo
+        layui.use('form', function() {
+            var form = layui.form;
+
+            form.on('select(list)', function(data){
+                reLoad();
+            });
+        });
+	</script>
+	<script>
+        //JavaScript代码区域
+        layui.use('element', function() {
+            var element = layui.element;
+            var form = layui.form;
+        });
+        function sear(type) {
+			if(type == '1'){
+				//$("#prop6").val($("#oneWeek").val())
+                $("#prop6").val(7)
+			}else if(type == '2'){
+                //$("#prop6").val($("#twoWeek").val())
+                $("#prop6").val(14)
+			}
+            reLoad()
+        }
+	</script>
+
+	<script type="text/javascript" th:inline="javascript">
+
+        $("#userName").on("input propertychange",function(){
+            reLoad()
+        });
+
+	</script>
+	<script type="text/javascript" src="/js/appjs/maintainManger/machineUp.js"></script>
+</body>
+</html>

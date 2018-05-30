@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/add.css" rel="stylesheet">
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <input type="hidden" id="userId" name="userId" th:value="${userDO.userId}">
+                <h1></h1>
+                <div class="layui-body-inner">
+                    <blockquote class="layui-elem-quote">客户管理<a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+                    <!--第二部分-->
+                    <div class="ibox float-e-margins">
+                        <div class="layui-tab layui-tab-card">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">添加新风机</li>
+                                <li>添加饮水机</li>
+                                <li>添加智能灯</li>
+                                <li>添加老饮水机</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <form class="layui-form layui-form-pane" action="" id="addXinfeng">
+                                        <input type="hidden" name="userId" th:value="${userDO.userId}">
+                                        <input type="hidden" name="userName" th:value="${userDO.username}">
+                                        <input type="hidden" name="machineType" th:value="1">
+                                        <input type="hidden" name="status" th:value="1">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器编号</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="monitorCode" autocomplete="off" placeholder="" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器型号</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="monitorModeCode" placeholder="" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器区域</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="belongRegion" placeholder="" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器楼层</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="belongFloor" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器安装时间</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" class="layui-input time" id="time" name="prop5" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">保养间隔（周）</label>
+                                            <div class="layui-input-block">
+                                                <input type="number" name="prop7" class="layui-input" placeholder="单位(周)" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn" type="button" onclick="addDevice('addXinfeng');">确认添加</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <form class="layui-form layui-form-pane" action="" id="addWater">
+                                        <input type="hidden" name="userId" th:value="${userDO.userId}">
+                                        <input type="hidden" name="userName" th:value="${userDO.username}">
+                                        <input type="hidden" name="machineType" th:value="2">
+                                        <input type="hidden" name="status" th:value="1">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器编号</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="monitorCode" placeholder="" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器型号</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="monitorModeCode" placeholder="" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器区域</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="belongRegion" placeholder="" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器楼层</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="belongFloor" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">选择套餐</label>
+                                            <div class="layui-input-block">
+                                                <select name="prop8" lay-verify="required" id="prop8" lay-filter="list2">
+                                                    <option value=""></option>
+                                                    <option th:each=" meal: ${mealDOList}" th:value="${meal.id}" th:text="${meal.mealName}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">保养间隔（周）</label>
+                                            <div class="layui-input-block">
+                                                <input type="number" name="prop7" class="layui-input" placeholder="单位(周)" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <!--<div class="layui-form-item">-->
+                                            <!--<label class="layui-form-label">保养流量</label>-->
+                                            <!--<div class="layui-input-inline">-->
+                                                <!--<input type="text" name="prop8" placeholder=""  class="layui-input">-->
+                                            <!--</div>-->
+                                            <!--<div class="layui-input-inline">-->
+                                                <!--<button class="layui-btn" type="button" id="addTime">修改流量</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn" type="button" onclick="addDevice('addWater');">确认添加</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <table class="layui-hide" id="sellAfter"></table>
+                                </div>
+
+                                <div class="layui-tab-item">
+                                    <form class="layui-form layui-form-pane" action="" id="addLaner">
+                                        <input type="hidden" name="userId" th:value="${userDO.userId}">
+                                        <input type="hidden" name="userName" th:value="${userDO.username}">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">用户名</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="lanerusername" autocomplete="off" placeholder="" class="layui-input">
+                                            </div>
+                                        </div>
+
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">密码</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="lanerpassword" autocomplete="off" placeholder="" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">控制器ID</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="controllerId" autocomplete="off" placeholder="控制器ID, 8位id标识" class="layui-input">
+                                            </div>
+                                        </div>
+
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">控制器地址</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="controllerAddr" autocomplete="off" placeholder="控制器地址,用于获取设备列表" class="layui-input">
+                                            </div>
+                                        </div>
+
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn" type="button" onclick="addLaner();">确认添加</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <form class="layui-form layui-form-pane" action="" id="addOldfeng">
+                                        <input type="hidden" name="userId" th:value="${userDO.userId}">
+                                        <input type="hidden" name="userName" th:value="${userDO.username}">
+                                        <input type="hidden" name="machineType" th:value="4">
+                                        <input type="hidden" name="status" th:value="1">
+                                        <input type="hidden" name="prop1" th:value="0">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器编号</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="monitorCode" autocomplete="off" placeholder="" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器型号</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="monitorModeCode" placeholder="" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器区域</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="belongRegion" placeholder="" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器楼层</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="belongFloor" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">机器安装时间</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" class="layui-input time1" id="time1" name="prop5" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">保养间隔（周）</label>
+                                            <div class="layui-input-block">
+                                                <select name="prop7" lay-filter="aihao">
+                                                    <option value=""></option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn" type="button" onclick="addOld('addOldfeng');">确认添加</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+<div th:include="include :: footer"></div>
+
+<script>
+    //JavaScript代码区域
+    layui.use('element', function() {
+        var element = layui.element;
+    });
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        //拜访时间
+        laydate.render({
+            elem: '.time' //指定元素
+        });
+        laydate.render({
+            elem: '.time1' //指定元素
+        });
+    });
+
+    function addDevice(formType) {
+        $.ajax({
+            cache : true,
+            type : "POST",
+            url : "/monitoring/monitoring/updateByCode",
+            data : $('#' + formType).serialize(),
+            async : false,
+            error : function(request) {
+                alert("Connection error");
+            },
+            success : function(data) {
+                console.log(data);
+                if (data.code == 0) {
+                    parent.layer.msg("操作成功");
+                    window.location.href = "/accountManger/account/customDetail?userId=" + $("#userId").val();
+                } else {
+                    parent.layer.alert(data.msg);
+                }
+
+            }
+        });
+    };
+
+    function addOld(formType) {
+        $.ajax({
+            cache : true,
+            type : "POST",
+            url : "/monitoring/monitoring/addOld",
+            data : $('#' + formType).serialize(),
+            async : false,
+            error : function(request) {
+                alert("Connection error");
+            },
+            success : function(data) {
+                console.log(data);
+                if (data.code == 0) {
+                    parent.layer.msg("操作成功");
+                    window.location.href = "/accountManger/account/customDetail?userId=" + $("#userId").val();
+                } else {
+                    parent.layer.alert(data.msg);
+                }
+
+            }
+        });
+    };
+    
+    function addLaner() {
+        $.ajax({
+            cache : true,
+            type : "POST",
+            url : "/monitoring/lightCtr/save",
+            data : $('#addLaner').serialize(),
+            async : false,
+            error : function(request) {
+                alert("Connection error");
+            },
+            success : function(data) {
+                console.log(data);
+                if (data.code == 0) {
+                    parent.layer.msg("操作成功");
+                    window.location.href = "/accountManger/account/customDetail?userId=" + $("#userId").val();
+                } else {
+                    parent.layer.alert(data.msg);
+                }
+
+            }
+        });
+    }
+
+</script>
+<script type="text/javascript">
+    $("#addTime").on("click", function() {
+        var _html = '<div class="layui-form-item visit-time">' +
+            '<label class="layui-form-label">拜访时间</label>' +
+            '<div class="layui-input-inline">' +
+            '<input type="text" class="layui-input time" placeholder="yyyy-MM-dd">' +
+            '</div>' +
+            '<div class="layui-input-inline">' +
+            '<button class="layui-btn delTime" type="button" onclick="delvisitTime(event)">删除</button>' +
+            '</div>' +
+            '</div>';
+        $(".layui-form-text").before(_html);
+    })
+
+    function delvisitTime(e) {
+        $(e.target).closest('.visit-time').remove();
+        return false;
+    }
+</script>
+<script>
+    layui.use('table', function() {
+        form = layui.form;
+    });
+</script>
+
+
+</body>
+</html>

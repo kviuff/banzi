@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<head th:include="include :: header"></head>
+		<link rel="stylesheet" href="/js/appjs/h5/daping/css/font.css" />
+		<link rel="stylesheet" href="/js/appjs/h5/daping/css/index1.css" />
+		<script>
+			var machineType='1';
+			var array=[];
+		</script>
+	</head>
+	<body>
+		<header>
+			<div class="logo-div">
+				<img src="/js/appjs/h5/daping/img/logo.PNG"  />
+				<h2 class="logo-title">
+					|&ensp; 校园环境质量监控系统
+				</h2>
+				<input type="hidden" th:value="${userId}" id="userId"/>
+				<input type="hidden" value="1" id="machineType"/>
+			</div>
+			<div class="memo-div">
+				<p id="current-time">2018/04/23&emsp;星期四&emsp;下午&emsp;3:20&ensp;<i class="iconfont icon-wuxian"></i></p>
+				<p>&emsp;&emsp;&emsp;&emsp;&ensp;北京市昌平区&emsp;<i class="iconfont icon-icon--"></i>晴&emsp;23℃</p>
+			</div>
+		</header>
+		<main>
+			<nav>
+				<ul>
+					<li class="whiteLi">
+						<img src="/js/appjs/h5/daping/img/shebei.png" /><span>设备列表</span>
+					</li>
+					<li onclick="load(1)">
+						<img src="/js/appjs/h5/daping/img/xinfeng.png"  />
+						<p>
+							<span>新风系统</span>
+							<span><img src="/js/appjs/h5/daping/img/yun.png"/><i>on&ensp;line<br>&emsp;在线</i></span>
+						</p>
+					</li>
+					<li onclick="load(2)">
+						<img src="/js/appjs/h5/daping/img/yinshui.png"  />
+						<p>
+							<span>饮水设备</span>
+							<span><img src="/js/appjs/h5/daping/img/yun.png"/><i>on&ensp;line<br>&emsp;在线</i></span>
+						</p>
+					</li>
+					<li>
+						<img src="/js/appjs/h5/daping/img/zhaoming.png"  />
+						<p>
+							<span>照明设备</span>
+							<span><img src="/js/appjs/h5/daping/img/yun.png"/><i>on&ensp;line<br>&emsp;在线</i></span>
+						</p>
+					</li>
+					<li>
+						<img src="/js/appjs/h5/daping/img/kongtiap.png"  />
+						<p>
+							<span>空调设备</span>
+							<span><img src="/js/appjs/h5/daping/img/yun.png"/><i>on&ensp;line<br>&emsp;在线</i></span>
+						</p>
+					</li>
+					<li class="whiteLi">
+						<img src="/js/appjs/h5/daping/img/quyu.png" style="height:38px;"/><span>区域列表</span>
+					</li>
+					<div id="c">
+
+					</div>
+				</ul>
+			</nav>
+			<div class="content">
+				<div class="content-top1" id="water">
+					<div class="content-tp-item">
+						<div class="PM-title">
+							<div class="PM-img1">
+								<span>原水</span>
+								<p>室内</p>
+								<h3 id="raw">0</h3>
+							</div>
+						</div>
+					</div>
+					<div class="content-tp-item">
+						<div class="PM-title">
+							<div class="PM-img1">
+								<span>净化</span>
+								<p>TDS</p>
+								<h3 id="purification">0</h3>
+							</div>
+						</div>
+					</div>
+					<div class="content-tp-item">
+						<div class="PM-title">
+							<div class="PM-img1">
+								<span>状态</span>
+								<p>TDS</p>
+								<h3 id="tds">优</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="content-mid" id="water1">
+					<div class="PM-memo">
+						<p><span>0</span><span>35</span><span>75</span><span>115</span><span>150</span><span>250</span><span>>500(ug/m³)</span></p>
+						<p class="rectangle"><span></span><span></span><span></span><span></span><span></span><span></span></p>
+						<p class="memo"><span>优</span><span>良</span><span>轻度</span><span>中度</span><span>重度</span><span>严重</span></p>
+					</div>
+				</div>
+				<div class="content-top" id="wind">
+					<div class="content-tp-lf">
+						<div class="PM-title">
+							<h2>PM 2.5<span id="pmF">良</span></h2>
+							<div class="PM-img">
+								<p>室内</p>
+								<h3 id="pm">0</h3>
+							</div>
+							<div class="PM-memo">
+								<p><span>0</span><span>35</span><span>75</span><span>115</span><span>150</span><span>250</span><span>>500(ug/m³)</span></p>
+								<p class="rectangle"><span></span><span></span><span></span><span></span><span></span><span></span></p>
+								<p class="memo"><span>优</span><span>良</span><span>轻度</span><span>中度</span><span>重度</span><span>严重</span></p>
+							</div>
+						</div>
+					</div>
+					<div class="content-tp-rg">
+						<ul>
+							<li>
+								<div class="back"></div>
+								<div class="item">
+									<div class="outdoor-div">
+										<h3 id="voc">0</h3>
+										<p id="vocF">轻度污染</p>
+									</div>
+									<h4 class="outdoor-title">室内TVOC（ppb）</h4>
+								</div>
+							</li>
+							<li>
+								<div class="back"></div>
+								<div class="item">
+									<div class="carbon-div">
+										<h3 id="co2">0</h3>
+										<p id="co2F">优良</p>
+									</div>
+									<h4 class="carbon-title">二氧化碳（ppm）</h4>
+								</div>
+							</li>
+							<li>
+								<div class="back"></div>
+								<div class="item">
+									<div class="tem-div">
+										<h3 id="temp">0</h3>
+										<p id="tempF">适宜</p>
+									</div>
+									<h4 class="tem-title">温度（℃）</h4>
+								</div>
+							</li>
+							<li>
+								<div class="back"></div>
+								<div class="item">
+									<div class="hum-div">
+										<h3 id="hum">0</h3>
+										<p id="humF">适宜</p>
+									</div>
+									<h4 class="hum-title">湿度（%rh）</h4>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="content-btm">
+					<div class="table-back"></div>
+					<div class="table-div">
+						<table>
+							<thead id="th">
+								<tr>
+									<th>pm2.5</th>
+									<th>温度</th>
+									<th>湿度</th>
+									<th>二氧化碳</th>
+									<th>VOC</th>
+								</tr>
+							</thead>
+							<tbody id="tb">
+
+							</tbody>
+						</table>
+					</div>
+					<div class="scan-div">
+						<img src="/js/appjs/h5/daping/img/timg.jpeg" />
+						<p>扫一扫体验设备</p>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer>
+			<h3>欢迎使用智能环境监控系统！</h3>
+		</footer>
+	</body>
+	<div th:include="include :: footer"></div>
+<script>
+	$(function() {
+		load(1);
+		$("#water").css("display","none");
+		$("#water1").css("display","none");
+		$("#wind").css("display","block");
+		/*setInterval(function() {
+			var now = (new Date()).toLocaleString();
+			$('#current-time').text(now);
+		}, 1000);*/
+		//时间显示
+		function showTime(){
+			var date=new Date();
+			var s=date.getSeconds();
+			var year=date.getFullYear();
+			var month=date.getMonth()+1;
+			var day=date.getDate();
+			var hour=date.getHours();
+			var minute=date.getMinutes();
+			var second=date.getSeconds();
+			var w = date.getDay();
+			var week=['星期天&emsp;','星期一&emsp;','星期二&emsp;','星期三&emsp;','星期四&emsp;','星期五&emsp;','星期六&emsp;'];
+			var dateStr=year+"年"+month+"月"+day+"日&emsp;"+week[w]+hour+"时"+minute+"分"+s+"秒";
+			$("#current-time").html(dateStr);
+		}
+		var interval=window.setInterval(showTime,100);
+
+
+	});
+	var count = 0;//数据总数
+	var everyCount=0;//每轮计数
+
+	//计时器轮播数据 -----新风机展示数据逻辑
+	function showData(array){
+		if(array.length>0){
+			setInterval(function(){
+				if(everyCount == count){
+					everyCount=0;
+				}else{
+					$("#c").empty();//情况区域名称
+					$("#tb").empty();//情况数据列表
+					//循环三次 因为列表只能展示三条数据
+					for(var i = 0; i<3;i++){
+						if(everyCount+i == count){
+							break;
+						}
+						var li='<li class="listLi"><span>'+array[everyCount+i].belongRegion +'</span></li>';
+						$("#c").append(li);
+						var tr = '<tr><td>'+array[everyCount+i].paramJson.pm+'</td><td>'+array[everyCount+i].paramJson.temperature+'</td><td>'+array[everyCount+i].paramJson.humidity+'</td><td>'+array[everyCount+i].paramJson.co2+'</td><td>'+array[everyCount+i].paramJson.voc+'</td></tr>';
+						$("#tb").append(tr);
+					}
+					//室内数值展示
+					$("#pm").text(array[everyCount].paramJson.pm);
+					$("#voc").text(array[everyCount].paramJson.voc);
+					$("#co2").text(array[everyCount].paramJson.co2);
+					$("#hum").text(array[everyCount].paramJson.humidity);
+					$("#temp").text(array[everyCount].paramJson.temperature);
+					//室内数值文字判断
+					$("#pmF").text(isF(array[everyCount].paramJson.pm));
+					everyCount++;
+				}
+			},5000);
+		}else{
+			console.log("没有数据")
+		}
+	}
+
+	//计时器轮播数据 -----新风机展示数据逻辑
+	function showData1(array){
+		if(array.length>0){
+			setInterval(function(){
+				if(everyCount == count){
+					everyCount=0;
+				}else{
+					$("#c").empty();//情况区域名称
+					$("#tb").empty();//情况数据列表
+					//循环三次 因为列表只能展示三条数据
+					for(var i = 0; i<3;i++){
+						if(everyCount+i == count){
+							break;
+						}
+						var li='<li class="listLi"><span>'+array[everyCount+i].belongRegion +'</span></li>';
+						$("#c").append(li);
+						var tr = '<tr><td>'+array[everyCount+i].paramJson.raw+'</td><td>'+array[everyCount+i].paramJson.purification+'</td></tr>';
+						$("#tb").append(tr);
+					}
+					$("#purification").text(array[everyCount].paramJson.purification);
+					$("#raw").text(array[everyCount].paramJson.raw);
+					//室内数值文字判断
+					everyCount++;
+				}
+			},5000);
+		}else{
+			console.log("没有数据")
+		}
+	}
+
+	//页面初始化
+	function load(type){
+		console.log(type);
+		$("#machineType").val(type);
+
+		array.length=0;
+		$.ajax({
+			type : 'POST',
+			data : {
+				"userId" : $("#userId").val(),
+				"machineType" : type
+			},
+			url : '/screen/Horizontal',
+			success : function(r) {
+				if (r.code == 0) {
+					console.log(r.data);
+					array= r.data;
+					count=r.data.length;
+					$("#th").empty();//表头清空
+					$("#c").empty();//情况区域名称
+					$("#tb").empty();//情况数据列表
+					console.log(type)
+					if(type==1){
+						$("#water").css("display","none");
+						$("#water1").css("display","none");
+						$("#wind").css("display","block");
+						var th='<tr><th>pm2.5</th><th>温度</th><th>湿度</th><th>二氧化碳</th><th>VOC</th></tr>';
+						$("#th").append(th);
+						showData(array);
+					}else if(type==2){
+						$("#water").css("display","block");
+						$("#water1").css("display","block");
+						$("#wind").css("display","none");
+						var th='<tr><th>原水</th><th>净水</th></tr>';
+						$("#th").append(th);
+						showData1(array);
+					}
+
+				} else {
+					layer.msg(r.msg);
+				}
+			}
+		});
+	}
+	//判断空气指标
+	 function isF(num){
+		if(36>num){
+			return "优"
+		}
+		if(35<num && 76>num){
+			return "良"
+		}
+		if(75<num && 116>num){
+			return "轻度"
+		}
+		if(115<num && 151>num){
+			return "中度"
+		}
+		if(150<num && 251>num){
+			return "重度"
+		}
+		if(251<num && 501>num){
+			return "严重"
+		}
+		if(500<num ){
+			return "爆表"
+		}
+	}
+	function isF1(num){
+		if(36>num){
+			return "优"
+		}
+		if(5<num && 51>num){
+			return "良"
+		}
+		if(50<num && 121>num){
+			return "轻度"
+		}
+		if(120<num && 181>num){
+			return "中度"
+		}
+		if(180<num ){
+			return "重度"
+		}
+</script>
+</html>

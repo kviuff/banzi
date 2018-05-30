@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${orderGoods.id}" type="hidden">
+                        <div class="a-data">
+                            <div class="layui-row">
+                                <div class="layui-form-item float-l">
+                                    <label class="layui-form-label">产品名称</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="goodsName" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input" th:value="${orderGoods.goodsName}">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item float-l">
+                                    <label class="layui-form-label">产品型号</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="goosSn" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input" th:value="${orderGoods.goosSn}">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item float-l">
+                                    <label class="layui-form-label">产品单价</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="goodsPrice" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input goodsPrice" th:value="${orderGoods.goodsPrice}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-form-item float-l">
+                                    <label class="layui-form-label">销售数量</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="goodsNum" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input goodsNum" th:value="${orderGoods.goodsNum}">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item float-l">
+                                    <label class="layui-form-label">品牌</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="brand" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input" th:value="${orderGoods.brand}">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item float-l">
+                                    <label class="layui-form-label">备注</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="prop2" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input" th:value="${orderGoods.prop2}">
+                                    </div>
+                                </div>
+                                <!--<div class="layui-form-item float-l">-->
+                                    <!--<button class="layui-btn  layui-btn-sm" type="button" id="add">添加</button>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </form>
+                    <p id="totalAmount"> &emsp;总金额&emsp;:&emsp;$0</p>
+                </div>
+                <p class="btn-p">
+                    <button class="layui-btn  layui-btn-sm" onclick="updateGoods();">保存</button>
+                    <!--<button class="layui-btn  layui-btn-sm" onclick="commitAuth();">申请审核</button>-->
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/ordermanager/orderGoods/edit.js">
+</script>
+</body>
+</html>

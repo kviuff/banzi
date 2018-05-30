@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+	#setOffTime{
+		padding:20px;
+	}
+	.layui-form-label {
+		width: 77px;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="layui-body-inner">
+							<blockquote class="layui-elem-quote">机器管理（<span th:text="${name}"></span>）<a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+							<!--第二部分-->
+							<div class="ibox float-e-margins">
+								<div class="ibox-content padding_none" style="padding-bottom:0 !important" ;>
+									<form class="layui-form">
+										<div class="layui-form-item">
+											<label class="layui-form-label">机器类型</label>
+											<div class="layui-input-block">
+												<select name="city" id="status" lay-verify="required" lay-filter="list1" >
+													<option value=""></option>
+													<option value="2">停机机器</option>
+													<option value="1">开机机器</option>
+													<option value="">全部机器</option>
+												</select>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label" style="width:165px;">区域（班级机器列表）</label>
+											<div class="layui-input-block" style="margin-left:180px;">
+												<select name="city" lay-verify="required" id="belongRegion" lay-filter="list2">
+													<option value=""></option>
+													<option th:each="region : ${region}" th:value="${region}" th:text="${region}"></option>
+
+												</select>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">楼层</label>
+											<div class="layui-input-block">
+												<select name="city" lay-verify="required" id="belongFloor" lay-filter="list3">
+													<option value=""></option>
+													<option th:each="floor : ${floor}" th:value="${floor}" th:text="${floor}"></option>
+												</select>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">机器列表</label>
+											<div class="layui-input-block">
+												<select name="city" lay-verify="required" id="selectList"  lay-filter="list">
+													<!--<option value=""></option>-->
+													<option value="1" delected>新风机列表</option>
+													<option value="2">饮水机列表</option>
+													<option value="3">智能灯列表</option>
+												</select>
+											</div>
+										</div>
+										<br>
+										<div class="layui-form-item">
+											<div class="layui-input-block">
+												<button type="button" class="layui-btn layui-btn-sm" onclick="openall();">全部开机</button>
+												<button type="button" class="layui-btn layui-btn-sm" onclick="closeall();">全部关机</button>
+												<button type="button" class="layui-btn layui-btn-sm" onclick="openselect()">指定开机</button>
+												<button type="button" class="layui-btn layui-btn-sm" onclick="closeselect()">指定关机</button>
+												<button type="button" class="layui-btn layui-btn-sm" id="setOffTimeBtn" >设置关机时间</button>
+                                                <button type="button" class="layui-btn layui-btn-sm" id="update">修改区域</button>
+                                            </div>
+										</div>
+									</form>
+								</div>
+								<input type="hidden" th:value="${userId}" id="userId"/>
+								<table id="exampleTable" data-mobile-responsive="true">
+								</table>
+								<table id="exampleTable1" data-mobile-responsive="true">
+								</table>
+								<table id="exampleTable2" data-mobile-responsive="true">
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script>
+        //Demo
+        layui.use('form', function() {
+            var form = layui.form;
+
+            //监听机器列表
+            form.on('select(list)', function(data){
+                console.log(data);
+                if(data.value == 1){
+                    $('#exampleTable').bootstrapTable('hideColumn', 'cumulativeFlow');
+                    $('#exampleTable').bootstrapTable('showColumn', 'length');
+                    $('#exampleTable').bootstrapTable('showColumn', 'status');
+                }else if(data.value == 2){
+                    $('#exampleTable').bootstrapTable('showColumn', 'cumulativeFlow');
+                    $('#exampleTable').bootstrapTable('hideColumn', 'length');
+                    $('#exampleTable').bootstrapTable('showColumn', 'status');
+                }else if(data.value == 3){
+                    $('#exampleTable').bootstrapTable('hideColumn', 'cumulativeFlow');
+                    $('#exampleTable').bootstrapTable('hideColumn', 'length');
+                    $('#exampleTable').bootstrapTable('hideColumn', 'status');
+                }
+                reLoad();
+            });
+
+            form.on('select(list1)', function(data){
+                console.log(data);
+                reLoad();
+            });
+
+            form.on('select(list2)', function(data){
+                console.log(data);
+                reLoad();
+            });
+            form.on('select(list3)', function(data){
+                console.log(data);
+                reLoad();
+            });
+
+        });
+	</script>
+	<script>
+        //JavaScript代码区域
+        layui.use('element', function() {
+            var element = layui.element;
+        });
+	</script>
+	<script>
+        $("#setOffTimeBtn").on("click", function() {
+            layer.open({
+                title: "设置关机时间",
+                type: 1,
+                btn: ['确定', '取消'],
+                area: ['340px', '200px'],
+                content: $('#setOffTime'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                yes: function(index,layero){
+                    var seletTime = $("#selectHour").val();
+                    if (seletTime == "") {
+                        layer.msg("请选择时间");
+                        return;
+					} else {
+                        var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+                        if (rows.length == 0) {
+                            layer.msg("请选择要设置的行");
+                            return;
+                        } else {
+                            var ids = new Array();
+                            // 遍历所有选择的行数据，取每条数据对应的ID
+                            $.each(rows, function(i, row) {
+                                ids[i] = row['id'];
+                            });
+                            $.ajax({
+                                type : 'POST',
+                                data : {
+                                    "ids" : rows,
+									"closetime" : seletTime
+                                },
+                                url : '/monitoring/monitoring/updateCloseTime',
+                                success : function(r) {
+                                    if (r.code == 0) {
+                                        layer.msg(r.msg);
+                                        window.location.reload();
+                                    } else {
+                                        layer.msg(r.msg);
+                                    }
+                                }
+                            });
+						}
+					}
+                }
+            });
+        });
+
+        $("#update").on("click", function() {
+            layer.open({
+                title: "修改区域",
+                type: 1,
+                btn: ['确定', '取消'],
+                area: ['340px', '200px'],
+                content: $('#setBelong'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                yes: function(index,layero){
+                    var belongRegion1 = $("#belongRegion1").val();
+                    if (belongRegion1 == "") {
+                        layer.msg("请填写区域");
+                        return;
+                    } else {
+                        var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+                        if (rows.length == 0) {
+                            layer.msg("请选择要设置的行");
+                            return;
+                        } else if (rows.length > 1) {
+                            layer.msg("只能选择一行进行修改");
+                            return;
+                        } else {
+                            var ids = "";
+                            // 遍历所有选择的行数据，取每条数据对应的ID
+                            $.each(rows, function(i, row) {
+                                ids = row['id'];
+                            });
+                            $.ajax({
+                                type : 'POST',
+                                data : {
+                                    "id" : ids,
+                                    "belongRegion" : belongRegion1
+                                },
+                                url : '/monitoring/monitoring/update',
+                                success : function(r) {
+                                    if (r.code == 0) {
+                                        layer.msg(r.msg);
+                                        window.location.reload();
+                                    } else {
+                                        layer.msg(r.msg);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        });
+
+        
+        function openall() {
+            var type = $('#selectList').val();
+            var userId = $('#userId').val();
+            $.ajax({
+                type : 'POST',
+                data : {
+                    "type" : type,
+					"userId" : userId
+                },
+                url : '/monitoring/monitoring/openall',
+                success : function(r) {
+                    if (r.code == 0) {
+                        layer.msg(r.msg);
+                    } else {
+                        layer.msg(r.msg);
+                    }
+                }
+            });
+        }
+        
+        function closeall() {
+            var type = $('#selectList').val();
+            var userId = $('#userId').val();
+            $.ajax({
+                type : 'POST',
+                data : {
+                    "type" : type,
+                    "userId" : userId
+                },
+                url : '/monitoring/monitoring/closeall',
+                success : function(r) {
+                    if (r.code == 0) {
+                        layer.msg(r.msg);
+                    } else {
+                        layer.msg(r.msg);
+                    }
+                }
+            });
+        }
+        
+        function openselect() {
+            var type = $('#selectList').val();
+            var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+            var userId = $('#userId').val();
+
+            if (rows.length == 0) {
+                layer.msg("请选择要设置的行");
+                return;
+			} else {
+                var ids = new Array();
+                // 遍历所有选择的行数据，取每条数据对应的ID
+                $.each(rows, function(i, row) {
+                    ids[i] = row['id'];
+                });
+                $.ajax({
+                    type : 'POST',
+                    data : {
+                        "type" : type,
+                        "ids" : ids,
+                        "userId" : userId
+                    },
+                    url : '/monitoring/monitoring/openselect',
+                    success : function(r) {
+                        if (r.code == 0) {
+                            layer.msg(r.msg);
+                        } else {
+                            layer.msg(r.msg);
+                        }
+                    }
+                });
+			}
+        }
+        
+        function closeselect() {
+            var type = $('#selectList').val();
+            var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+            var userId = $('#userId').val();
+            if (rows.length == 0) {
+                layer.msg("请选择要设置的行");
+                return;
+			} else {
+                var ids = new Array();
+                // 遍历所有选择的行数据，取每条数据对应的ID
+                $.each(rows, function(i, row) {
+                    ids[i] = row['id'];
+                });
+                $.ajax({
+                    type : 'POST',
+                    data : {
+                        "type" : type,
+                        "ids" : ids,
+                        "userId" : userId
+                    },
+                    url : '/monitoring/monitoring/closeselect',
+                    success : function(r) {
+                        if (r.code == 0) {
+                            layer.msg(r.msg);
+                        } else {
+                            layer.msg(r.msg);
+                        }
+                    }
+                });
+			}
+        }
+	</script>
+	<script>
+        layui.use('laydate', function(){
+            var laydate = layui.laydate;
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#selectHour', //指定元素
+                format: 'yyyy-MM-dd HH:mm:ss',
+                type: 'datetime'
+            });
+        });
+	</script>
+	<script type="text/javascript" th:inline="javascript">
+        $().ready(function() {
+            /*<![CDATA[*/
+            var userId = /*[[${userId}]]*/
+            console.log(userId)
+            /*]]>*/
+        });
+	</script>
+	<script type="text/javascript" src="/js/appjs/monitoring/monitoring/monitoring_v1.js"></script>
+</body>
+<div id="setOffTime" hidden>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择时间</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="selectHour" placeholder="HH:mm:ss">
+            </div>
+        </div>
+    </form>
+</div>
+<div id="setBelong" hidden>
+    <form class="layui-form" id="up" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">更改区域</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="belongRegion1" placeholder="填写区域">
+            </div>
+        </div>
+    </form>
+</div>
+<div id="setMeal" hidden>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择绑定套餐</label>
+            <div class="layui-input-block">
+                <select name="prop8" lay-verify="required" id="prop8" lay-filter="list2">
+                    <option value=""></option>
+                    <option th:each=" meal: ${mealDOList}" th:value="${meal.id}" th:text="${meal.mealName}"></option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+</html>

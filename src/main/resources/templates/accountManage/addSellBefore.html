@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/add.css" rel="stylesheet">
+<style>
+	.layui-form-label{
+		width: 110px;
+		padding: 8px 15px;
+		height: 38px;
+		line-height: 20px;
+		border-width: 1px;
+		border-style: solid;
+		border-radius: 2px 0 0 2px;
+		text-align: center;
+		background-color: #FBFBFB;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		box-sizing: border-box;
+		border-color: #e6e6e6;
+	}
+	.layui-input-block{
+		margin-left: 110px;
+		left: -1px;
+	}
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<h1></h1>
+				<div class="layui-body-inner">
+					<blockquote class="layui-elem-quote">账号管理<a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+					<!--第二部分-->
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5><span class="span_tu"></span>添加销售</h5>
+						</div>
+						<div class="ibox-content">
+							<form id="userForm">
+								<input id="userId" name="userId" th:value="${user.userId}"
+									   type="hidden">
+								<div class="layui-form-item">
+									<label class="layui-form-label">姓名</label>
+									<div class="layui-input-block">
+										<input type="text" name="name" id="name" th:value="${user.name}" lay-verify="required" placeholder="请输入销售账号" autocomplete="off" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">账号</label>
+									<div class="layui-input-block">
+										<input type="text" name="username" id="username" th:value="${user.username}" autocomplete="off" placeholder="请输登陆账号" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">电话</label>
+									<div class="layui-input-block">
+										<input type="text" name="mobile" autocomplete="off" th:value="${user.mobile}" placeholder="请输入电话" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">职位</label>
+									<div class="layui-input-block">
+										<input type="text" name="position" autocomplete="off" th:value="${user.position}" placeholder="请输入职位" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">邮箱</label>
+									<div class="layui-input-block">
+										<input type="text" name="email" autocomplete="off" th:value="${user.email}" placeholder="请输入邮箱" class="layui-input">
+									</div>
+								</div>
+
+                                <input id="password"  name="password" th:value="${user.password}" style="display: none" />
+                                <input id="accountnumberType" name="accountnumberType" th:value="${user.accountnumberType}" style="display: none" />
+								<input id="status" name="status" th:value="${user.status}" style="display: none" />
+								<div class="layui-form-item">
+									<div class="layui-input-block">
+										<a class="layui-btn" onclick="save()">确认</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+
+<div th:include="include :: footer"></div>
+<script src="/js/plugins/validate/jquery.validate.min.js" ></script>
+<script src="/js/plugins/validate/messages_zh.min.js"></script>
+
+    <script type="text/javascript" th:inline="javascript">
+        $().ready(function() {
+            //重要指标
+            var accountnumberType = /*[[${accountnumberType}]]*/
+                console.log(accountnumberType);
+            $("#accountnumberType").val(accountnumberType);
+            var type = /*[[${type}]]*/
+                console.log(type);
+            if(type == "look"){
+                $(".layui-btn").css("display","none");
+            }
+
+        });
+    //Demo
+</script>
+<script>
+
+    function save() {
+		if($('#userForm').valid()) {
+			//如果用户id是空的 则新增 如果不是空的则修改
+			if ($("#userId").val() == "") {
+				$("#accountnumberType").val("2");
+				$("#password").val("111111");
+				$.ajax({
+					type: "POST",
+					dataType: "JSON",
+					url: "/accountManger/account/save",
+					data: $('#userForm').serialize(),// 你的formid
+					success: function (data) {
+						console.log(data);
+						if (data.code == 0) {
+							parent.layer.msg("操作成功");
+							//window.location.href="/accountManger/account/";
+							window.location.href = document.referrer;
+						} else {
+							parent.layer.alert(data.msg)
+						}
+
+					}
+				});
+			} else {
+				$.ajax({
+					cache: true,
+					type: "POST",
+					url: "/accountManger/account/update",
+					data: $('#userForm').serialize(),// 你的formid
+					async: false,
+					error: function (request) {
+						alert("Connection error");
+					},
+					success: function (data) {
+						console.log(data);
+						if (data.code == 0) {
+							parent.layer.msg("操作成功");
+							//window.location.href="/accountManger/account/";
+							window.location.href = document.referrer;
+						} else {
+							parent.layer.alert(data.msg)
+						}
+
+					}
+				});
+			}
+		}
+    }
+	var regValidate = function() {
+		var icon = "<i class='fa fa-times-circle'></i> ";
+		$('#userForm').validate({
+			rules : {
+				username : {
+					required : true,
+					minlength : 2,
+					remote : {
+
+						type: "POST",
+						url: "/sys/user/exit",
+						data : { // 要传递的数据
+							username : function() {
+								return $("#username").val();
+							}
+						}
+					}
+				},
+				name : {
+					required : true
+				},
+				mobile : {
+					required : true
+				},
+				position : {
+					required : true
+				}
+			},
+			messages : {
+				username : {
+					required : icon + "请输入您的用户名",
+					minlength : icon + "用户名必须两个字符以上",
+					remote : icon + "用户名已经存在"
+				},
+				name : {
+					required : icon + "请填写内容"
+				},
+				mobile : {
+					required : icon + "请填写内容"
+				},
+				position : {
+					required : icon + "请填写内容"
+				}
+			}
+		});
+	}
+</script>
+
+
+</body>
+</html>

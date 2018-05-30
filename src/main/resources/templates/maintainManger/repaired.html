@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+	.layui-form-label {
+		width: 77px;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="layui-body-inner" >
+						<blockquote class="layui-elem-quote">在线报修 </blockquote>
+						<!--第二部分-->
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5><span class="span_tu"></span>关键指标</h5>
+							</div>
+							<div class="ibox-content padding_none">
+								<div class="target-div">
+									<div class="lay-card">
+										<div class="lay-card-head">
+											<p>当前报修数量</p>
+										</div>
+										<!---->
+										<div class="lay-card-body">
+											<p id="op">0</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ibox-content padding_none" style="padding-bottom:0 !important";>
+								<form class="layui-form" action="">
+									<div class="layui-form-item">
+										<label class="layui-form-label">报修时间</label>
+										<div class="layui-input-block">
+											<input type="text" name="prop2" id="prop2" required lay-verify="required" placeholder="请输入报修时间 格式 yyyy-MM-dd" class="layui-input" style="width:300px;">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">选择用户</label>
+										<div class="layui-input-block">
+											<input type="text" name="userName" id="userName" required lay-verify="required" placeholder="请输入用户（模糊查询）" class="layui-input" style="width:300px;">
+										</div>
+									</div>
+									<!--<div class="layui-form-item">
+										<label class="layui-form-label">查询机器</label>
+										<div class="layui-input-block">
+											<input type="text" name="monitorCode" id="monitorCode" required lay-verify="required" placeholder="请输入机器编号（模糊查询）" class="layui-input" style="width:300px;">
+										</div>
+									</div>--><br>
+									<div class="layui-form-item">
+										<div class="layui-input-block">
+											<button type="button" class="layui-btn layui-btn-sm" id="noRepaired">未报修列表</button>
+											<button type="button" class="layui-btn layui-btn-sm layui-btn-primary" id="haveRepaired">已报修未派单</button>
+											<button type="button" class="layui-btn layui-btn-sm layui-btn-primary" id="haveWX">已派单维修中</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<input type="hidden" id="prop1" name="prop1" value="0">
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+	<div th:include="include :: footer"></div>
+	<script>
+        //Demo
+        layui.use('form', function() {
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function(data) {
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+        });
+	</script>
+	<script>
+        //JavaScript代码区域
+        layui.use('element', function() {
+            var element = layui.element;
+            var form = layui.form;
+        });
+	</script>
+	<script type="text/javascript">
+        $("#noRepaired").on("click",function(){
+            $(this).removeClass("layui-btn-primary").siblings().addClass("layui-btn-primary");
+            $("#prop1").val("0")
+        });
+        $("#haveRepaired").on("click",function(){
+            $(this).removeClass("layui-btn-primary").siblings().addClass("layui-btn-primary");
+            $("#prop1").val("1")
+        });
+        $("#haveWX").on("click",function(){
+            $(this).removeClass("layui-btn-primary").siblings().addClass("layui-btn-primary");
+            $("#prop1").val("2")
+
+        })
+	</script>
+
+	<script type="text/javascript" th:inline="javascript">
+        $("#userName").on("input propertychange",function(){
+            reLoad()
+        });
+        $("#prop2").on("input propertychange",function(){
+            reLoad()
+        });
+        $("#monitorCode").on("input propertychange",function(){
+            reLoad()
+        });
+        $().ready(function() {
+            //重要指标
+            var map = /*[[${map}]]*/
+				console.log(map)
+				$("#op").text(map.repaireNum);
+
+        });
+
+	</script>
+	<script type="text/javascript" src="/js/appjs/maintainManger/onlineRepair.js"></script>
+</body>
+</html>

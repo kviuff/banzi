@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+
+	.layui-form-label {
+		width: 77px;
+	}
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<div class="layui-body-inner" >
+					<blockquote class="layui-elem-quote">灯控制器</blockquote>
+					<!--第二部分-->
+					<div class="ibox float-e-margins">
+						<!--<div class="ibox-content padding_none" style="padding-bottom:0 !important";>
+							<form class="layui-form" action="">
+								<div class="layui-form-item">
+									<label class="layui-form-label align-left">选择用户</label>
+									<div class="layui-input-block">
+										<select name="city" lay-verify="required">
+											<option value=""></option>
+											<option value="0">全部用户</option>
+										</select>
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">模糊查询</label>
+									<div class="layui-input-block">
+										<input type="text" id="title"  name="title" required lay-verify="required" placeholder="请输入用户名、电话号、负责人" class="layui-input" style="width:300px;">
+									</div>
+								</div>
+							</form>
+						</div>-->
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+</div>
+
+<div th:include="include :: footer"></div>
+<script>
+	//Demo
+	layui.use('form', function() {
+		var form = layui.form;
+
+		//监听提交
+		form.on('submit(formDemo)', function(data) {
+			layer.msg(JSON.stringify(data.field));
+			return false;
+		});
+	});
+</script>
+<script>
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+		var form = layui.form;
+	});
+</script>
+<script type="text/javascript" th:inline="javascript">
+	$("#title").on("input propertychange",function(){
+		reLoad()
+	})
+
+</script>
+<script type="text/javascript" src="/js/appjs/monitoring/lightCtr/lightUser.js"></script>
+</body>
+</html>

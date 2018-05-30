@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/add.css" rel="stylesheet">
+<style>
+	.detail-table tr td:first-child {
+		background: #FBFBFB;
+	}
+	.detail-table {
+		width: 50%;
+		margin-bottom: 15px;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="layui-body-inner" >
+						<blockquote class="layui-elem-quote">机器列表 <a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+
+						<!--第二部分-->
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5><span class="span_tu"></span>报修详情</h5>
+							</div>
+							<div class="ibox-content">
+								<table class="layui-table detail-table">
+									<colgroup>
+										<col width="100">
+										<col width="200">
+									</colgroup>
+									<tbody>
+									<tr>
+										<td>用户</td>
+										<td th:text="${userName}"></td>
+									</tr>
+									<tr>
+										<td>机器型号</td>
+										<td th:text="${monitorModeCode}"></td>
+									</tr>
+									<tr>
+										<td>机器数量</td>
+										<td th:text="${allNum}"></td>
+									</tr>
+									</tbody>
+								</table>
+								<form class="layui-form layui-form-pane" id="userForm" action="">
+									<input type="hidden" id="machineType" name="machineType" th:value="${machineType}">
+									<input type="hidden" id="userId" name="userId" th:value="${userId}">
+									<input type="hidden" id="monitorModeCode" name="monitorModeCode" th:value="${monitorModeCode}">
+									<input type="hidden" id="userName" name="userName" th:value="${userName}">
+									<input type="hidden" id="prop4" name="prop4" th:value="${allNum}">
+									<input type="hidden" id="ids" name="ids" th:value="${ids}">
+									<div class="layui-form-item">
+										<label class="layui-form-label">保养时间</label>
+										<div class="layui-input-block">
+											<input type="text" class="layui-input time" id="time" name="keepTime" placeholder="">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">客户满意度</label>
+										<div class="layui-input-block">
+											<input placeholder="请输入内容" name="prop1" class="layui-input" />
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">更换配件</label>
+										<div class="layui-input-block">
+											<input placeholder="请输入内容" name="prop2" class="layui-input" />
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">钱数</label>
+										<div class="layui-input-block">
+											<input placeholder="请输入内容" name="prop3" class="layui-input" />
+										</div>
+									</div>
+									<div class="layui-form-item layui-form-text">
+										<label class="layui-form-label">保养情况</label>
+										<div class="layui-input-block">
+											<textarea name="returnVisit" id="returnVisit" placeholder="保养情况" class="layui-textarea"></textarea>
+										</div>
+									</div>
+
+									<div class="layui-form-item">
+										<div class="layui-input-block">
+											<a class="layui-btn" type="button" onclick="save()">保养完成</a>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+	<div th:include="include :: footer"></div>
+
+	<script>
+        //JavaScript代码区域
+        layui.use('element', function() {
+            var element = layui.element;
+            var form = layui.form;
+        });
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			//拜访时间
+			laydate.render({
+				elem: '.time' //指定元素
+			});
+		});
+	</script>
+
+
+	<script type="text/javascript">
+        function save() {
+            $.ajax({
+                type : "POST",
+                dataType:"JSON",
+                url : "/maintainManger/keepLog/save",
+                data : $('#userForm').serialize(),// 你的formid
+                success : function(data) {
+                    console.log(data);
+                    if (data.code == 0) {
+                        parent.layer.msg("操作成功");
+                        window.location.href=document.referrer;
+                    } else {
+                        parent.layer.alert(data.msg)
+                    }
+
+                }
+            });
+        }
+	</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/add.css" rel="stylesheet">
+<style>
+	.detail-table tr td:first-child {
+		background: #FBFBFB;
+	}
+	.detail-table {
+		width: 50%;
+		margin-bottom: 15px;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="layui-body-inner" >
+						<blockquote class="layui-elem-quote">机器列表 <a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+
+						<!--第二部分-->
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5><span class="span_tu"></span>申请报修单</h5>
+							</div>
+							<div class="ibox-content">
+								<form class="layui-form layui-form-pane" action="" id="logForm">
+									<input type="hidden" th:value="${monitoringId}" id="monitoringId" name="monitoringId">
+									<input type="hidden" th:value="${monitoringDO.machineType}" id="prop4" name="prop4">
+									<div class="layui-form-item">
+										<label class="layui-form-label">机器编号</label>
+										<div class="layui-input-inline">
+											<input type="text" name="monitorCode" autocomplete="off" placeholder="请输入机器编号" class="layui-input" th:value="${monitoringDO.monitorCode}">
+										</div>
+										<!--<div class="layui-form-mid layui-word-aux">所属经销商</div>-->
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">机器型号</label>
+										<div class="layui-input-block">
+											<input type="text" name="monitorModeCode" lay-verify="required" placeholder="请输入机器型号" autocomplete="off" class="layui-input" th:value="${monitoringDO.monitorModeCode}">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">所属区域</label>
+										<div class="layui-input-block">
+											<input type="text" name="belongRegion" autocomplete="off" placeholder="请输入所属区域" class="layui-input" th:value="${monitoringDO.belongRegion}">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">所属楼层</label>
+										<div class="layui-input-block">
+											<input type="text" name="belongFloor" autocomplete="off" placeholder="请输入所属楼层" class="layui-input" th:value="${monitoringDO.belongFloor}">
+										</div>
+									</div>
+									<div class="layui-form-item layui-form-text">
+										<label class="layui-form-label">简述故障情况</label>
+										<div class="layui-input-block">
+											<textarea placeholder="请输入内容" name="failureCause" class="layui-textarea"></textarea>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-input-block">
+											<a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a>
+											<a class="layui-btn" onclick="save()">申请报修</a>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+	<div th:include="include :: footer"></div>
+
+	<script>
+        //JavaScript代码区域
+        layui.use('element', function() {
+            var element = layui.element;
+            var form = layui.form;
+        });
+	</script>
+
+
+	<script type="text/javascript" src="/js/appjs/maintainManger/applyRepaired.js"></script>
+</body>
+</html>

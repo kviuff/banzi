@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+	.addNav{
+		display:inline-block;
+		/*width:120px;*/
+		color:#333;
+		float:right;
+	}
+	.addNav li{
+		height:30px;
+		line-height:30px;
+	}
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<h1></h1>
+				<div class="layui-body-inner">
+					<blockquote class="layui-elem-quote">订单管理<a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+					<!--第二部分-->
+					<input type="hidden" id="userId" th:value="${userId}">
+					<div class="ibox float-e-margins">
+						<div class="ibox-content padding_none">
+							<table id="exampleTable" data-mobile-responsive="true">
+							</table>
+						</div>
+
+						<div class="ibox-content padding_none">
+							订单情况
+							<table id="exampleTable1">
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/ordermanager/orderGoods/orderGoods.js"></script>
+
+</body>
+</html>

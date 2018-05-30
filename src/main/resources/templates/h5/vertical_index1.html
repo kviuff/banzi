@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<head th:include="include :: header"></head>
+		<link rel="stylesheet" href="/js/appjs/h5/daping/css/font.css" />
+		<link rel="stylesheet" href="/js/appjs/h5/daping/css/vertical_index1.css" />
+		<script src="/js/appjs/monitoring/banzi/js/echart.js"></script>
+		<style>
+			#weekBar{
+				width: 100%;
+				height: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="logo-div">
+				<img src="/js/appjs/h5/daping/img/logo.PNG"  />
+				<h2 class="logo-title">
+					|&ensp; 校园环境质量监控系统
+				</h2>
+				<input type="hidden" th:value="${userId}" id="userId"/>
+			</div>
+			<div class="memo-div">
+				<p id="current-time">2018/04/23&emsp;星期四&emsp;下午&emsp;3:20&ensp;<i class="iconfont icon-wuxian"></i></p>
+				<p>&emsp;&emsp;&emsp;&emsp;&ensp;北京市昌平区&emsp;<i class="iconfont icon-icon--"></i>晴&emsp;23℃</p>
+			</div>
+		</header>
+		<main>
+			<div class="content">
+				<div class="content-top">
+						<div class="PM-title">
+							<h2><span>水质</span><span>TDS</span></h2>
+							<div class="PM-img">
+								<span>状态</span>
+								<p>TDS</p>
+								<h3 id="tds">优</h3>
+							</div>
+							<div class="PM-memo">
+								<p><span>0</span><span>5</span><span>50</span><span>120</span><span>180</span><span>>180(TDS)</span></p>
+								<p class="rectangle"><span></span><span></span><span></span><span></span><span></span></p>
+								<p class="memo"><span>优</span><span>良</span><span>轻度</span><span>中度</span><span>重度</span><span>严重</span></p>
+							</div>
+						</div>
+				</div>
+				<div class="content-btm">
+					<div class="list-div">
+						<dl>
+							<dt>原水</dt>
+							<dd id="raw">0</dd>
+						</dl>
+						<dl>
+							<dt>净化后</dt>
+							<dd id="purification">0</dd>
+						</dl>
+					</div>
+					<div id="PM-curve">
+						<div class="PM-curve"></div>
+						<div class="PM-content">
+							<h2>TDS变化趋势分析图</h2>
+							<div id="weekBar"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer>
+			<h3>欢迎使用智能环境监控系统！</h3>
+		</footer>
+	</body>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript">
+		var myChart = echarts.init(document.getElementById('weekBar'));
+		var option = {
+			tooltip: {
+				trigger: 'axis'
+			},
+			legend: {
+				data:['原水TDS','净水TDS']
+			},
+			xAxis: {
+				type: 'category',
+				data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24']
+			},
+			yAxis: {
+				type: 'value'
+			},
+			series: [{
+				name:'原水TDS',
+				data: [],
+				type: 'line',
+				itemStyle : {
+					normal : {
+						color:'#ff9f7f',
+						lineStyle:{
+							color:'#ff9f7f'
+						}
+					}
+				},
+				smooth: true
+			},{
+				name:'净水TDS',
+				type:'line',
+				smooth: true,
+				itemStyle : {
+					normal : {
+						color:'#009688',
+						lineStyle:{
+							color:'#009688'
+						}
+					}
+				},
+				data:[]
+			}]
+		};
+		myChart.setOption(option);
+		var raw=[];
+		var purification=[];
+
+		function echart(id){
+			raw.length=0;
+			purification.length=0;
+			var date=new Date();
+			var year=date.getFullYear();
+			var month=date.getMonth()+1;
+			var day=date.getDate();
+			var time1=year+"-"+month+"-"+day;
+			myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
+			$.ajax({
+				type : 'POST',
+				data : {
+					"monitorId" : id,
+					"day":time1
+				},
+				url : '/monitoring/history/chartYs',
+				success : function(r) {
+					myChart.hideLoading();    //隐藏加载动画
+					if (r.code == 0) {
+						for(var a=0;a< r.data.length;a++){
+							raw.push(r.data[a].raw);
+							purification.push(r.data[a].purification);
+						}
+						option.series[0].data=raw;
+						option.series[1].data=purification;
+						myChart.setOption(option);
+
+					} else {
+						console.log(r.msg);
+					}
+				}
+			});
+		}
+
+
+		$(function() {
+			load(2);
+
+			//时间显示
+			function showTime(){
+				var date=new Date();
+				var s=date.getSeconds();
+				var year=date.getFullYear();
+				var month=date.getMonth()+1;
+				var day=date.getDate();
+				var hour=date.getHours();
+				var minute=date.getMinutes();
+				var second=date.getSeconds();
+				var w = date.getDay();
+				var week=['星期天&emsp;','星期一&emsp;','星期二&emsp;','星期三&emsp;','星期四&emsp;','星期五&emsp;','星期六&emsp;'];
+				var dateStr=year+"年"+month+"月"+day+"日&emsp;"+week[w]+hour+"时"+minute+"分"+s+"秒";
+				$("#current-time").html(dateStr);
+			}
+			var interval=window.setInterval(showTime,100);
+
+
+		});
+		var count = 0;//数据总数
+		var everyCount=0;//每轮计数
+		var array=[];
+		//计时器轮播数据 -----新风机展示数据逻辑
+		function showData(array){
+			if(array.length>0){
+				setInterval(function(){
+					if(everyCount == count){
+						everyCount=0;
+					}else{
+						$("#c").empty();//情况区域名称
+						$("#tb").empty();//情况数据列表
+						//循环三次 因为列表只能展示三条数据
+						//室内数值展示
+						$("#raw").text(array[everyCount].paramJson.raw);
+						$("#purification").text(array[everyCount].paramJson.purification);
+						//室内数值文字判断
+						$("#tds").text(isF(array[everyCount].paramJson.purification));
+						echart(array[everyCount].id);
+						console.log(array[everyCount].id);
+						everyCount++;
+					}
+				},10000);
+			}else{
+				console.log("没有数据")
+			}
+		}
+
+
+		//页面初始化
+		function load(type){
+			console.log(type);
+			$("#machineType").val(type);
+
+			array.length=0;
+			$.ajax({
+				type : 'POST',
+				data : {
+					"userId" : $("#userId").val(),
+					"machineType" : type
+				},
+				url : '/screen/VerticalIndex1List',
+				success : function(r) {
+					if (r.code == 0) {
+						console.log(r.data);
+						array= r.data;
+						count=r.data.length;
+						showData(array);
+					} else {
+						layer.msg(r.msg);
+					}
+				}
+			});
+		}
+		//判断空气指标
+		function isF(num){
+			if(36>num){
+				return "优"
+			}
+			if(5<num && 51>num){
+				return "良"
+			}
+			if(50<num && 121>num){
+				return "轻度"
+			}
+			if(120<num && 181>num){
+				return "中度"
+			}
+			if(180<num ){
+				return "重度"
+			}
+		}
+	</script>
+
+</html>

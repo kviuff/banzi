@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+	.float-l{
+		float:left;
+		clear:none;
+	}
+	.add-order{
+		width:90%;
+		margin:0 auto;
+		/*height:200px;*/
+		border:1px solid #e2e2e2;
+		padding-top:30px;
+		padding-bottom:30px;
+	}
+	.add-order form{
+		margin-top:40px;
+		margin-bottom:40px;
+	}
+	.btn-p{
+		margin-top:20px;
+		padding-left:calc(50% - 116px);
+	}
+	.btn-p button{
+		padding-left:40px;
+		padding-right:40px;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="layui-body-inner">
+						<blockquote class="layui-elem-quote">订单管理</blockquote>
+						<!--第二部分-->
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5><span class="span_tu"></span>添加订单</h5>
+							</div>
+							<div class="ibox-content padding_none">
+								<div class="add-order">
+									<form class="layui-form" action="" id="signupForm">
+										<input type="hidden" name="userId" th:value="${userId}">
+										<div class="a-data">
+											<div class="layui-row">
+												<div class="layui-form-item float-l">
+													<label class="layui-form-label">产品名称</label>
+													<div class="layui-input-block">
+														<input type="text" name="goodsName" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+													</div>
+												</div>
+												<div class="layui-form-item float-l">
+													<label class="layui-form-label">产品型号</label>
+													<div class="layui-input-block">
+														<input type="text" name="goosSn" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+													</div>
+												</div>
+												<div class="layui-form-item float-l">
+													<label class="layui-form-label">产品单价</label>
+													<div class="layui-input-block">
+														<input type="text" name="goodsPrice" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input goodsPrice">
+													</div>
+												</div>
+											</div>
+											<div class="layui-row">
+												<div class="layui-form-item float-l">
+													<label class="layui-form-label">销售数量</label>
+													<div class="layui-input-block">
+														<input type="text" name="goodsNum" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input goodsNum">
+													</div>
+												</div>
+												<div class="layui-form-item float-l">
+													<label class="layui-form-label">品牌</label>
+													<div class="layui-input-block">
+														<input type="text" name="brand" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+													</div>
+												</div>
+												<div class="layui-form-item float-l">
+													<label class="layui-form-label">备注</label>
+													<div class="layui-input-block">
+														<input type="text" name="prop2" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+													</div>
+												</div>
+												<div class="layui-form-item float-l">
+													<button class="layui-btn  layui-btn-sm" type="button" id="add">添加</button>
+												</div>
+											</div>
+										</div>
+									</form>
+									<p id="totalAmount"> &emsp;总金额&emsp;:&emsp;$0</p>
+								</div>
+
+								<p class="btn-p">
+									<button class="layui-btn  layui-btn-sm" onclick="save();">提交审核</button>
+									<!--<button class="layui-btn  layui-btn-sm" onclick="commitAuth();">申请审核</button>-->
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+
+	<script>
+        //JavaScript代码区域
+        layui.use('element', function() {
+            var element = layui.element;
+        });
+	</script>
+	<script type="text/javascript" th:inline="javascript">
+
+	</script>
+	<script>
+        layui.use('table', function() {
+            form = layui.form;
+        });
+	</script>
+
+	<script type="text/javascript" src="/js/appjs/ordermanager/orderList/add.js">
+	</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+	.addNav{
+		display:inline-block;
+		width:683px;
+		color:#333;
+		float:right;
+	}
+	.addNav li{
+		height:30px;
+		line-height:30px;
+	}
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<h1></h1>
+				<div class="layui-body-inner">
+					<blockquote class="layui-elem-quote">账号管理</blockquote>
+					<!--第二部分-->
+					<div class="ibox float-e-margins">
+						<div class="ibox-title" style="height: 51px;">
+							<h5 style="width: 1255px;">
+								<span class="span_tu"></span>
+								全部账号
+								<ul class="addNav">
+									<input id="accountnumberTypeValue" type="hidden" th:value="${accountnumberType}" />
+								  	<span class="layui-breadcrumb" lay-separator="|">
+
+									</span>
+								</ul>
+							</h5>
+						</div>
+						<div class="ibox-content padding_none" style="padding-bottom:0 !important">
+							<form class="layui-form" action="">
+								<div class="layui-form-item">
+									<label class="layui-form-label" style="width: 80px;">查看列表</label>
+									<div class="layui-input-block">
+										<select name="accountnumberType" id="accountnumberType" lay-verify="required" lay-filter="list1">
+											<option value=""></option>
+											<option value="0" style="width: 80px;">客户列表</option>
+											<option value="1" style="width: 80px;">经销商列表</option>
+											<option value="2" style="width: 80px;">销售列表</option>
+											<option value="3" style="width: 80px;">客服列表</option>
+											<option value="4" style="width: 80px;">总监列表</option>
+										</select>
+									</div>
+								</div>
+								<div class="layui-form-item  margin-b-n">
+									<label class="layui-form-label" style="width: 80px;">查询销售</label>
+									<div class="layui-input-block">
+										<input type="text" name="sname" id="sname" required lay-verify="required" placeholder="请输入销售姓名" autocomplete="off" class="layui-input">
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="ibox-content padding_none">
+
+							<table id="exampleTable" data-mobile-responsive="true">
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+<script>
+
+    //Demo
+    layui.use('form', function() {
+        var form = layui.form;
+
+        form.on('select(list1)', function(data){
+            console.log(data);
+            reLoad();
+        });
+    });
+</script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function() {
+        var element = layui.element;
+        var form = layui.form;
+    });
+    function add(type) {
+        console.log(type);
+        window.location.href="/accountManger/account/addPage?accountnumberType="+type;
+    }
+
+</script>
+
+
+<script type="text/javascript" th:inline="javascript">
+    $("#sname").on("input propertychange",function(){
+        reLoad()
+    })
+</script>
+<script type="text/javascript" src="/js/appjs/accountManger/accountManger.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/add.css" rel="stylesheet">
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <h1></h1>
+                <input type="hidden" id="userId" th:value="${userId}">
+                <div class="layui-body-inner">
+                    <blockquote class="layui-elem-quote">客户管理（客户详情）<a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+                    <!--第二部分-->
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content padding_none">
+                            统计数据
+                            <table id="exampleTable" data-mobile-responsive="true"></table>
+
+                        </div>
+                        <div class="ibox-content padding_none">
+                            <table id="exampleTable12" data-mobile-responsive="true">
+                            </table>
+                        </div>
+
+                        <div class="ibox-content padding_none">
+                            订单情况
+                            <table id="exampleTable13">
+                            </table>
+                        </div>
+                        <div class="layui-tab layui-tab-card">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">机器列表</li>
+                                <li>报修列表</li>
+                                <li>维修记录</li>
+                                <li>保养记录</li>
+                                <li>保养回访记录</li>
+                            </ul>
+                            <div class="layui-tab-content">
+
+                                <div class="layui-tab-item layui-show">
+                                    <table data-mobile-responsive="true" id="machineList"></table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <table id="repairedList"></table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <table  id="wxList"></table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <table  id="upKeepList"></table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <table id="upKeepReturnList"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/accountManger/customDetail.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function() {
+        var element = layui.element;
+    });
+
+    layui.use('table', function() {
+        form = layui.form;
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+	.add-btn{
+		float:right;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="layui-body-inner">
+							<blockquote class="layui-elem-quote">
+								线索管理
+								<a class="layui-btn layui-btn-sm add-btn" href="/cluemanger/manager/add">添加线索</a>
+							</blockquote>
+							<!--第二部分-->
+							<div class="ibox float-e-margins">
+								<div class="ibox-content padding_none" style="padding-bottom:0 !important";>
+									<form class="layui-form" action="">
+										<div class="layui-form-item">
+											<label class="layui-form-label" style="width: 77px;">查询客户</label>
+											<div class="layui-input-block">
+												<input type="text" name="title" required lay-verify="required" placeholder="请输入客户" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="ibox-content padding_none">
+									线索管理
+									<table data-mobile-responsive="true" id="exampleTable"></table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+
+	<script>
+        //Demo
+        layui.use('form', function() {
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function(data) {
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+        });
+	</script>
+	<script>
+        //JavaScript代码区域
+        layui.use('element', function() {
+            var element = layui.element;
+            var form = layui.form;
+        });
+	</script>
+
+	<script type="text/javascript" src="/js/appjs/cluemanger/manager.js"></script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/add.css" rel="stylesheet">
+<style>
+	.layui-form-label{
+		width: 110px;
+		padding: 8px 15px;
+		height: 38px;
+		line-height: 20px;
+		border-width: 1px;
+		border-style: solid;
+		border-radius: 2px 0 0 2px;
+		text-align: center;
+		background-color: #FBFBFB;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		box-sizing: border-box;
+		border-color: #e6e6e6;
+	}
+	.layui-input-block{
+		margin-left: 110px;
+		left: -1px;
+	}
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<h1></h1>
+				<div class="layui-body-inner">
+					<blockquote class="layui-elem-quote">账号管理<a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+					<!--第二部分-->
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5><span class="span_tu"></span>添加经销商</h5>
+						</div>
+						<div class="ibox-content">
+							<form id="userForm">
+                                <input id="userId" name="userId" th:value="${user.userId}"
+                                       type="hidden">
+								<div class="layui-form-item">
+									<label class="layui-form-label">账号</label>
+									<div class="layui-input-block">
+										<input type="text" name="username" th:value="${user.username}" id="username" autocomplete="off" placeholder="请输入账号" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">密码</label>
+									<div class="layui-input-inline">
+										<input type="password" name="password" th:value="${user.password}" placeholder="请输入密码" autocomplete="off" class="layui-input">
+									</div>
+									<div class="layui-form-mid layui-word-aux">请务必填写用户密码</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">经销商</label>
+									<div class="layui-input-block">
+										<input type="text" name="name" id="name" th:value="${user.name}" lay-verify="required" placeholder="请输入经销商" autocomplete="off" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">公司电话</label>
+									<div class="layui-input-block">
+										<input type="text" name="companyMobile" th:value="${user.companyMobile}" id="companyMobile" autocomplete="off" placeholder="请输入电话" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">负责人</label>
+									<div class="layui-input-block">
+										<input type="text" name="companyUser" th:value="${user.companyUser}" id="companyUser" autocomplete="off" placeholder="请输入负责人" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">负责人电话</label>
+									<div class="layui-input-block">
+										<input type="text" name="personPhone" th:value="${user.personPhone}" id="personPhone" autocomplete="off" placeholder="请输入负责人电话" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">地址</label>
+									<div class="layui-input-inline address">
+										<select name="provinceId" id="provinceId">
+											<option value="">请选择省</option>
+											<option th:each="area : ${area}" th:value="${area.areaId}" th:selected="${user.provinceId== area.areaId}"  th:text="${area.areaName}"></option>
+										</select>
+									</div>
+									<div class="layui-input-inline address">
+										<select name="cityId" id="cityId">
+											<option value="">请选择市</option>
+										</select>
+									</div>
+									<div class="layui-input-inline address">
+										<select name="countyId" id="countyId">
+											<option value="">请选择县/区</option>
+										</select>
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">详细地址</label>
+									<div class="layui-input-block">
+										<input type="text" th:value="${user.detailedAddress}" name="detailedAddress" id="detailedAddress" autocomplete="off" placeholder="请输入详细地址" class="layui-input">
+									</div>
+								</div>
+								<input id="accountnumberType" th:value="${user.accountnumberType}" name="accountnumberType" value="" style="display: none" />
+								<div class="layui-form-item">
+									<div class="layui-input-block">
+										<a class="layui-btn" onclick="save()">确认</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+<div th:include="include :: footer"></div>
+<script src="/js/plugins/validate/jquery.validate.min.js" ></script>
+<script src="/js/plugins/validate/messages_zh.min.js"></script>
+<script>
+    layui.use('form', function() {
+        var form = layui.form;
+    });
+    //JavaScript代码区域
+    layui.use('element', function() {
+        var element = layui.element;
+    });
+</script>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+<script type="text/javascript" th:inline="javascript">
+    $().ready(function() {
+        //重要指标
+        var accountnumberType = /*[[${accountnumberType}]]*/
+            console.log(accountnumberType);
+        $("#accountnumberType").val(accountnumberType);
+        var type = /*[[${type}]]*/
+            console.log(type);
+        if(type == "look"){
+            $(".layui-btn").css("display","none");
+        }
+        var user = /*[[${user}]]*/
+            console.log(user.cityId);
+            //回显市
+        if($("#provinceId").val() != ""){
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "/system/area/getChildArea",
+                data: {"id": user.provinceId},
+                async: false,
+                success: function (c) {
+                    if (c.success == "true") {
+                        $("#cityId").empty();
+                        if (c.result.length > 0) {
+                            var op = '<option value="">请选择市</option>';
+                            $("#cityId").append(op);
+                            for (var a = 0; a < c.result.length; a++) {
+                                if(user.cityId == c.result[a].areaId){
+                                    var op = '<option value="' + c.result[a].areaId + '"  selected>' + c.result[a].areaName + '</option>'
+                                    $("#cityId").append(op);
+                                }else{
+                                    var op = '<option value="' + c.result[a].areaId + '" >' + c.result[a].areaName + '</option>'
+                                    $("#cityId").append(op);
+                                }
+
+                            }
+                        }else{
+                            var op = '<option value="">请选择市</option>';
+                            $("#cityId").append(op);
+                        }
+                    }else{
+                        parent.layer.msg("查询失败");
+                    }
+                }
+            })
+        }
+        if($("#cityId").val() != ""){
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "/system/area/getChildArea",
+                data: {"id": user.cityId},
+                async: false,
+                success: function (c) {
+
+                    if (c.success == "true") {
+                        $("#countyId").empty();
+                        if (c.result.length > 0) {
+                            var op = '<option value="">请选择县/区</option>';
+                            $("#countyId").append(op);
+                            for (var a = 0; a < c.result.length; a++) {
+                                if(user.countyId == c.result[a].areaId){
+                                    var op = '<option value="' + c.result[a].areaId + '"  selected>' + c.result[a].areaName + '</option>'
+                                    $("#countyId").append(op);
+                                }else{
+                                    var op = '<option value="' + c.result[a].areaId + '" >' + c.result[a].areaName + '</option>'
+                                    $("#countyId").append(op);
+                                }
+
+                            }
+                        }else{
+                            var op = '<option value="">请选择县/区</option>';
+                            $("#countyId").append(op);
+                        }
+                    }else{
+                        parent.layer.msg("查询失败");
+                    }
+                }
+            })
+        }
+
+    });
+
+
+    //Demo
+</script>
+<script>
+
+    function save() {
+        if($('#userForm').valid()) {
+//如果用户id是空的 则新增 如果不是空的则修改
+            if ($("#userId").val() == "") {
+                $("#accountnumberType").val("1");
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: "/accountManger/account/save",
+                    data: $('#userForm').serialize(),// 你的formid
+                    success: function (data) {
+                        console.log(data);
+                        if (data.code == 0) {
+                            parent.layer.msg("操作成功");
+                            //window.location.href="/accountManger/account/";
+                            window.location.href = document.referrer;
+                        } else {
+                            parent.layer.alert(data.msg)
+                        }
+
+                    }
+                });
+            } else {
+                $.ajax({
+                    cache: true,
+                    type: "POST",
+                    url: "/accountManger/account/update",
+                    data: $('#userForm').serialize(),// 你的formid
+                    async: false,
+                    error: function (request) {
+                        alert("Connection error");
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if (data.code == 0) {
+                            parent.layer.msg("操作成功");
+                            //window.location.href="/accountManger/account/";
+                            window.location.href = document.referrer;
+                        } else {
+                            parent.layer.alert(data.msg)
+                        }
+
+                    }
+                });
+            }
+        }
+    }
+
+    var regValidate = function() {
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        $('#userForm').validate({
+            rules : {
+                username : {
+                    required : true,
+                    minlength : 2,
+                    remote : {
+
+                        type: "POST",
+                        url: "/sys/user/exit",
+                        data : { // 要传递的数据
+                            username : function() {
+                                return $("#username").val();
+                            }
+                        }
+                    }
+                },
+                password : {
+                    required : true,
+                    minlength : 6
+                },
+                name : {
+                    required : true
+                },
+                mobile : {
+                    required : true
+                },
+                companyUser : {
+                    required : true
+                },
+                personPhone : {
+                    required : true
+                },
+                detailedAddress : {
+                    required : true
+                }
+            },
+            messages : {
+                username : {
+                    required : icon + "请输入您的用户名",
+                    minlength : icon + "用户名必须两个字符以上",
+                    remote : icon + "用户名已经存在"
+                },
+                password : {
+                    required : icon + "请输入您的密码",
+                    minlength : icon + "密码必须6个字符以上"
+                },
+                name : {
+                    required : icon + "请填写内容"
+                },
+                mobile : {
+                    required : icon + "请填写内容"
+                },
+                companyUser : {
+                    required : icon + "请填写内容"
+                },
+                personPhone : {
+                    required : icon + "请填写内容"
+                },
+                detailedAddress : {
+                    required : icon + "请填写内容"
+                }
+            }
+        });
+    }
+
+</script>
+<script type="text/javascript" src="/js/appjs/accountManger/area.js"></script>
+
+</body>
+</html>

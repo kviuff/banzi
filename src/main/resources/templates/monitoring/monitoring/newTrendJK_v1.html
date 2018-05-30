@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="layui-body-inner" >
+						<blockquote class="layui-elem-quote">新风监控<br>空气质量实时数据 <span id="time"></span><a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a> </blockquote>
+						<!--第二部分-->
+						<input type="hidden" th:value="${map.userId}" id="userId"/>
+						<input type="hidden" th:value="${map.belongRegion}" id="belongRegion"/>
+						<div class="ibox float-e-margins">
+							<table id="exampleTable" data-mobile-responsive="true">
+							</table>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+
+
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" th:inline="javascript">
+        $().ready(function() {
+            //重要指标
+            var map = /*[[${map}]]*/
+				console.log(map)
+			var userId=	map.userId;
+            var belongRegion=map.belongRegion;
+			//时间
+            function p(s) {
+                return s < 10 ? '0' + s: s;
+            }
+            var mydate = new Date();
+            var ti = p(mydate.getHours())+":"+p(mydate.getMinutes())+":"+p(mydate.getSeconds());
+            $("#time").text(ti);
+        });
+
+	</script>
+	<script type="text/javascript" src="/js/appjs/monitoring/monitoring/newTrendJK_v1.js"></script>
+</body>
+</html>

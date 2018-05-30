@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+
+	.layui-form-label {
+		width: 77px;
+	}
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<div class="layui-body-inner" >
+					<blockquote class="layui-elem-quote">区域详情 <a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+					<!--第二部分-->
+					<div class="ibox float-e-margins">
+						<input type="hidden" th:value="${id}" id="Id"/>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+</div>
+
+<div th:include="include :: footer"></div>
+<script>
+	//Demo
+	layui.use('form', function() {
+		var form = layui.form;
+
+		//监听提交
+		form.on('submit(formDemo)', function(data) {
+			layer.msg(JSON.stringify(data.field));
+			return false;
+		});
+	});
+</script>
+<script>
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+		var form = layui.form;
+	});
+
+</script>
+
+<script type="text/javascript" src="/js/appjs/monitoring/lightCtr/lightRegion.js"></script>
+</body>
+<div id="setOffTime" hidden>
+	<form class="layui-form" id="mor" action="">
+		<input type="hidden"  id="userId" name="userId"/>
+		<input type="hidden"  id="userName" name="userName"/>
+		<input type="hidden"  id="monitorCode" name="monitorCode"/>
+		<input type="hidden"  id="contollerAddr" name="contollerAddr"/>
+		<input type="hidden"  id="returnid" name="returnid"/>
+		<input type="hidden"  id="lanerUserName" name="lanerUserName"/>
+		<input type="hidden"  id="lanerPassword" name="lanerPassword"/>
+		<br/>
+		<div class="layui-form-item">
+			<label class="layui-form-label">区域名称</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input" name="belongRegion" id="belongRegion" placeholder="请填写区域">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">楼层</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input" id="belongFloor" name="belongFloor" placeholder="请填写楼层">
+			</div>
+		</div>
+	</form>
+</div>
+</html>

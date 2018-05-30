@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="/app/js/jquery.min.js" ></script>
+    <script type="text/javascript" src="/app/js/flexible.js" ></script>
+    <link rel="stylesheet" href="/app/css/reset.css" />
+    <link rel="stylesheet" href="/app/css/keyDetail.css" />
+</head>
+<body>
+<header>
+    <section>
+        <span></span>
+        <label>公司名称</label>
+        <i th:text="${manager.companyName}">阿拉丁金融有限公司</i>
+    </section>
+    <section>
+        <span></span>
+        <label>负责人</label>
+        <i th:text="${manager.userName}">吴亦凡</i>
+    </section>
+    <section>
+        <span></span>
+        <label>电话</label>
+        <i th:text="${manager.personCharge}">15735298671</i>
+    </section>
+    <section>
+        <span></span>
+        <label>创建时间</label>
+        <i th:text="${manager.createTimeStr}">2018.1.2-2018.1.23</i>
+    </section>
+    <section>
+        <span></span>
+        <label>创建人</label>
+        <i th:text="${manager.prop2}">李易峰</i>
+    </section>
+    <input type="hidden" id="detail" th:value="${manager.timeDetail}" />
+    <input type="hidden" id="clueId" th:value="${manager.id}" />
+</header>
+<main>
+    <h2>
+        <img src="/app/img/manyi.png" />
+        <span>拜访记录</span>
+        <span class="title">查看更多</span>
+    </h2>
+    <section class="card">
+
+
+        <script>
+            $(function () {
+                var timeDetail = $("#detail").val();
+                timeDetail = $.parseJSON(timeDetail);
+                for(var i in timeDetail){
+                    var visitTime = timeDetail[i].visitTime;
+                    var visitDetail = timeDetail[i].visitDetail;
+                    var visitTitle = timeDetail[i].visitTitle;
+
+                    var html = "<section class=\"card-title\">";
+                    html += " <h2 class=\"title-left\">" + visitTitle + "</h2>";
+                    html += " <span class=\"title-date\">" + visitTime + "</span>";
+                    html += "</section>";
+
+                    html += "<section class=\"card-body\">";
+                    html += " <dl>";
+                    html += "  <dt>";
+                    html += "   <p>" + visitDetail + "</p>";
+                    html += "  </dt>";
+                    html += " </dl>";
+                    html += "</section>";
+                    $(".card").append(html);
+                }
+            })
+        </script>
+
+    </section>
+    <button onclick="updateClue();">继续添加</button>
+    <!--<p>-注：管理员无此按钮-</p>-->
+</main>
+<script>
+    function updateClue() {
+        var clueId = $("#clueId").val();
+        window.location.href = "/applogin/addVisit?id=" + clueId;
+    }
+</script>
+</body>
+</html>

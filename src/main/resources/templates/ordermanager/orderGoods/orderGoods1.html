@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+	.addNav{
+		display:inline-block;
+		/*width:120px;*/
+		color:#333;
+		float:right;
+	}
+	.addNav li{
+		height:30px;
+		line-height:30px;
+	}
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<h1></h1>
+				<div class="layui-body-inner">
+					<blockquote class="layui-elem-quote">订单管理<a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+					<!--第二部分-->
+					<input type="hidden" id="orderId" th:value="${id}">
+					<input type="hidden" id="orderSn" th:value="${orderSn}">
+					<input type="hidden" id="ordertotalcount" th:value="${total}">
+					<input type="hidden" id="ordertotalamount" th:value="${totalAmount}">
+					<div class="ibox float-e-margins">
+						<div class="ibox-content padding_none">
+							<div class="target-div">
+								<div class="lay-card">
+									<div class="lay-card-head">
+										<p>订单数量</p>
+									</div>
+									<!---->
+									<div class="lay-card-body">
+										<p id="ordercount">0</p>
+									</div>
+								</div>
+
+								<div class="lay-card">
+									<div class="lay-card-head">
+										<p>订单总额</p>
+									</div>
+									<!---->
+									<div class="lay-card-body">
+										<p id="orderAmount">0</p>
+									</div>
+								</div>
+
+							</div>
+
+
+						</div>
+
+						<div class="ibox-content padding_none">
+							订单情况
+							<table id="exampleTable1">
+							</table>
+						</div>
+					</div>
+
+					<p class="btn-p" style="text-align: center;">
+						<button class="layui-btn  layui-btn-sm" onclick="audit();">审核通过</button>
+						<button class="layui-btn  layui-btn-sm" onclick="commitAuth();">审核不通过</button>
+					</p>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/ordermanager/orderGoods/orderGoods1.js"></script>
+
+</body>
+</html>

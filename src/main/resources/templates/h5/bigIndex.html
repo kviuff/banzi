@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+	#setOffTime{
+		padding:20px;
+	}
+	.layui-form-label {
+		width: 77px;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="layui-body-inner">
+							<blockquote class="layui-elem-quote">大屏</blockquote>
+							<!--第二部分-->
+							<div class="ibox float-e-margins">
+								<div class="ibox-content padding_none" style="padding-bottom:0 !important" ;>
+                                    <br>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <a  class="layui-btn layui-btn-sm" href="/screen/HorizontalIndex" target="_blank">横屏</a>
+                                            <a  class="layui-btn layui-btn-sm" href="/screen/VerticalIndex" target="_blank">新风竖屏</a>
+											<a  class="layui-btn layui-btn-sm" href="/screen/VerticalIndex1" target="_blank">饮水竖屏</a>
+
+										</div>
+                                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+
+	<script>
+        //JavaScript代码区域
+        layui.use('element', function() {
+            var element = layui.element;
+        });
+	</script>
+	<script>
+
+        function HorizontalIndex() {
+            window.location.href="/screen/HorizontalIndex"
+        }
+        function VerticalIndex() {
+            window.location.href="/screen/VerticalIndex"
+        }
+
+
+	</script>
+
+</body>
+
+</html>

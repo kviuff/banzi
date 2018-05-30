@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/app/css/reset.css" />
+    <link rel="stylesheet" href="/app/css/addVisite.css" />
+</head>
+<body>
+<section>
+    <input type="hidden" id="clueId" th:value="${id}" />
+    <ul>
+        <li>
+            <p>拜访题目</p>
+            <input type="text" name="visitTitle" id="visitTitle" placeholder="输入您的拜访题目" />
+        </li>
+        <li>
+            <p>拜访时间</p>
+            <input type="text" name="visitTime" id="visitTime" placeholder="输入您的拜访时间" />
+        </li>
+        <li class="textarea">
+            <p>拜访内容</p>
+            <textarea name="visitDetail" id="visitDetail" placeholder="输入您的拜访内容"></textarea>
+        </li>
+        <li>
+            <button onclick="updateClue();">确认保存</button>
+        </li>
+    </ul>
+</section>
+</body>
+<script type="text/javascript" src="/app/js/jquery.min.js" ></script>
+<script type="text/javascript" src="/app/js/flexible.js" ></script>
+<script type="text/javascript" src="/js/plugins/layer/layer.min.js"></script>
+<script>
+    
+    
+    function updateClue() {
+        var visitTitle = $("#visitTitle").val();
+        var visitTime = $("#visitTime").val();
+        var visitDetail = $("#visitDetail").val();
+        var clueId = $("#clueId").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/applogin/saveVisit",
+            data: {
+                visitTitle : visitTitle,
+                visitTime : visitTime,
+                visitDetail : visitDetail,
+                id : clueId
+            },
+            success: function (r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    window.location.href = '/applogin/index';
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    }
+    
+    //		var font = $("html").css("font-size");
+    //		console.log(font)
+    //		$(".textarea").height(window.innerHeight - 5.24 * parseFloat(font));
+</script>
+</html>

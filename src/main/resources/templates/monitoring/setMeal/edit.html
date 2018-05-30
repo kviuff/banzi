@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${setMeal.id}"  type="hidden">
+						<div class="form-group">
+								<label class="col-sm-3 control-label">套餐名称：</label>
+								<div class="col-sm-8">
+									<input id="mealName" name="mealName" th:value="${setMeal.mealName}" class="form-control" type="text">
+								</div>
+							</div>
+
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">滤芯最大值1：</label>
+								<div class="col-sm-8">
+									<input id="flow1" name="flow1" th:value="${setMeal.flow1}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">滤芯最大值2：</label>
+								<div class="col-sm-8">
+									<input id="flow2" name="flow2" th:value="${setMeal.flow2}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">滤芯最大值3：</label>
+								<div class="col-sm-8">
+									<input id="flow3" name="flow3" th:value="${setMeal.flow3}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">滤芯最大值4：</label>
+								<div class="col-sm-8">
+									<input id="flow4" name="flow4" th:value="${setMeal.flow4}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">滤芯最大值5：</label>
+								<div class="col-sm-8">
+									<input id="flow5" name="flow5" th:value="${setMeal.flow5}" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/monitoring/setMeal/edit.js">
+	</script>
+</body>
+</html>

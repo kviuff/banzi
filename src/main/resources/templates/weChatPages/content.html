@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="/js/appjs/h5/js/jquery.min.js" ></script>
+		<script type="text/javascript" src="/js/appjs/h5/js/flexible.js" ></script>
+		<link rel="stylesheet" href="/js/appjs/h5/css/reset.css" />
+		<link rel="stylesheet" href="/js/appjs/h5/css/content.css" />
+		<style>
+			input[type=search]{
+				border-radius: 5px;
+				border: 1px solid #ebebeb;
+				width: 98%;
+				height: 30px;
+				outline: none;
+			}
+			input[type=search]::-webkit-input-placeholder{
+				color: blue;
+			}
+			input[type=search]::-webkit-search-cancel-button{
+				-webkit-appearance: none;
+			}
+			input[type=search]::-webkit-search-cancel-button{
+				-webkit-appearance: none;
+				position: relative;
+				height: 20px;
+				width: 20px;
+				border-radius: 50%;
+				background-color: #EBEBEB;
+			}
+
+			input[type=search]::-webkit-search-cancel-button:after{
+				position: absolute;
+				content: 'x';
+				left: 25%;
+				top: -12%;
+				font-size: 20px;
+				color: #000;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<form id="searchForm" action="#">
+				<section>
+					<input id="userName" name="userName" type="search"  placeholder="学校查询">
+				</section>
+			</form>
+		</header>
+		<main>
+			<section>
+				<h2><img src="/js/appjs/h5/img/我的@2x.png" /><span>查询结果</span></h2>
+			</section>
+			<ul id="list">
+
+			</ul>
+		</main>
+		<script>
+		$(function(){
+			load()
+		});
+		function load(){
+			$.ajax({
+				cache : true,
+				type : "POST",
+				url : "/monitoring/monitoring/contentList",
+				data : {
+					//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
+
+					userName:$("#userName").val()
+				},
+				success : function(data) {
+					console.log(data);
+					if(data.length>0){
+						for(var a = 0;a<data.length;a++){
+							var html='<li onclick="classPage(\''+data[a].userId+'\')"><span>北京市&emsp;-&emsp;</span><span>'+data[a].userName+'</span><i><img src="/js/appjs/h5/img/返回(2)拷贝@2x.png" /></i></li>';
+							$("#list").append(html);
+						}
+					}
+
+				}
+			});
+		}
+		function classPage(id){
+			window.location.href="/monitoring/monitoring/WechatClass?userId="+id;
+		}
+
+		$('#searchForm').on('submit',function(event) {
+			event.preventDefault();
+			$("#list").empty();
+			load();
+		})
+		</script>
+	</body>
+</html>

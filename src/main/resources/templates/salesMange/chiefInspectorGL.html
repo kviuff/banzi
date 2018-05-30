@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+
+<script src="/js/appjs/monitoring/banzi/layui/layui.js"></script>
+<style>
+	#weekBar{
+		width: 100%;
+		height: 300px;
+	}
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<h1></h1>
+				<div class="layui-body-inner">
+					<blockquote class="layui-elem-quote">总监管理</blockquote>
+					<!--第二部分-->
+					<div class="ibox float-e-margins">
+						<div class="ibox-content padding_none">
+
+							<table id="exampleTable" data-mobile-responsive="true">
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+<script>
+    //JavaScript代码区域
+    layui.use('element', function() {
+        var element = layui.element;
+    });
+</script>
+
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/salesManger/chiefInspectorGL.js"></script>
+</body>
+</html>

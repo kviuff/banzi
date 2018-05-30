@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/machineGL.css" rel="stylesheet">
+<style>
+
+	.layui-form-label {
+		width: 77px;
+	}
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<div class="layui-body-inner" >
+					<blockquote class="layui-elem-quote">情景详情 <a class="layui-btn layui-btn-primary" href="javascript:history.back(-1)">返回</a></blockquote>
+					<!--第二部分-->
+					<div class="ibox float-e-margins">
+						<input type="hidden" th:value="${id}" id="Id"/>
+						<input type="hidden" th:value="${userId}" id="userId"/>
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button type="button" class="layui-btn layui-btn-sm" id="setOffTimeBtn" >绑定情景模式</button>
+							</div>
+						</div>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+</div>
+
+<div th:include="include :: footer"></div>
+<script>
+	//Demo
+	layui.use('form', function() {
+		var form = layui.form;
+
+		//监听提交
+		form.on('submit(formDemo)', function(data) {
+			layer.msg(JSON.stringify(data.field));
+			return false;
+		});
+	});
+</script>
+<script>
+	//JavaScript代码区域
+	layui.use('element', function() {
+		var element = layui.element;
+		var form = layui.form;
+	});
+
+	$("#setOffTimeBtn").on("click", function() {
+		layer.open({
+			title: "绑定情景模式",
+			type: 1,
+			btn: ['确定', '取消'],
+			area: ['340px', '350px'],
+			content: $('#setOffTime'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+			yes: function(index,layero){
+				var belongRegion = $("#belongRegion").val();
+				if (belongRegion == "") {
+					layer.msg("请选择区域");
+					return;
+				} else {
+					var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+					if (rows.length == 0) {
+						layer.msg("请选择要设置的行");
+						return;
+					} else {
+						var ids = [];
+						// 遍历所有选择的行数据，取每条数据对应的ID
+						$.each(rows, function(i, row) {
+							var arr={
+								"id" : row['id'],
+								"name" : row['name']
+
+								  };
+							ids.push(arr) ;
+						});
+
+						$.ajax({
+							type : 'POST',
+							data : {
+								"ids" : JSON.stringify(ids),
+								"belongRegion" : belongRegion,
+								"userId" :$("#userId").val()
+							},
+							url : '/monitoring/lightCtr/bindMode',
+							success : function(r) {
+								if (r.code == 0) {
+									layer.msg(r.msg);
+									window.location.reload();//刷新当前页面.
+								} else {
+									layer.msg(r.msg);
+								}
+							}
+						});
+					}
+				}
+			}
+		});
+	});
+
+</script>
+
+<script type="text/javascript" src="/js/appjs/monitoring/lightCtr/lightMode.js"></script>
+</body>
+<div id="setOffTime" hidden>
+	<form class="layui-form" id="mor" action="">
+		<br/>
+		<div class="layui-form-item">
+			<label class="layui-form-label">选择区域</label>
+			<div class="layui-input-block">
+				<select name="city" lay-verify="required" id="belongRegion" >
+					<option value=""></option>
+					<option th:each="region : ${region}" th:value="${region}" th:text="${region}"></option>
+
+				</select>
+			</div>
+		</div>
+	</form>
+</div>
+</html>

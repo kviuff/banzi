@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/js/appjs/monitoring/banzi/layui/css/layui.css" rel="stylesheet">
+<link href="/js/appjs/monitoring/banzi/css/add.css" rel="stylesheet">
+<style>
+	.detail-table{
+		width:50%;
+		margin-bottom:15px;
+	}
+	.detail-table tr td:first-child{
+		background:#FBFBFB;
+	}
+</style>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<div class="layui-body-inner">
+					<blockquote class="layui-elem-quote">线索管理</blockquote>
+					<!--第二部分-->
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5><span class="span_tu"></span>添加线索</h5>
+						</div>
+						<div class="ibox-content">
+							<input type="hidden" name="timeDetail" id="timeDetail" th:value="${manager.timeDetail}" >
+							<form class="layui-form layui-form-pane" action="" id="editClueForm">
+								<input name="id" type="hidden" th:value="${manager.id}" />
+								<div class="layui-form-item">
+									<label class="layui-form-label">单位名称</label>
+									<div class="layui-input-block">
+										<input type="text" name="companyName" th:value="${manager.companyName}" autocomplete="off" class="layui-input" readonly>
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">负责人</label>
+									<div class="layui-input-block">
+										<input type="text" name="userName" th:value="${manager.userName}" autocomplete="off" class="layui-input" readonly>
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">负责人电话</label>
+									<div class="layui-input-block">
+										<input type="text" name="personCharge" th:value="${manager.personCharge}" autocomplete="off" class="layui-input" readonly>
+									</div>
+								</div>
+								<div class="visit">
+
+								</div>
+								<div class="layui-form-item">
+									<div class="layui-input-block">
+										<button class="layui-btn" type="button" onclick="update()">确认</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div th:include="include::footer"></div>
+
+<script>
+    //JavaScript代码区域
+    layui.use('element', function() {
+        var element = layui.element;
+    });
+</script>
+
+<script>
+    layui.use('table', function() {
+        form = layui.form;
+    });
+
+    var itemnum = 0;
+    
+    $(function () {
+        var timeDetail = $("#timeDetail").val();
+        timeDetail = $.parseJSON(timeDetail);
+        for(var i in timeDetail){
+            var visitTime = timeDetail[i].visitTime;
+            var visitDetail = timeDetail[i].visitDetail;
+            var visitTitle = timeDetail[i].visitTitle;
+
+            var _html =
+				 '<div class="layui-form-item visit-time">'
+                +'<label class="layui-form-label">拜访时间</label>'
+                +'<div class="layui-input-inline">'
+                +'<input type="text" class="layui-input time" name="visitTime" value="' + visitTime + '" placeholder="yyyy-MM-dd" readonly>'
+                +'</div>';
+            if (i == 0) {
+                _html += '<div class="layui-input-inline" style="width:auto;">'
+                    +'<button class="layui-btn" type="button" id="addTime">添加</button>'
+                    +'</div>'
+                    +'</div>';
+			}
+
+            _html += '<div class="layui-form-item visit-time">'
+				+'<label class="layui-form-label">拜访标题</label>'
+				+'<div class="layui-input-block">'
+				+'<input type="text" class="layui-input" name="visitTitle" value="' + visitTitle + '" readonly>'
+				+'</div>'
+				+'</div>'
+
+                +'<div class="layui-form-item layui-form-text">'
+                +'<label class="layui-form-label">拜访详情</label>'
+                +'<div class="layui-input-block">'
+                +'<textarea class="layui-textarea" name="visitDetail" readonly>' + visitDetail + '</textarea>'
+                +'</div>'
+                +'</div>';
+            $(".visit").append( _html);
+        };
+
+
+        $("#addTime").on("click",function(){
+            var _html =
+                '<div class="layui-form-item visit-time">'
+                +' <label class="layui-form-label">拜访时间</label>'
+                +' <div class="layui-input-inline">'
+                +'  <input type="text" class="layui-input time" name="visitTime" placeholder="yyyy-MM-dd">'
+                +' </div>'
+                +' <div class="layui-input-inline">'
+                +'  <button class="layui-btn delTime" type="button" onclick="delvisitTime(event,' + itemnum + ')">删除</button>'
+                +' </div>'
+                +'</div>'
+                +'<div class="layui-form-item visit-title-' + itemnum + '">'
+                +'<label class="layui-form-label">拜访题目</label>'
+                +'<div class="layui-input-block">'
+                +'<input placeholder="请输入拜访题目" class="layui-input" name="visitTitle" />'
+                +'</div>'
+                +'</div>'
+                +'<div class="layui-form-item layui-form-text visit-detail-' + itemnum + '">'
+                +'<label class="layui-form-label">拜访详情</label>'
+                +'<div class="layui-input-block">'
+                +'<textarea placeholder="请输入内容" class="layui-textarea" name="visitDetail"></textarea>'
+                +'</div>'
+                +'</div>';
+            $(".visit").append( _html);
+            itemnum = itemnum + 1;
+        });
+
+    });
+
+    function delvisitTime(e, itemnum){
+        $( e.target ).closest('.visit-time').remove();
+        $(".visit-title-" + itemnum).remove();
+        $(".visit-detail-" + itemnum).remove();
+        return false;
+    }
+
+</script>
+
+<script type="text/javascript" src="/js/appjs/cluemanger/edit.js">
+</script>
+</body>
+</html>
