@@ -1,0 +1,277 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+i {
+	font-style: normal;
+}
+
+li {
+	list-style: none;
+}
+html{
+	width: 100%;
+	height:100%;
+}
+body {
+	width: 100%;
+	/*top: 0;
+	bottom: -60px;
+	position: absolute;*/
+	width:100%;
+    height:auto;
+	background: url(../img/back.jpg) no-repeat center fixed;
+	background-size: cover;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	min-width:760px;
+}
+header {
+	width: 100%;
+	height: 70px;
+	overflow: hidden;
+}
+
+.logo-div {
+	width: 61%;
+	float: left;
+	box-sizing: border-box;
+	height: 70px;
+	border-bottom: 4px solid #fff;
+	/*border-radius:10px;*/
+}
+
+.logo-div img {
+	float: left;
+	width: 160px;
+}
+
+.logo-div .logo-title {
+	float: left;
+	/*	padding-left:20px;*/
+	font-size: 25px;
+	color: #fff;
+	margin-top: 15px;
+}
+
+.memo-div {
+	width: calc(39% + 4px);
+	height: 60px;
+	float: left;
+	box-sizing: border-box;
+	padding-top: 5px;
+	margin-top: 20px;
+	margin-left: -4px;
+	border-top: 4px solid #fff;
+	border-left: 4px solid #fff;
+	border-radius: 10px 0;
+}
+
+.memo-div p {
+	width: 100%;
+	text-align: center;
+	color: #fff;
+	font-size: 16px;
+}
+.white {
+	color: #fff;
+}
+
+main .content {
+	width: 100%;
+}
+
+main .content .content-top {
+	width: 100%;
+}
+
+.PM-title h2 {
+	margin-top: 42px;
+	padding-left: 8%;
+	padding-right:8%;
+	font-size: 28px;
+	color: #fff;
+	display:flex;
+	justify-content: space-between;
+}
+
+.PM-img {
+	position: relative;
+	padding-top: 80px;
+	box-sizing: border-box;
+	width: 340px;
+	height: 340px;
+	margin: 0 auto;
+	margin-top:20px;
+	background: url(../img/shui.png) no-repeat;
+	background-size: cover;
+}
+.PM-img span {
+	position: absolute;
+	top: -60px;
+	left: calc(50% - 40px);
+	color: yellow;
+	background: url(../img/kuang2.png) no-repeat;
+	background-size: cover;
+	display: inline-block;
+	font-size: 24px;
+	line-height: 55px;
+	height: 55px;
+	width: 100px;
+	text-align: center;
+}
+
+.PM-img p {
+	font-size: 25px;
+	color: blue;
+	text-align: center;
+}
+
+.PM-img h3 {
+	font-size: 112px;
+	color: blue;
+	text-align: center;
+	font-weight: normal;
+	margin-top: -25px;
+	padding-left: 10px;
+}
+
+.PM-memo {
+	width: 420px;
+	margin: 0 auto;
+	margin-left:calc(50% - 160px);
+	margin-top:20px;
+	margin-bottom:30px;
+}
+
+.PM-memo span {
+	width: 55px;
+	text-align: left;
+	font-size: 18px;
+	display: inline-block;
+	color: #fff;
+}
+
+.PM-memo .rectangle span {
+	height: 5px;
+}
+
+.PM-memo .rectangle span:first-child {
+	background: #72fa89;
+}
+
+.PM-memo .rectangle span:nth-child(2) {
+	background: #edf58b;
+}
+
+.PM-memo .rectangle span:nth-child(3) {
+	background: #fea72e;
+}
+
+.PM-memo .rectangle span:nth-child(4) {
+	background: #fe7335;
+}
+
+.PM-memo .rectangle span:nth-child(5) {
+	background: #fe19ed;
+}
+
+.PM-memo .rectangle {
+	margin-top: -10px;
+}
+
+.PM-memo .rectangle span:nth-child(6) {
+	background: red;
+}
+
+.PM-memo .memo {
+	margin-top: -5px;
+}
+
+.PM-memo .memo span {
+	text-align: center;
+	font-size: 12px;
+}
+main .content .content-btm {
+	width: 100%;
+}
+
+main .content .content-btm .list-div {
+	width: 44%;
+	overflow:hidden;
+	margin:0 auto;
+}
+main .content .content-btm .list-div dl{
+	float:left;
+	width:50%;
+	text-align:center;
+	font-weight:bold;
+}
+main .content .content-btm .list-div dl dt{
+	font-size:28px;
+	width:100%;
+}
+main .content .content-btm .list-div dl dd{
+	font-size:29px;
+	width:100%;
+}
+main .content .content-btm .list-div dl:first-child{
+	color:#ec26ec;
+}
+main .content .content-btm .list-div dl:nth-child(2){
+	color:#ecf48c;
+}
+#PM-curve{
+	width:90%;
+
+	box-sizing:border-box;
+	height:380px;
+	margin:0 auto;
+	/*background:url(../images/lanseqietu.png) no-repeat;*/
+	/*background-size:100%;*/
+	/*background:#012b96;*/
+	border-radius:10px;
+
+	position:relative;
+}
+.PM-curve{
+	width:100%;
+	position:absolute;
+	height:380px;
+	background:#012b96;
+	border-radius:10px;
+	left:0;
+	top:0;
+	z-index:100;
+	opacity:0.7;
+}
+.PM-content{
+	width:100%;
+	position:absolute;
+	height:380px;
+	left:0;
+	top:0;
+	padding-top:20px;
+	z-index:110;
+}
+.PM-content h2{
+	color:#fff;
+	font-size:25px;
+	font-weight:normal;
+	text-align:center;
+}
+
+footer{
+	width:100%;
+	padding-top:20px;
+}
+footer h3{
+	color:#002a96;
+	line-height:50px;
+	font-size:36px;
+	text-align:center;
+}
+

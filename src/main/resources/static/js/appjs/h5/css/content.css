@@ -1,0 +1,75 @@
+header {
+	height: 1.3rem;
+	width: 6.4rem;
+	background: #fff;
+	padding: 0.3rem;
+	box-sizing: border-box;
+}
+
+header section {
+	width: 5.8rem;
+	height: 0.7rem;
+	line-height: 0.7rem;
+	background: #f3f3f3;
+	border-radius: 0.04rem;
+	text-align: center;
+	font-size: 0.32rem;
+	color: #bbb;
+}
+
+header section img {
+	margin-right: 10px;
+}
+
+main {
+	/*height:5rem;*/
+	background: #f3f3f3;
+	width: 6.4rem;
+	position:absolute;
+	top:1.3rem;
+	bottom:0;
+}
+
+main section h2 {
+	padding: 0.4rem 0.3rem;
+}
+
+main section h2 img {
+	margin-right: 0.2rem;
+	vertical-align: middle;
+}
+
+main section h2 span {
+	vertical-align: middle;
+	font-size: 0.34rem;
+	color: #111;
+}
+
+main ul {
+	width: 5.8rem;
+	background: #fff;
+	margin: 0 auto;
+}
+
+main ul li {
+	border-bottom: 1px solid #dbdcdd;
+}
+
+main ul li span:first-child {
+	font-size: 0.26rem;
+	color: #999;
+	padding-left: 0.5rem;
+}
+
+main ul li span {
+	display: inline-block;
+	font-size: 0.24rem;
+	color: #333;
+	padding: 0.3rem 0;
+}
+
+main ul li i {
+	float: right;
+	margin-right: 0.5rem;
+	margin-top: 0.3rem;
+}

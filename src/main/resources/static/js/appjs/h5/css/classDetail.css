@@ -1,0 +1,110 @@
+main {
+	/*height:12rem;*/
+	background: url("../img/breather-163395@2x.png") no-repeat;
+	width: 6.4rem;
+	background-size:cover;
+	height:100%;
+}
+
+main>section {
+	width: 5.6rem;
+	/*padding: 0 0.4rem;*/
+	overflow: hidden;
+	margin:0 auto;
+	margin-top: 0.3rem;
+	box-sizing: border-box;
+	
+}
+
+main .m-t-n {
+	margin-top: 0;
+}
+main .m-l-n {
+	margin-left:0 !important; 
+}
+main section .card:last-child {
+	margin-left: 0.3rem;
+}
+
+main .card {
+	float: left;
+	width: 2.65rem;
+	box-sizing: border-box;
+	margin: 0 auto;
+	display: block;
+	/*	height:100%;*/
+	border-radius: 10px;
+	border: 1px solid #ebeef5;
+	background-color: #fff;
+	overflow: hidden;
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+}
+
+main .card .card-title {
+	padding: 0.2rem 0.2rem 0.1rem;
+	overflow: hidden;
+}
+
+main .card .card-title .title-left {
+	float: left;
+	color: #0f8cff;
+	font-size: 0.36rem;
+}
+main .card .card-title .title-left img{
+	display:block;
+}
+main .card .card-title .title-right {
+	float: right;
+/*	padding-top: 0.06rem;*/
+	font-size: 0.28rem;
+	color: #333;
+}
+
+main .card .card-body {
+	padding: 0.1rem 0.2rem;
+}
+
+main .card .card-body dl {
+	overflow: hidden;
+	padding-bottom: 0.1rem ;
+}
+
+main .card .card-body dl dt {
+	float: left;
+	color: #6a6a6a;
+	font-size: 0.26rem;
+}
+
+main .card .card-body dl dd {
+	float: right;
+	font-size: 0.24rem;
+	color: #222;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+main p {
+	font-size: 0.24rem;
+	color: #999;
+	text-align: center;
+	width: 6.4rem;
+	padding: 0.4rem 0;
+}
+
+main>h2 {
+	color: #fff;
+	font-size: 0.36rem;
+	padding: 0.4rem 0.3rem;
+}
+
+main .machine {
+	margin-top: 0.3rem;
+}
+
+.large {
+	width: 5.6rem !important;
+	padding:0 !important;
+	margin: 0 auto;
+	float: none !important;
+}

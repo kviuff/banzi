@@ -1,0 +1,87 @@
+main {
+	width: 6.4rem;
+	margin-bottom:1rem;
+}
+
+main ul {
+	width: 6.4rem;
+	overflow: hidden;
+}
+
+main ul li {
+	padding: 0.3rem;
+	border-bottom: 1px solid #bbb;
+}
+
+.spencial-li {
+	border-bottom: 0.2rem solid #f6f6f6;
+}
+
+main ul li label {
+	color: #777;
+	font-size: 0.28rem;
+}
+
+main ul li input,
+main ul li textarea {
+	font-size: 0.34rem;
+	color: #333;
+	padding-top: 0.24rem;
+	width: 5.8rem;
+	box-sizing: border-box;
+	outline: none;
+	border: 0;
+}
+
+main ul li button {
+	width: 5.8rem;
+	height: 0.8rem;
+	line-height: 0.8rem;
+	color: #fff;
+	font-size: 0.36rem;
+	background: #0F8CFF;
+	border-radius: 4px;
+}
+
+footer {
+	display: flex;
+	justify-content: space-around;
+	background: #f6f6f6;
+}
+
+
+footer {
+	position:fixed;
+	bottom:0;
+	left:0;
+	display: flex;
+	justify-content: space-around;
+	background: #f6f6f6;
+	width:6.4rem;
+}
+footer dl {
+	/*position:absolute;*/
+}
+
+footer dl dt {
+	height: 0.4rem;
+	margin-top: 0.15rem;
+	margin-bottom:0.1rem
+}
+
+footer dl dt img {
+	display: block;
+	margin: 0 auto;
+	width:0.42rem;
+	height:0.42rem;
+}
+
+footer dl dd {
+	font-size: 0.22rem;
+	height: 0.35rem;
+	color: #aaa;
+}
+
+.active {
+	color: #0F8CFF;
+}

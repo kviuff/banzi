@@ -1,0 +1,53 @@
+section {
+	width: 6.4rem;
+}
+
+dl {
+	/*height:1.36rem;*/
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+dl dt {
+	float: left;
+	height: 100%;
+	padding-top: 0.36rem;
+	padding-left: 0.3rem;
+	box-sizing: border-box;
+}
+
+dl dt img {
+	width: 0.85rem;
+	height: 0.86rem;
+	display: block;
+}
+
+dl dd {
+	float: right;
+	height: 100%;
+	width: 4.9rem;
+	border-bottom: 1px solid #bbb;
+	box-sizing: border-box;
+}
+
+dl dd li {
+	font-size: 0.27rem;
+	color: #777;
+	margin-top: 0.2rem;
+	margin-bottom: 0.24rem;
+	box-sizing: border-box;
+}
+
+dl dd li.title {
+	font-size: 0.34rem;
+	color: #222;
+	margin-top: 0.4rem;
+	margin-bottom: 0;
+	padding-right: 0.3rem;
+}
+
+dl dd li.title span {
+	float: right;
+	color: #444;
+	font-size: 0.3rem;
+}
