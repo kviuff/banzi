@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.monitoring.dao.MonitoringDao">
+
+    <select id="get" resultType="com.bootdo.monitoring.domain.MonitoringDO">
+        select `id`,`user_id`,`user_name`,`anomalous_region`,`customer_id`,`customer_name`,`abnormal_condition`,`machine_type`,`create_time`,
+        `update_time`,`abnormal_time`,`monitor_code`,`monitor_mode_code`,`belong_region`,`belong_floor`,`cumulative_flow`,`length`,
+        `param_json`,`status`,`Stall`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5`,`prop6`,`prop7`,`prop8`,`prop9`,`prop10`, `brand`, `monitorname`,
+        `flow1`,`flow2`,`flow3`,`flow4`,`flow5`,
+        `returnid`,`lanerUserName`, `lanerPassword`,`contollerAddr` from monitoring where id = #{value}
+    </select>
+
+    <select id="list" resultType="com.bootdo.monitoring.domain.MonitoringDO">
+        select `id`,`user_id`,`user_name`,`anomalous_region`,`customer_id`,`customer_name`,`abnormal_condition`,`machine_type`,`create_time`,
+        `update_time`,`abnormal_time`,`monitor_code`,`monitor_mode_code`,`belong_region`,`belong_floor`,`cumulative_flow`,`length`,`param_json`,
+        `status`,`Stall`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5`,`prop6`,`prop7`,`prop8`,`prop9`,`prop10`,`brand`, `monitorname`,`returnid`,
+        `flow1`,`flow2`,`flow3`,`flow4`,`flow5`,
+        `lanerUserName`, `lanerPassword`,`contollerAddr`,`close_time` from monitoring
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%') </if>
+            <if test="anomalousRegion != null and anomalousRegion != ''"> and anomalous_region = #{anomalousRegion} </if>
+            <if test="customerId != null and customerId != ''"> and customer_id = #{customerId} </if>
+            <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+            <if test="abnormalCondition != null and abnormalCondition != ''"> and abnormal_condition = #{abnormalCondition} </if>
+            <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+            <if test="abnormalTime != null and abnormalTime != ''"> and abnormal_time = #{abnormalTime} </if>
+            <if test="monitorCode != null and monitorCode != ''"> and monitor_code LIKE CONCAT(CONCAT('%',#{monitorCode}),'%') </if>
+            <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code LIKE CONCAT(CONCAT('%',#{monitorModeCode}),'%') </if>
+            <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+            <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+            <if test="cumulativeFlow != null and cumulativeFlow != ''"> and cumulative_flow = #{cumulativeFlow} </if>
+            <if test="length != null and length != ''"> and length = #{length} </if>
+            <if test="paramJson != null and paramJson != ''"> and param_json = #{paramJson} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+            <if test="stall != null and stall != ''"> and Stall = #{stall} </if>
+            <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+            <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+            <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+            <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+            <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+            <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+            <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+            <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+            <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+            <if test="prop10 != null and prop10 != ''"> and prop10 LIKE CONCAT(CONCAT('%',#{prop10}),'%') </if>
+            <if test="closeTime != null and closeTime != ''"> and close_time IS NOT NULL </if>
+            <if test="searchTime == 7"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= -7 </if>
+            <if test="searchTime == 14"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= -14 </if>
+            <if test="machine == 2"> and if(prop8 ='',
+                TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= 0 and prop6 IS NOT NULL
+                AND prop6 <![CDATA[ <> ]]> '',
+                (flow1 = '0' or flow2 = '0' or flow3 = '0' or flow4 = '0' or flow5 = '0'))  </if>
+            <if test="machine == 1"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= 0 and prop6 IS NOT NULL
+                AND prop6 <![CDATA[ <> ]]> ''</if>
+            <if test="searchType != null and searchType != ''"> and abnormal_condition IS NOT NULL
+                AND abnormal_condition <![CDATA[ <> ]]> ''</if>
+            <if test="noUser != null and noUser != ''"> and user_id IS NOT NULL
+                AND user_id <![CDATA[ <> ]]> ''</if>
+            <!--<if test="main != null and main != ''">
+                and  machine_type in ('1','4')</if>-->
+            <if test="ids != null">
+                and id in
+                <foreach item="ids" collection="ids" open="(" separator="," close=")">
+                #{ids}
+                </foreach>
+            </if>
+
+
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from monitoring
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%') </if>
+            <if test="anomalousRegion != null and anomalousRegion != ''"> and anomalous_region = #{anomalousRegion} </if>
+            <if test="customerId != null and customerId != ''"> and customer_id = #{customerId} </if>
+            <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+            <if test="abnormalCondition != null and abnormalCondition != ''"> and abnormal_condition = #{abnormalCondition} </if>
+            <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+            <if test="abnormalTime != null and abnormalTime != ''"> and abnormal_time = #{abnormalTime} </if>
+            <if test="monitorCode != null and monitorCode != ''"> and monitor_code LIKE CONCAT(CONCAT('%',#{monitorCode}),'%') </if>
+            <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code LIKE CONCAT(CONCAT('%',#{monitorModeCode}),'%') </if>
+            <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+            <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+            <if test="cumulativeFlow != null and cumulativeFlow != ''"> and cumulative_flow = #{cumulativeFlow} </if>
+            <if test="length != null and length != ''"> and length = #{length} </if>
+            <if test="paramJson != null and paramJson != ''"> and param_json = #{paramJson} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+            <if test="stall != null and stall != ''"> and Stall = #{stall} </if>
+            <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+            <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+            <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+            <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+            <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+            <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+            <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+            <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+            <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+            <if test="prop10 != null and prop10 != ''"> and prop10 LIKE CONCAT(CONCAT('%',#{prop10}),'%') </if>
+            <if test="searchTime == 7"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= -7 </if>
+            <if test="searchTime == 14"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= -14 </if>
+            <if test="machine == 2"> and (flow1 = '0' or flow2 = '0' or flow3 = '0' or flow4 = '0' or flow5 = '0') </if>
+            <if test="machine == 1"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= 0 and prop6 IS NOT NULL
+                AND prop6 <![CDATA[ <> ]]> ''</if>
+            <if test="searchType != null and searchType != ''"> and abnormal_condition IS NOT NULL
+                AND abnormal_condition <![CDATA[ <> ]]> ''</if>
+            <if test="noUser != null and noUser != ''"> and user_id IS NOT NULL
+                AND user_id <![CDATA[ <> ]]> ''</if>
+           <!-- <if test="main != null and main != ''">
+                and  machine_type in ('1','4')</if>-->
+            <if test="ids != null">
+                and id in
+                <foreach item="ids" collection="ids" open="(" separator="," close=")">
+                    #{ids}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.bootdo.monitoring.domain.MonitoringDO" useGeneratedKeys="true" keyProperty="id">
+        insert into monitoring
+        (
+        `user_id`,
+        `user_name`,
+        `anomalous_region`,
+        `customer_id`,
+        `customer_name`,
+        `abnormal_condition`,
+        `machine_type`,
+        `create_time`,
+        `update_time`,
+        `abnormal_time`,
+        `monitor_code`,
+        `monitor_mode_code`,
+        `belong_region`,
+        `belong_floor`,
+        `cumulative_flow`,
+        `length`,
+        `param_json`,
+        `status`,
+        `Stall`,
+        `prop1`,
+        `prop2`,
+        `prop3`,
+        `prop4`,
+        `prop5`,
+        `prop6`,
+        `prop7`,
+        `prop8`,
+        `prop9`,
+        `prop10`,
+        `brand`,
+        `monitorname`,
+        `returnid`,
+        `lanerUserName`,
+        `lanerPassword`,
+        `contollerAddr`,
+        `flow1`,`flow2`,`flow3`,`flow4`,`flow5`
+        )
+        values
+        (
+        #{userId},
+        #{userName},
+        #{anomalousRegion},
+        #{customerId},
+        #{customerName},
+        #{abnormalCondition},
+        #{machineType},
+        #{createTime},
+        #{updateTime},
+        #{abnormalTime},
+        #{monitorCode},
+        #{monitorModeCode},
+        #{belongRegion},
+        #{belongFloor},
+        #{cumulativeFlow},
+        #{length},
+        #{paramJson},
+        #{status},
+        #{stall},
+        #{prop1},
+        #{prop2},
+        #{prop3},
+        #{prop4},
+        #{prop5},
+        #{prop6},
+        #{prop7},
+        #{prop8},
+        #{prop9},
+        #{prop10},
+        #{brand},
+        #{monitorname},
+        #{returnid},
+        #{lanerUserName},
+        #{lanerPassword},
+        #{contollerAddr},
+        #{flow1},#{flow2},#{flow3},#{flow4},#{flow5}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.bootdo.monitoring.domain.MonitoringDO">
+        update monitoring
+        <set>
+            <if test="userId != null">`user_id` = #{userId}, </if>
+            <if test="userName != null">`user_name` = #{userName}, </if>
+            <if test="anomalousRegion != null">`anomalous_region` = #{anomalousRegion}, </if>
+            <if test="customerId != null">`customer_id` = #{customerId}, </if>
+            <if test="customerName != null">`customer_name` = #{customerName}, </if>
+            <if test="abnormalCondition != null">`abnormal_condition` = #{abnormalCondition}, </if>
+            <if test="machineType != null">`machine_type` = #{machineType}, </if>
+            <if test="createTime != null">`create_time` = #{createTime}, </if>
+            <if test="updateTime != null">`update_time` = #{updateTime}, </if>
+            <if test="abnormalTime != null">`abnormal_time` = #{abnormalTime}, </if>
+            <if test="monitorCode != null">`monitor_code` = #{monitorCode}, </if>
+            <if test="monitorModeCode != null">`monitor_mode_code` = #{monitorModeCode}, </if>
+            <if test="belongRegion != null">`belong_region` = #{belongRegion}, </if>
+            <if test="belongFloor != null">`belong_floor` = #{belongFloor}, </if>
+            <if test="cumulativeFlow != null">`cumulative_flow` = #{cumulativeFlow}, </if>
+            <if test="length != null">`length` = #{length}, </if>
+            <if test="paramJson != null">`param_json` = #{paramJson}, </if>
+            <if test="status != null">`status` = #{status}, </if>
+            <if test="stall != null">`Stall` = #{stall}, </if>
+            <if test="prop1 != null">`prop1` = #{prop1}, </if>
+            <if test="prop2 != null">`prop2` = #{prop2}, </if>
+            <if test="prop3 != null">`prop3` = #{prop3}, </if>
+            <if test="prop4 != null">`prop4` = #{prop4}, </if>
+            <if test="prop5 != null">`prop5` = #{prop5}, </if>
+            <if test="prop6 != null">`prop6` = #{prop6}, </if>
+            <if test="prop7 != null">`prop7` = #{prop7}, </if>
+            <if test="prop8 != null">`prop8` = #{prop8}, </if>
+            <if test="prop9 != null">`prop9` = #{prop9}, </if>
+            <if test="prop10 != null">`prop10` = #{prop10},</if>
+            <if test="brand != null">`brand` = #{brand},</if>
+            <if test="monitorname != null">`monitorname` = #{monitorname},</if>
+            <if test="returnid != null">`returnid` = #{returnid},</if>
+            <if test="lanerUserName != null">`lanerusername` = #{lanerUserName},</if>
+            <if test="lanerPassword != null">`lanerpassword` = #{lanerPassword},</if>
+            <if test="contollerAddr != null">`contolleraddr` = #{contollerAddr},</if>
+            <if test="closeTime != null">`close_time` = #{closeTime},</if>
+            <if test="flow1 != null">`flow1` = #{flow1},</if>
+            <if test="flow2 != null">`flow2` = #{flow2},</if>
+            <if test="flow3 != null">`flow3` = #{flow3},</if>
+            <if test="flow4 != null">`flow4` = #{flow4},</if>
+            <if test="flow5 != null">`flow5` = #{flow5}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+        delete from monitoring where id = #{value}
+    </delete>
+
+    <delete id="batchRemove">
+        delete from monitoring where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+
+    <select id="volist" resultType="com.bootdo.monitoring.vo.MonitoringVo">
+        SELECT
+        id,
+        user_id,
+        user_name,
+        count( 1 ) as allNum,
+        sum(if((status='1'),1,0)) as openNum,
+        sum(if((status='2'),1,0)) as closeNum
+        FROM
+        monitoring
+        <where>
+            user_id IS NOT NULL
+            AND user_id <![CDATA[ <> ]]> ''
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%') </if>
+            <if test="anomalousRegion != null and anomalousRegion != ''"> and anomalous_region = #{anomalousRegion} </if>
+            <if test="customerId != null and customerId != ''"> and customer_id = #{customerId} </if>
+            <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+            <if test="abnormalCondition != null and abnormalCondition != ''"> and abnormal_condition = #{abnormalCondition} </if>
+            <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+            <if test="abnormalTime != null and abnormalTime != ''"> and abnormal_time = #{abnormalTime} </if>
+            <if test="monitorCode != null and monitorCode != ''">and monitor_code LIKE CONCAT(CONCAT('%',#{monitorCode}),'%') </if>
+            <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code = #{monitorModeCode} </if>
+            <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+            <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+            <if test="cumulativeFlow != null and cumulativeFlow != ''"> and cumulative_flow = #{cumulativeFlow} </if>
+            <if test="length != null and length != ''"> and length = #{length} </if>
+            <if test="paramJson != null and paramJson != ''"> and param_json = #{paramJson} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+            <if test="stall != null and stall != ''"> and Stall = #{stall} </if>
+            <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+            <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+            <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+            <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+            <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+            <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+            <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+            <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+            <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+            <if test="prop10 != null and prop10 != ''"> and prop10 LIKE CONCAT(CONCAT('%',#{prop10}),'%') </if>
+            <if test="searchTime != null"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= -#{searchTime} </if>
+            <!--<if test="main != null and main != ''">
+                and  machine_type in ('1','4')</if>-->
+        </where>
+        group BY user_id
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="voCount" resultType="int">
+        SELECT count(1) from (
+        select count(*) from monitoring
+        <where>
+            user_id IS NOT NULL
+            AND user_id <![CDATA[ <> ]]> ''
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%') </if>
+            <if test="anomalousRegion != null and anomalousRegion != ''"> and anomalous_region = #{anomalousRegion} </if>
+            <if test="customerId != null and customerId != ''"> and customer_id = #{customerId} </if>
+            <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+            <if test="abnormalCondition != null and abnormalCondition != ''"> and abnormal_condition = #{abnormalCondition} </if>
+            <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+            <if test="abnormalTime != null and abnormalTime != ''"> and abnormal_time = #{abnormalTime} </if>
+            <if test="monitorCode != null and monitorCode != ''">and monitor_code LIKE CONCAT(CONCAT('%',#{monitorCode}),'%') </if>
+            <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code = #{monitorModeCode} </if>
+            <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+            <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+            <if test="cumulativeFlow != null and cumulativeFlow != ''"> and cumulative_flow = #{cumulativeFlow} </if>
+            <if test="length != null and length != ''"> and length = #{length} </if>
+            <if test="paramJson != null and paramJson != ''"> and param_json = #{paramJson} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+            <if test="stall != null and stall != ''"> and Stall = #{stall} </if>
+            <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+            <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+            <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+            <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+            <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+            <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+            <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+            <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+            <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+            <if test="prop10 != null and prop10 != ''"> and prop10 LIKE CONCAT(CONCAT('%',#{prop10}),'%') </if>
+            <if test="searchTime != null"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= -#{searchTime} </if>
+            <!--<if test="main != null and main != ''">
+                and  machine_type in ('1','4')</if>-->
+        </where>
+        group BY user_id
+        ) a
+    </select>
+
+    <select id="getImportIndex" resultType="java.util.Map">
+        select sum(if((status='1'),1,0)) as openNum,sum(if((status='2'),1,0)) as closeNum from monitoring
+    </select>
+
+
+    <select id="getJKImportIndex" resultType="java.util.Map">
+        SELECT
+        sum( IF ( ( STATUS = '1' AND machine_type = #{type} ), 1, 0 ) ) AS run,
+        sum( IF ( ( abnormal_condition IS NULL AND machine_type = #{type} ), 1, 0 ) ) AS normal,
+        sum( IF ( ( abnormal_condition IS NOT NULL AND machine_type = #{type}), 1, 0 ) ) AS abnormal
+        FROM
+        monitoring
+    </select>
+
+
+
+    <select id="JKlist" resultType="com.bootdo.monitoring.vo.JKVo">
+        SELECT
+        user_id,user_name,belong_region,
+        abnormal_condition,
+        machine_type,
+        sum( IF ( ( abnormal_condition IS NOT NULL AND abnormal_condition <![CDATA[ <> ]]> '' ), 1, 0 ) ) AS reportNum
+        FROM
+        monitoring
+        <where>
+            user_id IS NOT NULL
+            AND user_id <![CDATA[ <> ]]> ''
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%') </if>
+            <if test="anomalousRegion != null and anomalousRegion != ''"> and anomalous_region = #{anomalousRegion} </if>
+            <if test="customerId != null and customerId != ''"> and customer_id = #{customerId} </if>
+            <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+            <if test="abnormalCondition != null and abnormalCondition != ''"> and abnormal_condition = #{abnormalCondition} </if>
+            <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+            <if test="abnormalTime != null and abnormalTime != ''"> and abnormal_time = #{abnormalTime} </if>
+            <if test="monitorCode != null and monitorCode != ''"> and monitor_code = #{monitorCode} </if>
+            <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code = #{monitorModeCode} </if>
+            <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+            <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+            <if test="cumulativeFlow != null and cumulativeFlow != ''"> and cumulative_flow = #{cumulativeFlow} </if>
+            <if test="length != null and length != ''"> and length = #{length} </if>
+            <if test="paramJson != null and paramJson != ''"> and param_json = #{paramJson} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+            <if test="stall != null and stall != ''"> and Stall = #{stall} </if>
+            <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+            <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+            <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+            <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+            <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+            <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+            <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+            <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+            <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+            <if test="prop10 != null and prop10 != ''">and prop10 LIKE CONCAT(CONCAT('%',#{prop10}),'%') </if>
+
+        </where>
+        GROUP BY belong_region,user_id
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+
+    <select id="JKCount" resultType="int">
+        select count(1)from (
+        select count(*) from monitoring
+        <where>
+            user_id IS NOT NULL
+            AND user_id <![CDATA[ <> ]]> ''
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%')</if>
+            <if test="anomalousRegion != null and anomalousRegion != ''"> and anomalous_region = #{anomalousRegion} </if>
+            <if test="customerId != null and customerId != ''"> and customer_id = #{customerId} </if>
+            <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+            <if test="abnormalCondition != null and abnormalCondition != ''"> and abnormal_condition = #{abnormalCondition} </if>
+            <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+            <if test="abnormalTime != null and abnormalTime != ''"> and abnormal_time = #{abnormalTime} </if>
+            <if test="monitorCode != null and monitorCode != ''"> and monitor_code = #{monitorCode} </if>
+            <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code = #{monitorModeCode} </if>
+            <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+            <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+            <if test="cumulativeFlow != null and cumulativeFlow != ''"> and cumulative_flow = #{cumulativeFlow} </if>
+            <if test="length != null and length != ''"> and length = #{length} </if>
+            <if test="paramJson != null and paramJson != ''"> and param_json = #{paramJson} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+            <if test="stall != null and stall != ''"> and Stall = #{stall} </if>
+            <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+            <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+            <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+            <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+            <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+            <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+            <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+            <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+            <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+            <if test="prop10 != null and prop10 != ''"> and prop10 LIKE CONCAT(CONCAT('%',#{prop10}),'%') </if>
+        </where>
+        GROUP BY belong_region,user_id
+        ) a
+    </select>
+
+    <select id="getBelong" resultType="java.lang.String">
+        <choose>
+            <when test="floor != null and floor != ''">
+                SELECT belong_floor
+                from monitoring
+                <if test="userId != null and userId != ''">
+                where user_id = #{userId} GROUP BY belong_floor
+                </if>
+            </when>
+            <otherwise>
+                SELECT belong_region
+                from monitoring
+                <if test="userId != null and userId != ''">
+                where user_id = #{userId} GROUP BY belong_region
+                </if>
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <select id="getRepairIndex" resultType="java.util.Map">
+        select COUNT(1) as repaireNum from monitoring where prop1 in ('1','2')
+    </select>
+
+
+
+    <update id="updateByMonitorCode" parameterType="com.bootdo.monitoring.domain.MonitoringDO">
+        update monitoring
+        <set>
+            <if test="userId != null">`user_id` = #{userId}, </if>
+            <if test="userName != null">`user_name` = #{userName}, </if>
+            <if test="anomalousRegion != null">`anomalous_region` = #{anomalousRegion}, </if>
+            <if test="customerId != null">`customer_id` = #{customerId}, </if>
+            <if test="customerName != null">`customer_name` = #{customerName}, </if>
+            <if test="abnormalCondition != null">`abnormal_condition` = #{abnormalCondition}, </if>
+            <if test="machineType != null">`machine_type` = #{machineType}, </if>
+            <if test="createTime != null">`create_time` = #{createTime}, </if>
+            <if test="updateTime != null">`update_time` = #{updateTime}, </if>
+            <if test="abnormalTime != null">`abnormal_time` = #{abnormalTime}, </if>
+            <if test="monitorCode != null">`monitor_code` = #{monitorCode}, </if>
+            <if test="monitorModeCode != null">`monitor_mode_code` = #{monitorModeCode}, </if>
+            <if test="belongRegion != null">`belong_region` = #{belongRegion}, </if>
+            <if test="belongFloor != null">`belong_floor` = #{belongFloor}, </if>
+            <if test="cumulativeFlow != null">`cumulative_flow` = #{cumulativeFlow}, </if>
+            <if test="length != null">`length` = #{length}, </if>
+            <if test="paramJson != null">`param_json` = #{paramJson}, </if>
+            <if test="status != null">`status` = #{status}, </if>
+            <if test="stall != null">`Stall` = #{stall}, </if>
+            <if test="prop1 != null">`prop1` = #{prop1}, </if>
+            <if test="prop2 != null">`prop2` = #{prop2}, </if>
+            <if test="prop3 != null">`prop3` = #{prop3}, </if>
+            <if test="prop4 != null">`prop4` = #{prop4}, </if>
+            <if test="prop5 != null">`prop5` = #{prop5}, </if>
+            <if test="prop6 != null">`prop6` = #{prop6}, </if>
+            <if test="prop7 != null">`prop7` = #{prop7}, </if>
+            <if test="prop8 != null">`prop8` = #{prop8}, </if>
+            <if test="prop9 != null">`prop9` = #{prop9}, </if>
+            <if test="prop10 != null">`prop10` = #{prop10},</if>
+            <if test="brand != null">`brand` = #{brand},</if>
+            <if test="monitorname != null">`monitorname` = #{monitorname},</if>
+            <if test="returnid != null">`returnid` = #{returnid},</if>
+            <if test="lanerUserName != null">`lanerusername` = #{lanerUserName},</if>
+            <if test="lanerPassword != null">`lanerpassword` = #{lanerPassword},</if>
+            <if test="contollerAddr != null">`contolleraddr` = #{contollerAddr},</if>
+            <if test="flow1 != null">`flow1` = #{flow1},</if>
+            <if test="flow2 != null">`flow2` = #{flow2},</if>
+            <if test="flow3 != null">`flow3` = #{flow3},</if>
+            <if test="flow4 != null">`flow4` = #{flow4},</if>
+            <if test="flow5 != null">`flow5` = #{flow5}</if>
+        </set>
+        where monitor_code = #{monitorCode}
+    </update>
+
+
+    <select id="contentList" resultType="com.bootdo.monitoring.vo.MonitoringVo">
+        SELECT
+        id,
+        user_id,
+        user_name
+        FROM
+        monitoring
+        <where>
+            user_id IS NOT NULL
+            AND user_id <![CDATA[ <> ]]> ''
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%') </if>
+            <if test="anomalousRegion != null and anomalousRegion != ''"> and anomalous_region = #{anomalousRegion} </if>
+            <if test="customerId != null and customerId != ''"> and customer_id = #{customerId} </if>
+            <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+            <if test="abnormalCondition != null and abnormalCondition != ''"> and abnormal_condition = #{abnormalCondition} </if>
+            <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+            <if test="abnormalTime != null and abnormalTime != ''"> and abnormal_time = #{abnormalTime} </if>
+            <if test="monitorCode != null and monitorCode != ''">and monitor_code LIKE CONCAT(CONCAT('%',#{monitorCode}),'%') </if>
+            <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code = #{monitorModeCode} </if>
+            <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+            <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+            <if test="cumulativeFlow != null and cumulativeFlow != ''"> and cumulative_flow = #{cumulativeFlow} </if>
+            <if test="length != null and length != ''"> and length = #{length} </if>
+            <if test="paramJson != null and paramJson != ''"> and param_json = #{paramJson} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+            <if test="stall != null and stall != ''"> and Stall = #{stall} </if>
+            <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+            <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+            <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+            <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+            <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+            <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+            <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+            <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+            <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+            <if test="prop10 != null and prop10 != ''">and prop10 LIKE CONCAT(CONCAT('%',#{prop10}),'%') </if>
+            <if test="searchTime != null"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= -#{searchTime} </if>
+
+        </where>
+        group BY user_id
+
+    </select>
+
+
+    <select id="listForUnboundDevice" resultType="com.bootdo.monitoring.domain.MonitoringDO">
+        select `id`,`user_id`,`user_name`,`anomalous_region`,`customer_id`,`customer_name`,`abnormal_condition`,`machine_type`,`create_time`,
+        `update_time`,`abnormal_time`,`monitor_code`,`monitor_mode_code`,`belong_region`,`belong_floor`,`cumulative_flow`,`length`,`param_json`,
+        `status`,`Stall`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5`,`prop6`,`prop7`,`prop8`,`prop9`,`prop10`,`brand`, `monitorname`,`returnid`,
+        `lanerUserName`, `lanerPassword`,`contollerAddr`,`flow1`,`flow2`,`flow3`,`flow4`,`flow5`
+        from monitoring
+        <where>
+            user_id is null
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="anomalousRegion != null and anomalousRegion != ''"> and anomalous_region = #{anomalousRegion} </if>
+            <if test="customerId != null and customerId != ''"> and customer_id = #{customerId} </if>
+            <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+            <if test="abnormalCondition != null and abnormalCondition != ''"> and abnormal_condition = #{abnormalCondition} </if>
+            <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+            <if test="abnormalTime != null and abnormalTime != ''"> and abnormal_time = #{abnormalTime} </if>
+            <if test="monitorCode != null and monitorCode != ''"> and monitor_code LIKE CONCAT(CONCAT('%',#{monitorCode}),'%') </if>
+            <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code LIKE CONCAT(CONCAT('%',#{monitorModeCode}),'%') </if>
+            <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+            <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+            <if test="cumulativeFlow != null and cumulativeFlow != ''"> and cumulative_flow = #{cumulativeFlow} </if>
+            <if test="length != null and length != ''"> and length = #{length} </if>
+            <if test="paramJson != null and paramJson != ''"> and param_json = #{paramJson} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+            <if test="stall != null and stall != ''"> and Stall = #{stall} </if>
+            <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+            <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+            <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+            <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+            <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+            <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+            <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+            <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+            <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+            <if test="prop10 != null and prop10 != ''"> and prop10 LIKE CONCAT(CONCAT('%',#{prop10}),'%') </if>
+            <if test="searchTime == 7"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= -7 </if>
+            <if test="searchTime == 14"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= -14 </if>
+            <if test="searchType != null and searchType != ''"> and abnormal_condition IS NOT NULL
+                AND abnormal_condition <![CDATA[ <> ]]> ''</if>
+
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="countForUnboundDevice" resultType="int">
+        select count(*) from monitoring
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="anomalousRegion != null and anomalousRegion != ''"> and anomalous_region = #{anomalousRegion} </if>
+            <if test="customerId != null and customerId != ''"> and customer_id = #{customerId} </if>
+            <if test="customerName != null and customerName != ''"> and customer_name = #{customerName} </if>
+            <if test="abnormalCondition != null and abnormalCondition != ''"> and abnormal_condition = #{abnormalCondition} </if>
+            <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+            <if test="abnormalTime != null and abnormalTime != ''"> and abnormal_time = #{abnormalTime} </if>
+            <if test="monitorCode != null and monitorCode != ''"> and monitor_code LIKE CONCAT(CONCAT('%',#{monitorCode}),'%') </if>
+            <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code LIKE CONCAT(CONCAT('%',#{monitorModeCode}),'%') </if>
+            <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+            <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+            <if test="cumulativeFlow != null and cumulativeFlow != ''"> and cumulative_flow = #{cumulativeFlow} </if>
+            <if test="length != null and length != ''"> and length = #{length} </if>
+            <if test="paramJson != null and paramJson != ''"> and param_json = #{paramJson} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+            <if test="stall != null and stall != ''"> and Stall = #{stall} </if>
+            <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+            <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+            <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+            <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+            <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+            <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+            <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+            <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+            <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+            <if test="prop10 != null and prop10 != ''"> and prop10 LIKE CONCAT(CONCAT('%',#{prop10}),'%') </if>
+            <if test="searchTime == 7"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= -7 </if>
+            <if test="searchTime == 14"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= -14 </if>
+            <if test="searchType != null and searchType != ''"> and abnormal_condition IS NOT NULL
+                AND abnormal_condition <![CDATA[ <> ]]> ''</if>
+        </where>
+    </select>
+
+    <select id="getByCode" resultType="com.bootdo.monitoring.domain.MonitoringDO">
+        select `id`,`user_id`,`user_name`,`anomalous_region`,`customer_id`,`customer_name`,`abnormal_condition`,`machine_type`,`create_time`,
+        `update_time`,`abnormal_time`,`monitor_code`,`monitor_mode_code`,`belong_region`,`belong_floor`,`cumulative_flow`,`length`,`param_json`,
+        `status`,`Stall`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5`,`prop6`,`prop7`,`prop8`,`prop9`,`prop10`,`brand`,`monitorname`,`returnid`,
+        `lanerUserName`, `lanerPassword`,`contollerAddr`,`flow1`,`flow2`,`flow3`,`flow4`,`flow5`
+        from monitoring where monitor_code = #{value}
+    </select>
+
+    <select id="getByKeep" resultType="com.bootdo.monitoring.vo.MonitoringVo">
+        SELECT id,user_id,user_name,count(*) allNum from monitoring
+        <where>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%') </if>
+            <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+            <if test="machine == 2"> and (flow1 = '0' or flow2 = '0' or flow3 = '0' or flow4 = '0' or flow5 = '0') </if>
+            <if test="machine == 1"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= 0 and prop6 IS NOT NULL
+                AND prop6 <![CDATA[ <> ]]> ''</if>
+        </where>
+        GROUP BY user_id
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="getByKeepCount" resultType="int">
+        select count(1)from (
+        SELECT count(*) from monitoring
+        <where>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%') </if>
+            <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+            <if test="machine == 2"> and (flow1 = '0' or flow2 = '0' or flow3 = '0' or flow4 = '0' or flow5 = '0') </if>
+            <if test="machine == 1"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt;= 0 and prop6 IS NOT NULL
+                AND prop6 <![CDATA[ <> ]]> ''</if>
+        </where>
+        GROUP BY user_id
+        ) a
+    </select>
+
+    <select id="getGroupCode" resultType="java.lang.String">
+        SELECT monitor_mode_code monitorModeCode from monitoring
+        <where>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+            <if test="machine == 2"> and (flow1 = '0' or flow2 = '0' or flow3 = '0' or flow4 = '0' or flow5 = '0') </if>
+            <if test="machine == 1"> and TO_DAYS(NOW()) - TO_DAYS(prop6) &gt; 0 and prop6 IS NOT NULL
+                AND prop6 <![CDATA[ <> ]]> ''</if>
+        </where>
+        GROUP BY monitor_mode_code
+    </select>
+
+    <update id="updateBatch" parameterType="java.util.List">
+        update monitoring
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="prop6 =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.prop6 !=null and item.prop6 != ''">
+                        when id=#{item.id} then #{item.prop6}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <select id="findBig" resultType="com.bootdo.monitoring.domain.MonitoringDO">
+        SELECT * from monitoring where user_id=#{userId} and machine_type=#{machineType} group by belong_region
+    </select>
+
+
+</mapper>

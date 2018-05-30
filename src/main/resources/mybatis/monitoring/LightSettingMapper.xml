@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.monitoring.dao.LightSettingDao">
+
+	<select id="get" resultType="com.bootdo.monitoring.domain.LightSettingDO">
+		select `user_id`,`classroom_illumination`,`classroom_uniformity`,`blackboard_illumination`,`blackboard_uniformity`,`glare`,`rendering_index`,`color_temperature`,`prop` from light_setting where user_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.monitoring.domain.LightSettingDO">
+		select `user_id`,`classroom_illumination`,`classroom_uniformity`,`blackboard_illumination`,`blackboard_uniformity`,`glare`,`rendering_index`,`color_temperature`,`prop` from light_setting
+        <where>  
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="classroomIllumination != null and classroomIllumination != ''"> and classroom_illumination = #{classroomIllumination} </if>
+		  		  <if test="classroomUniformity != null and classroomUniformity != ''"> and classroom_uniformity = #{classroomUniformity} </if>
+		  		  <if test="blackboardIllumination != null and blackboardIllumination != ''"> and blackboard_illumination = #{blackboardIllumination} </if>
+		  		  <if test="blackboardUniformity != null and blackboardUniformity != ''"> and blackboard_uniformity = #{blackboardUniformity} </if>
+		  		  <if test="glare != null and glare != ''"> and glare = #{glare} </if>
+		  		  <if test="renderingIndex != null and renderingIndex != ''"> and rendering_index = #{renderingIndex} </if>
+		  		  <if test="colorTemperature != null and colorTemperature != ''"> and color_temperature = #{colorTemperature} </if>
+		  		  <if test="prop != null and prop != ''"> and prop = #{prop} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by user_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from light_setting
+		 <where>  
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="classroomIllumination != null and classroomIllumination != ''"> and classroom_illumination = #{classroomIllumination} </if>
+		  		  <if test="classroomUniformity != null and classroomUniformity != ''"> and classroom_uniformity = #{classroomUniformity} </if>
+		  		  <if test="blackboardIllumination != null and blackboardIllumination != ''"> and blackboard_illumination = #{blackboardIllumination} </if>
+		  		  <if test="blackboardUniformity != null and blackboardUniformity != ''"> and blackboard_uniformity = #{blackboardUniformity} </if>
+		  		  <if test="glare != null and glare != ''"> and glare = #{glare} </if>
+		  		  <if test="renderingIndex != null and renderingIndex != ''"> and rendering_index = #{renderingIndex} </if>
+		  		  <if test="colorTemperature != null and colorTemperature != ''"> and color_temperature = #{colorTemperature} </if>
+		  		  <if test="prop != null and prop != ''"> and prop = #{prop} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.monitoring.domain.LightSettingDO">
+		insert into light_setting
+		(
+			`user_id`, 
+			`classroom_illumination`, 
+			`classroom_uniformity`, 
+			`blackboard_illumination`, 
+			`blackboard_uniformity`, 
+			`glare`, 
+			`rendering_index`, 
+			`color_temperature`, 
+			`prop`
+		)
+		values
+		(
+			#{userId}, 
+			#{classroomIllumination}, 
+			#{classroomUniformity}, 
+			#{blackboardIllumination}, 
+			#{blackboardUniformity}, 
+			#{glare}, 
+			#{renderingIndex}, 
+			#{colorTemperature}, 
+			#{prop}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.monitoring.domain.LightSettingDO">
+		update light_setting 
+		<set>
+			<if test="classroomIllumination != null">`classroom_illumination` = #{classroomIllumination}, </if>
+			<if test="classroomUniformity != null">`classroom_uniformity` = #{classroomUniformity}, </if>
+			<if test="blackboardIllumination != null">`blackboard_illumination` = #{blackboardIllumination}, </if>
+			<if test="blackboardUniformity != null">`blackboard_uniformity` = #{blackboardUniformity}, </if>
+			<if test="glare != null">`glare` = #{glare}, </if>
+			<if test="renderingIndex != null">`rendering_index` = #{renderingIndex}, </if>
+			<if test="colorTemperature != null">`color_temperature` = #{colorTemperature}, </if>
+			<if test="prop != null">`prop` = #{prop}</if>
+		</set>
+		where user_id = #{userId}
+	</update>
+	
+	<delete id="remove">
+		delete from light_setting where user_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from light_setting where user_id in 
+		<foreach item="userId" collection="array" open="(" separator="," close=")">
+			#{userId}
+		</foreach>
+	</delete>
+
+</mapper>

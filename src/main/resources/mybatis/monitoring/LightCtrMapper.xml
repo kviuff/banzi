@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.monitoring.dao.LightCtrDao">
+
+	<select id="get" resultType="com.bootdo.monitoring.domain.LightCtrDO">
+		select `id`,`user_id`,`user_name`,`controller_id`,`controller_addr`,`lanerusername`,`lanerpassword`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5` from light_ctr where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.monitoring.domain.LightCtrDO">
+		select `id`,`user_id`,`user_name`,`controller_id`,`controller_addr`,`lanerusername`,`lanerpassword`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5`, count(1) num from light_ctr
+        <where>  
+		  	<if test="id != null and id != ''"> and id = #{id} </if>
+		  	<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  	<if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+		  	<if test="controllerId != null and controllerId != ''"> and controller_id = #{controllerId} </if>
+		  	<if test="controllerAddr != null and controllerAddr != ''"> and controller_addr = #{controllerAddr} </if>
+		  	<if test="lanerusername != null and lanerusername != ''"> and lanerusername = #{lanerusername} </if>
+		  	<if test="lanerpassword != null and lanerpassword != ''"> and lanerpassword = #{lanerpassword} </if>
+		  	<if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+		  	<if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+		  	<if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+		  	<if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+		  	<if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+		</where>
+		<if test="groupBy != null and groupBy != ''"> group by user_id</if>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from light_ctr
+		<where>
+			  <if test="id != null and id != ''"> and id = #{id} </if>
+			  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			  <if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+			  <if test="controllerId != null and controllerId != ''"> and controller_id = #{controllerId} </if>
+			  <if test="controllerAddr != null and controllerAddr != ''"> and controller_addr = #{controllerAddr} </if>
+			  <if test="lanerusername != null and lanerusername != ''"> and lanerusername = #{lanerusername} </if>
+			  <if test="lanerpassword != null and lanerpassword != ''"> and lanerpassword = #{lanerpassword} </if>
+			  <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+			  <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+			  <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+			  <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+			  <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+		</where>
+
+	</select>
+
+
+	<select id="allCount" resultType="int">
+		select count(1) from(
+		select count(*) from light_ctr
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+			<if test="controllerId != null and controllerId != ''"> and controller_id = #{controllerId} </if>
+			<if test="controllerAddr != null and controllerAddr != ''"> and controller_addr = #{controllerAddr} </if>
+			<if test="lanerusername != null and lanerusername != ''"> and lanerusername = #{lanerusername} </if>
+			<if test="lanerpassword != null and lanerpassword != ''"> and lanerpassword = #{lanerpassword} </if>
+
+			<if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+			<if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+			<if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+			<if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+			<if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+		</where>
+		<if test="groupBy != null and groupBy != ''"> group by user_id</if>
+		) a
+
+	</select>
+
+	 
+	<insert id="save" parameterType="com.bootdo.monitoring.domain.LightCtrDO">
+		insert into light_ctr
+		(
+			`id`, 
+			`user_id`, 
+			`user_name`, 
+			`controller_id`, 
+			`controller_addr`, 
+			`lanerusername`, 
+			`lanerpassword`, 
+			`prop1`, 
+			`prop2`, 
+			`prop3`, 
+			`prop4`, 
+			`prop5`
+		)
+		values
+		(
+			#{id}, 
+			#{userId}, 
+			#{userName}, 
+			#{controllerId}, 
+			#{controllerAddr}, 
+			#{lanerusername}, 
+			#{lanerpassword}, 
+			#{prop1}, 
+			#{prop2}, 
+			#{prop3}, 
+			#{prop4}, 
+			#{prop5}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.monitoring.domain.LightCtrDO">
+		update light_ctr 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="userName != null">`user_name` = #{userName}, </if>
+			<if test="controllerId != null">`controller_id` = #{controllerId}, </if>
+			<if test="controllerAddr != null">`controller_addr` = #{controllerAddr}, </if>
+			<if test="lanerusername != null">`lanerusername` = #{lanerusername}, </if>
+			<if test="lanerpassword != null">`lanerpassword` = #{lanerpassword}, </if>
+			<if test="prop1 != null">`prop1` = #{prop1}, </if>
+			<if test="prop2 != null">`prop2` = #{prop2}, </if>
+			<if test="prop3 != null">`prop3` = #{prop3}, </if>
+			<if test="prop4 != null">`prop4` = #{prop4}, </if>
+			<if test="prop5 != null">`prop5` = #{prop5}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from light_ctr where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from light_ctr where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

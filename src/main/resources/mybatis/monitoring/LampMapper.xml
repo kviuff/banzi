@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.monitoring.dao.LampDao">
+
+	<select id="get" resultType="com.bootdo.monitoring.domain.LampDO">
+		select `return_id`,`controller`,`name`,`address`,`belong_region`,`belong_floor`,`user_id` from lamp where return_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.monitoring.domain.LampDO">
+		select `return_id`,`controller`,`name`,`address`,`belong_region`,`belong_floor`,`user_id` from lamp
+        <where>  
+		  		  <if test="returnId != null and returnId != ''"> and return_id = #{returnId} </if>
+		  		  <if test="controller != null and controller != ''"> and controller = #{controller} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  		  <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+		  		  <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by return_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from lamp
+		 <where>  
+		  		  <if test="returnId != null and returnId != ''"> and return_id = #{returnId} </if>
+		  		  <if test="controller != null and controller != ''"> and controller = #{controller} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  		  <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+		  		  <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.monitoring.domain.LampDO">
+		insert into lamp
+		(
+			`return_id`, 
+			`controller`, 
+			`name`, 
+			`address`, 
+			`belong_region`, 
+			`belong_floor`, 
+			`user_id`
+		)
+		values
+		(
+			#{returnId}, 
+			#{controller}, 
+			#{name}, 
+			#{address}, 
+			#{belongRegion}, 
+			#{belongFloor}, 
+			#{userId}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.monitoring.domain.LampDO">
+		update lamp 
+		<set>
+			<if test="controller != null">`controller` = #{controller}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="belongRegion != null">`belong_region` = #{belongRegion}, </if>
+			<if test="belongFloor != null">`belong_floor` = #{belongFloor}, </if>
+			<if test="userId != null">`user_id` = #{userId}</if>
+		</set>
+		where return_id = #{returnId}
+	</update>
+	
+	<delete id="remove">
+		delete from lamp where return_id = #{returnId} and controller = #{controller}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from lamp where return_id in 
+		<foreach item="returnId" collection="array" open="(" separator="," close=")">
+			#{returnId}
+		</foreach>
+	</delete>
+
+	<select id="allList" resultType="com.bootdo.monitoring.domain.LampDO">
+		select `return_id`,`controller`,`name`,`address`,`belong_region`,`belong_floor`,`user_id` from lamp
+		<where>
+			<if test="returnId != null and returnId != ''"> and return_id = #{returnId} </if>
+			<if test="controller != null and controller != ''"> and controller = #{controller} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="address != null and address != ''"> and address = #{address} </if>
+			<if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+			<if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+			<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		</where>
+
+	</select>
+</mapper>

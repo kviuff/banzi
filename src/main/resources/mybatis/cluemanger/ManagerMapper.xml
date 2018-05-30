@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.cluemanger.dao.ManagerDao">
+
+	<select id="get" resultType="com.bootdo.cluemanger.domain.ManagerDO">
+		select `id`,`company_name`,`user_name`,`person_charge`,`person_picup`,`company_address`,`time_detail`,`create_time`,`update_time`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5`,`prop6`,`prop7`,`prop8`,`prop9`,`prop10` from clue_manager where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.cluemanger.domain.ManagerDO">
+		select `id`,`company_name`,`user_name`,`person_charge`,`person_picup`,`company_address`,`time_detail`,`create_time`,`update_time`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5`,`prop6`,`prop7`,`prop8`,`prop9`,`prop10` from clue_manager
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="companyName != null and companyName != ''"> and company_name = #{companyName} </if>
+		  		  <if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+		  		  <if test="personCharge != null and personCharge != ''"> and person_charge = #{personCharge} </if>
+		  		  <if test="personPicup != null and personPicup != ''"> and person_picup = #{personPicup} </if>
+		  		  <if test="companyAddress != null and companyAddress != ''"> and company_address = #{companyAddress} </if>
+		  		  <if test="timeDetail != null and timeDetail != ''"> and time_detail = #{timeDetail} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="prop1 != null and prop1 != ''"> and prop1 in (#{prop1}) </if>
+		  		  <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+		  		  <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+		  		  <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+		  		  <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+		  		  <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+		  		  <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+		  		  <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+		  		  <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+		  		  <if test="prop10 != null and prop10 != ''"> and prop10 = #{prop10} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from clue_manager
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="companyName != null and companyName != ''"> and company_name = #{companyName} </if>
+		  		  <if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+		  		  <if test="personCharge != null and personCharge != ''"> and person_charge = #{personCharge} </if>
+		  		  <if test="personPicup != null and personPicup != ''"> and person_picup = #{personPicup} </if>
+		  		  <if test="companyAddress != null and companyAddress != ''"> and company_address = #{companyAddress} </if>
+		  		  <if test="timeDetail != null and timeDetail != ''"> and time_detail = #{timeDetail} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="prop1 != null and prop1 != ''"> and prop1 in (#{prop1})  </if>
+		  		  <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+		  		  <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+		  		  <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+		  		  <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+		  		  <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+		  		  <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+		  		  <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+		  		  <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+		  		  <if test="prop10 != null and prop10 != ''"> and prop10 = #{prop10} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.cluemanger.domain.ManagerDO" useGeneratedKeys="true" keyProperty="id">
+		insert into clue_manager
+		(
+			`company_name`, 
+			`user_name`, 
+			`person_charge`, 
+			`person_picup`, 
+			`company_address`, 
+			`time_detail`, 
+			`create_time`, 
+			`update_time`, 
+			`prop1`, 
+			`prop2`, 
+			`prop3`, 
+			`prop4`, 
+			`prop5`, 
+			`prop6`, 
+			`prop7`, 
+			`prop8`, 
+			`prop9`, 
+			`prop10`
+		)
+		values
+		(
+			#{companyName}, 
+			#{userName}, 
+			#{personCharge}, 
+			#{personPicup}, 
+			#{companyAddress}, 
+			#{timeDetail}, 
+			#{createTime}, 
+			#{updateTime}, 
+			#{prop1}, 
+			#{prop2}, 
+			#{prop3}, 
+			#{prop4}, 
+			#{prop5}, 
+			#{prop6}, 
+			#{prop7}, 
+			#{prop8}, 
+			#{prop9}, 
+			#{prop10}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.cluemanger.domain.ManagerDO">
+		update clue_manager 
+		<set>
+			<if test="companyName != null">`company_name` = #{companyName}, </if>
+			<if test="userName != null">`user_name` = #{userName}, </if>
+			<if test="personCharge != null">`person_charge` = #{personCharge}, </if>
+			<if test="personPicup != null">`person_picup` = #{personPicup}, </if>
+			<if test="companyAddress != null">`company_address` = #{companyAddress}, </if>
+			<if test="timeDetail != null">`time_detail` = #{timeDetail}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="prop1 != null">`prop1` = #{prop1}, </if>
+			<if test="prop2 != null">`prop2` = #{prop2}, </if>
+			<if test="prop3 != null">`prop3` = #{prop3}, </if>
+			<if test="prop4 != null">`prop4` = #{prop4}, </if>
+			<if test="prop5 != null">`prop5` = #{prop5}, </if>
+			<if test="prop6 != null">`prop6` = #{prop6}, </if>
+			<if test="prop7 != null">`prop7` = #{prop7}, </if>
+			<if test="prop8 != null">`prop8` = #{prop8}, </if>
+			<if test="prop9 != null">`prop9` = #{prop9}, </if>
+			<if test="prop10 != null">`prop10` = #{prop10}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from clue_manager where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from clue_manager where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

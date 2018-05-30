@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.maintainManger.dao.KeepLogDao">
+
+	<select id="get" resultType="com.bootdo.maintainManger.domain.KeepLogDO">
+		select `keep_id`,`user_id`,`user_name`,`monitoring_id`,`monitor_code`,`monitor_mode_code`,`belong_region`,`belong_floor`,`cumulative_flow`,`machine_type`,`keep_time`,`end_keep_time`,`return_visit`,`create_time`,`update_time`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5` from keep_log where keep_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.maintainManger.domain.KeepLogDO">
+		select `keep_id`,`user_id`,`user_name`,`monitoring_id`,`monitor_code`,`monitor_mode_code`,`belong_region`,`belong_floor`,`cumulative_flow`,`machine_type`,`keep_time`,`end_keep_time`,`return_visit`,`create_time`,`update_time`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5` from keep_log
+        <where>  
+		    <if test="keepId != null and keepId != ''"> and keep_id = #{keepId} </if>
+			<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%') </if>
+			<if test="monitoringId != null and monitoringId != ''"> and monitoring_id = #{monitoringId} </if>
+			<if test="monitorCode != null and monitorCode != ''"> and monitor_code LIKE CONCAT(CONCAT('%',#{monitorCode}),'%') </if>
+			<if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code LIKE CONCAT(CONCAT('%',#{monitorModeCode}),'%')</if>
+			<if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+			<if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+			<if test="cumulativeFlow != null and cumulativeFlow != ''"> and cumulative_flow = #{cumulativeFlow} </if>
+			<if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+			<if test="keepTime != null and keepTime != ''"> and keep_time = #{keepTime} </if>
+			<if test="endKeepTime != null and endKeepTime != ''"> and end_keep_time = #{endKeepTime} </if>
+			<if test="returnVisit != null and returnVisit != ''"> and return_visit = #{returnVisit} </if>
+			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+			<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+			<if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+			<if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+			<if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+			<if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+			<if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by keep_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from keep_log
+		 <where>  
+		  		  <if test="keepId != null and keepId != ''"> and keep_id = #{keepId} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			 <if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%') </if>
+			 <if test="monitoringId != null and monitoringId != ''"> and monitoring_id = #{monitoringId} </if>
+			 <if test="monitorCode != null and monitorCode != ''"> and monitor_code LIKE CONCAT(CONCAT('%',#{monitorCode}),'%') </if>
+			 <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code LIKE CONCAT(CONCAT('%',#{monitorModeCode}),'%')</if>
+			 <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+		  		  <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+		  		  <if test="cumulativeFlow != null and cumulativeFlow != ''"> and cumulative_flow = #{cumulativeFlow} </if>
+		  		  <if test="machineType != null and machineType != ''"> and machine_type = #{machineType} </if>
+		  		  <if test="keepTime != null and keepTime != ''"> and keep_time = #{keepTime} </if>
+		  		  <if test="endKeepTime != null and endKeepTime != ''"> and end_keep_time = #{endKeepTime} </if>
+		  		  <if test="returnVisit != null and returnVisit != ''"> and return_visit = #{returnVisit} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+		  		  <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+		  		  <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+		  		  <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+		  		  <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.maintainManger.domain.KeepLogDO" useGeneratedKeys="true" keyProperty="keepId">
+		insert into keep_log
+		(
+			`user_id`, 
+			`user_name`, 
+			`monitoring_id`, 
+			`monitor_code`, 
+			`monitor_mode_code`, 
+			`belong_region`, 
+			`belong_floor`, 
+			`cumulative_flow`, 
+			`machine_type`, 
+			`keep_time`, 
+			`end_keep_time`, 
+			`return_visit`, 
+			`create_time`, 
+			`update_time`, 
+			`prop1`, 
+			`prop2`, 
+			`prop3`, 
+			`prop4`, 
+			`prop5`
+		)
+		values
+		(
+			#{userId}, 
+			#{userName}, 
+			#{monitoringId}, 
+			#{monitorCode}, 
+			#{monitorModeCode}, 
+			#{belongRegion}, 
+			#{belongFloor}, 
+			#{cumulativeFlow}, 
+			#{machineType}, 
+			#{keepTime}, 
+			#{endKeepTime}, 
+			#{returnVisit}, 
+			#{createTime}, 
+			#{updateTime}, 
+			#{prop1}, 
+			#{prop2}, 
+			#{prop3}, 
+			#{prop4}, 
+			#{prop5}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.maintainManger.domain.KeepLogDO">
+		update keep_log 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="userName != null">`user_name` = #{userName}, </if>
+			<if test="monitoringId != null">`monitoring_id` = #{monitoringId}, </if>
+			<if test="monitorCode != null">`monitor_code` = #{monitorCode}, </if>
+			<if test="monitorModeCode != null">`monitor_mode_code` = #{monitorModeCode}, </if>
+			<if test="belongRegion != null">`belong_region` = #{belongRegion}, </if>
+			<if test="belongFloor != null">`belong_floor` = #{belongFloor}, </if>
+			<if test="cumulativeFlow != null">`cumulative_flow` = #{cumulativeFlow}, </if>
+			<if test="machineType != null">`machine_type` = #{machineType}, </if>
+			<if test="keepTime != null">`keep_time` = #{keepTime}, </if>
+			<if test="endKeepTime != null">`end_keep_time` = #{endKeepTime}, </if>
+			<if test="returnVisit != null">`return_visit` = #{returnVisit}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="prop1 != null">`prop1` = #{prop1}, </if>
+			<if test="prop2 != null">`prop2` = #{prop2}, </if>
+			<if test="prop3 != null">`prop3` = #{prop3}, </if>
+			<if test="prop4 != null">`prop4` = #{prop4}, </if>
+			<if test="prop5 != null">`prop5` = #{prop5}</if>
+		</set>
+		where keep_id = #{keepId}
+	</update>
+	
+	<delete id="remove">
+		delete from keep_log where keep_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from keep_log where keep_id in 
+		<foreach item="keepId" collection="array" open="(" separator="," close=")">
+			#{keepId}
+		</foreach>
+	</delete>
+
+</mapper>

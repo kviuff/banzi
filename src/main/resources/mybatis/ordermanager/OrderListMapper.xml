@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.ordermanager.dao.OrderListDao">
+
+	<select id="get" resultType="com.bootdo.ordermanager.domain.OrderListDO">
+		select `id`,`user_id`,`order_sn`,`tatal_price`,`create_time`,`update_time`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5`,`prop6`,`prop7`,`prop8`,`prop9`,`prop10` from order_list where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.ordermanager.domain.OrderListDO">
+		select `id`,`user_id`,`order_sn`,`tatal_price`,`create_time`,`update_time`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5`,`prop6`,`prop7`,`prop8`,`prop9`,`prop10` from order_list
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="orderSn != null and orderSn != ''"> and order_sn = #{orderSn} </if>
+		  		  <if test="tatalPrice != null and tatalPrice != ''"> and tatal_price = #{tatalPrice} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+		  		  <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+		  		  <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+		  		  <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+		  		  <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+		  		  <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+		  		  <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+		  		  <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+		  		  <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+		  		  <if test="prop10 != null and prop10 != ''"> and prop10 = #{prop10} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from order_list
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="orderSn != null and orderSn != ''"> and order_sn = #{orderSn} </if>
+		  		  <if test="tatalPrice != null and tatalPrice != ''"> and tatal_price = #{tatalPrice} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+		  		  <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+		  		  <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+		  		  <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+		  		  <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+		  		  <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+		  		  <if test="prop7 != null and prop7 != ''"> and prop7 = #{prop7} </if>
+		  		  <if test="prop8 != null and prop8 != ''"> and prop8 = #{prop8} </if>
+		  		  <if test="prop9 != null and prop9 != ''"> and prop9 = #{prop9} </if>
+		  		  <if test="prop10 != null and prop10 != ''"> and prop10 = #{prop10} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.ordermanager.domain.OrderListDO" useGeneratedKeys="true" keyProperty="id">
+		insert into order_list
+		(
+			`user_id`, 
+			`order_sn`, 
+			`tatal_price`, 
+			`create_time`, 
+			`update_time`, 
+			`prop1`, 
+			`prop2`, 
+			`prop3`, 
+			`prop4`, 
+			`prop5`, 
+			`prop6`, 
+			`prop7`, 
+			`prop8`, 
+			`prop9`, 
+			`prop10`
+		)
+		values
+		(
+			#{userId}, 
+			#{orderSn}, 
+			#{tatalPrice}, 
+			#{createTime}, 
+			#{updateTime}, 
+			#{prop1}, 
+			#{prop2}, 
+			#{prop3}, 
+			#{prop4}, 
+			#{prop5}, 
+			#{prop6}, 
+			#{prop7}, 
+			#{prop8}, 
+			#{prop9}, 
+			#{prop10}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.ordermanager.domain.OrderListDO">
+		update order_list 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="orderSn != null">`order_sn` = #{orderSn}, </if>
+			<if test="tatalPrice != null">`tatal_price` = #{tatalPrice}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="prop1 != null">`prop1` = #{prop1}, </if>
+			<if test="prop2 != null">`prop2` = #{prop2}, </if>
+			<if test="prop3 != null">`prop3` = #{prop3}, </if>
+			<if test="prop4 != null">`prop4` = #{prop4}, </if>
+			<if test="prop5 != null">`prop5` = #{prop5}, </if>
+			<if test="prop6 != null">`prop6` = #{prop6}, </if>
+			<if test="prop7 != null">`prop7` = #{prop7}, </if>
+			<if test="prop8 != null">`prop8` = #{prop8}, </if>
+			<if test="prop9 != null">`prop9` = #{prop9}, </if>
+			<if test="prop10 != null">`prop10` = #{prop10}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from order_list where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from order_list where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+
+	<select id="selectCountAndMoneyByUser" resultType="com.bootdo.ordermanager.domain.OrderDO">
+		select count(ol.id) as orderCount, sum(tatal_price) as orderAmount from order_list ol
+		left join sys_user suser on suser.user_id = ol.user_id
+		<where>
+			<if test="id != null and id != ''"> and ol.id = #{id} </if>
+			<if test="userId != null and userId != ''"> and ol.user_id = #{userId} </if>
+			<if test="orderSn != null and orderSn != ''"> and ol.order_sn = #{orderSn} </if>
+			<if test="tatalPrice != null and tatalPrice != ''"> and ol.tatal_price = #{tatalPrice} </if>
+			<if test="createTime != null and createTime != ''"> and ol.create_time = #{createTime} </if>
+			<if test="updateTime != null and updateTime != ''"> and ol.update_time = #{updateTime} </if>
+			<if test="prop1 != null and prop1 != ''"> and ol.prop1 = #{prop1} </if>
+			<if test="prop2 != null and prop2 != ''"> and ol.prop2 = #{prop2} </if>
+			<if test="prop3 != null and prop3 != ''"> and ol.prop3 = #{prop3} </if>
+			<if test="prop4 != null and prop4 != ''"> and ol.prop4 = #{prop4} </if>
+			<if test="prop5 != null and prop5 != ''"> and ol.prop5 = #{prop5} </if>
+			<if test="prop6 != null and prop6 != ''"> and ol.prop6 = #{prop6} </if>
+			<if test="prop7 != null and prop7 != ''"> and ol.prop7 = #{prop7} </if>
+			<if test="prop8 != null and prop8 != ''"> and ol.prop8 = #{prop8} </if>
+			<if test="prop9 != null and prop9 != ''"> and ol.prop9 = #{prop9} </if>
+			<if test="prop10 != null and prop10 != ''"> and ol.prop10 = #{prop10} </if>
+
+			<if test="responsibleForPhone != null and responsibleForPhone != ''"> and suser.responsible_for_phone = #{responsibleForPhone} </if>
+			<if test="accountnumberType != null and accountnumberType != ''"> and suser.accountnumber_type = #{accountnumberType} </if>
+
+		</where>
+	</select>
+
+
+
+	<select id="listForJxs" resultType="com.bootdo.ordermanager.domain.OrderListDO">
+		select olist.id, olist.order_sn, olist.create_time, olist.prop1,
+		(select a.username from sys_user a where a.user_id = olist.user_id) as khname,
+		(select a.user_name_create from sys_user a where a.user_id = olist.user_id) as xsname,
+		(select a.username from sys_user a where a.user_id = suser.chief_id) as zjname from order_list olist
+		left join sys_user suser on olist.user_id = suser.user_id
+		<where>
+			<if test="agencyId != null and agencyId != ''"> and suser.agency_id = #{agencyId} </if>
+			<if test="prop1 != null and prop1 != ''"> and olist.prop1 = #{prop1} </if>
+		</where>
+		order by olist.create_time desc
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="countForJxs" resultType="int">
+		select count(*) from order_list olist
+		left join sys_user suser on olist.user_id = suser.user_id
+		<where>
+			<if test="agencyId != null and agencyId != ''"> and suser.agency_id = #{agencyId} </if>
+			<if test="prop1 != null and prop1 != ''"> and olist.prop1 = #{prop1} </if>
+		</where>
+	</select>
+
+
+
+
+
+
+</mapper>

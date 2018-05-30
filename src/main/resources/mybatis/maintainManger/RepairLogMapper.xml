@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.maintainManger.dao.RepairLogDao">
+
+    <select id="get" resultType="com.bootdo.maintainManger.domain.RepairLogDO">
+        select `repair_id`,`user_id`,`user_name`,`monitoring_id`,`monitor_code`,`monitor_mode_code`,`belong_region`,`belong_floor`,`failure_cause`,`maintain_time`,`repair_time`,`return_visit`,`dispatch_time`,`create_time`,`update_time`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5`,`prop6` from repair_log where repair_id = #{value}
+    </select>
+
+    <select id="list" resultType="com.bootdo.maintainManger.domain.RepairLogDO">
+        select COUNT(1) as maintainNum,`user_id`,`user_name` from repair_log
+        <where>
+            user_id is not null and user_id <![CDATA[ <> ]]> ''
+            <if test="repairId != null and repairId != ''"> and repair_id = #{repairId} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%') </if>
+            <if test="monitoringId != null and monitoringId != ''"> and monitoring_id = #{monitoringId} </if>
+            <if test="monitorCode != null and monitorCode != ''"> and monitor_code LIKE CONCAT(CONCAT('%',#{monitorCode}),'%') </if>
+            <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code LIKE CONCAT(CONCAT('%',#{monitorModeCode}),'%')</if>
+            <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+            <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+            <if test="failureCause != null and failureCause != ''"> and failure_cause = #{failureCause} </if>
+            <if test="maintainTime != null and maintainTime != ''"> and maintain_time = #{maintainTime} </if>
+            <if test="repairTime != null and repairTime != ''"> and repair_time = #{repairTime} </if>
+            <if test="returnVisit != null and returnVisit != ''"> and return_visit = #{returnVisit} </if>
+            <if test="dispatchTime != null and dispatchTime != ''"> and dispatch_time = #{dispatchTime} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+            <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+            <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+            <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+            <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+            <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+            <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+        </where>
+        group BY user_id
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by repair_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(1) from (
+        select count(*) from repair_log
+        <where>
+            user_id is not null and user_id <![CDATA[ <> ]]> ''
+            <if test="repairId != null and repairId != ''"> and repair_id = #{repairId} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name LIKE CONCAT(CONCAT('%',#{userName}),'%') </if>
+            <if test="monitoringId != null and monitoringId != ''"> and monitoring_id = #{monitoringId} </if>
+            <if test="monitorCode != null and monitorCode != ''"> and monitor_code LIKE CONCAT(CONCAT('%',#{monitorCode}),'%') </if>
+            <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code LIKE CONCAT(CONCAT('%',#{monitorModeCode}),'%')</if>
+            <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+            <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+            <if test="failureCause != null and failureCause != ''"> and failure_cause = #{failureCause} </if>
+            <if test="maintainTime != null and maintainTime != ''"> and maintain_time = #{maintainTime} </if>
+            <if test="repairTime != null and repairTime != ''"> and repair_time = #{repairTime} </if>
+            <if test="returnVisit != null and returnVisit != ''"> and return_visit = #{returnVisit} </if>
+            <if test="dispatchTime != null and dispatchTime != ''"> and dispatch_time = #{dispatchTime} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+            <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+            <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+            <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+            <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+            <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+            <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+        </where>
+        group BY user_id
+        ) a
+    </select>
+
+    <insert id="save" parameterType="com.bootdo.maintainManger.domain.RepairLogDO" useGeneratedKeys="true" keyProperty="repairId">
+        insert into repair_log
+        (
+        `repair_id`,
+        `user_id`,
+        `user_name`,
+        `monitoring_id`,
+        `monitor_code`,
+        `monitor_mode_code`,
+        `belong_region`,
+        `belong_floor`,
+        `failure_cause`,
+        `maintain_time`,
+        `repair_time`,
+        `return_visit`,
+        `dispatch_time`,
+        `create_time`,
+        `update_time`,
+        `prop1`,
+        `prop2`,
+        `prop3`,
+        `prop4`,
+        `prop5`,
+        `prop6`
+        )
+        values
+        (
+        #{repairId},
+        #{userId},
+        #{userName},
+        #{monitoringId},
+        #{monitorCode},
+        #{monitorModeCode},
+        #{belongRegion},
+        #{belongFloor},
+        #{failureCause},
+        #{maintainTime},
+        #{repairTime},
+        #{returnVisit},
+        #{dispatchTime},
+        #{createTime},
+        #{updateTime},
+        #{prop1},
+        #{prop2},
+        #{prop3},
+        #{prop4},
+        #{prop5},
+        #{prop6}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.bootdo.maintainManger.domain.RepairLogDO">
+        update repair_log
+        <set>
+            <if test="userId != null">`user_id` = #{userId}, </if>
+            <if test="userName != null">`user_name` = #{userName}, </if>
+            <if test="monitoringId != null">`monitoring_id` = #{monitoringId}, </if>
+            <if test="monitorCode != null">`monitor_code` = #{monitorCode}, </if>
+            <if test="monitorModeCode != null">`monitor_mode_code` = #{monitorModeCode}, </if>
+            <if test="belongRegion != null">`belong_region` = #{belongRegion}, </if>
+            <if test="belongFloor != null">`belong_floor` = #{belongFloor}, </if>
+            <if test="failureCause != null">`failure_cause` = #{failureCause}, </if>
+            <if test="maintainTime != null">`maintain_time` = #{maintainTime}, </if>
+            <if test="repairTime != null">`repair_time` = #{repairTime}, </if>
+            <if test="returnVisit != null">`return_visit` = #{returnVisit}, </if>
+            <if test="dispatchTime != null">`dispatch_time` = #{dispatchTime}, </if>
+            <if test="createTime != null">`create_time` = #{createTime}, </if>
+            <if test="updateTime != null">`update_time` = #{updateTime}, </if>
+            <if test="prop1 != null">`prop1` = #{prop1}, </if>
+            <if test="prop2 != null">`prop2` = #{prop2}, </if>
+            <if test="prop3 != null">`prop3` = #{prop3}, </if>
+            <if test="prop4 != null">`prop4` = #{prop4}, </if>
+            <if test="prop5 != null">`prop5` = #{prop5}, </if>
+            <if test="prop6 != null">`prop6` = #{prop6}</if>
+        </set>
+        where repair_id = #{repairId}
+    </update>
+
+    <delete id="remove">
+        delete from repair_log where repair_id = #{value}
+    </delete>
+
+    <delete id="batchRemove">
+        delete from repair_log where repair_id in
+        <foreach item="repairId" collection="array" open="(" separator="," close=")">
+            #{repairId}
+        </foreach>
+    </delete>
+
+    <select id="getMaintainIndex" resultType="java.util.Map">
+        select COUNT(1) as repaireNum from repair_log where user_id is not null and user_id <![CDATA[ <> ]]> ''
+    </select>
+
+    <select id="repairList" resultType="com.bootdo.maintainManger.domain.RepairLogDO">
+        select `repair_id`,`user_id`,`user_name`,`monitoring_id`,`monitor_code`,`monitor_mode_code`,`belong_region`,`belong_floor`,`failure_cause`,`maintain_time`,`repair_time`,`return_visit`,`dispatch_time`,`create_time`,`update_time`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5`,`prop6` from repair_log
+        <where>
+            <if test="repairId != null and repairId != ''"> and repair_id = #{repairId} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+            <if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+            <if test="monitoringId != null and monitoringId != ''"> and monitoring_id = #{monitoringId} </if>
+            <if test="monitorCode != null and monitorCode != ''"> and monitor_code = #{monitorCode} </if>
+            <if test="monitorModeCode != null and monitorModeCode != ''"> and monitor_mode_code = #{monitorModeCode} </if>
+            <if test="belongRegion != null and belongRegion != ''"> and belong_region = #{belongRegion} </if>
+            <if test="belongFloor != null and belongFloor != ''"> and belong_floor = #{belongFloor} </if>
+            <if test="failureCause != null and failureCause != ''"> and failure_cause = #{failureCause} </if>
+            <if test="maintainTime != null and maintainTime != ''"> and maintain_time = #{maintainTime} </if>
+            <if test="repairTime != null and repairTime != ''"> and repair_time = #{repairTime} </if>
+            <if test="returnVisit != null and returnVisit != ''"> and return_visit = #{returnVisit} </if>
+            <if test="dispatchTime != null and dispatchTime != ''"> and dispatch_time = #{dispatchTime} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+            <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+            <if test="prop2 != null and prop2 != ''"> and prop2 = #{prop2} </if>
+            <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+            <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+            <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+            <if test="prop6 != null and prop6 != ''"> and prop6 = #{prop6} </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by repair_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.monitoring.dao.SetMealDao">
+
+	<select id="get" resultType="com.bootdo.monitoring.domain.SetMealDO">
+		select `id`,`user_id`,`meal_name`,`type`,`flow1`,`flow2`,`flow3`,`flow4`,`flow5`,`cycle`,`prop1`,`porp2`,`prop3`,`prop4`,`prop5` from set_meal where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.monitoring.domain.SetMealDO">
+		select `id`,`user_id`,`meal_name`,`type`,`flow1`,`flow2`,`flow3`,`flow4`,`flow5`,`cycle`,`prop1`,`porp2`,`prop3`,`prop4`,`prop5` from set_meal
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="mealName != null and mealName != ''"> and meal_name = #{mealName} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="flow1 != null and flow1 != ''"> and flow1 = #{flow1} </if>
+		  		  <if test="flow2 != null and flow2 != ''"> and flow2 = #{flow2} </if>
+		  		  <if test="flow3 != null and flow3 != ''"> and flow3 = #{flow3} </if>
+		  		  <if test="flow4 != null and flow4 != ''"> and flow4 = #{flow4} </if>
+		  		  <if test="flow5 != null and flow5 != ''"> and flow5 = #{flow5} </if>
+		  		  <if test="cycle != null and cycle != ''"> and cycle = #{cycle} </if>
+		  		  <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+		  		  <if test="porp2 != null and porp2 != ''"> and porp2 = #{porp2} </if>
+		  		  <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+		  		  <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+		  		  <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from set_meal
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="mealName != null and mealName != ''"> and meal_name = #{mealName} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="flow1 != null and flow1 != ''"> and flow1 = #{flow1} </if>
+		  		  <if test="flow2 != null and flow2 != ''"> and flow2 = #{flow2} </if>
+		  		  <if test="flow3 != null and flow3 != ''"> and flow3 = #{flow3} </if>
+		  		  <if test="flow4 != null and flow4 != ''"> and flow4 = #{flow4} </if>
+		  		  <if test="flow5 != null and flow5 != ''"> and flow5 = #{flow5} </if>
+		  		  <if test="cycle != null and cycle != ''"> and cycle = #{cycle} </if>
+		  		  <if test="prop1 != null and prop1 != ''"> and prop1 = #{prop1} </if>
+		  		  <if test="porp2 != null and porp2 != ''"> and porp2 = #{porp2} </if>
+		  		  <if test="prop3 != null and prop3 != ''"> and prop3 = #{prop3} </if>
+		  		  <if test="prop4 != null and prop4 != ''"> and prop4 = #{prop4} </if>
+		  		  <if test="prop5 != null and prop5 != ''"> and prop5 = #{prop5} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.monitoring.domain.SetMealDO" useGeneratedKeys="true" keyProperty="id">
+		insert into set_meal
+		(
+			`user_id`, 
+			`meal_name`, 
+			`type`, 
+			`flow1`, 
+			`flow2`, 
+			`flow3`, 
+			`flow4`, 
+			`flow5`, 
+			`cycle`, 
+			`prop1`, 
+			`porp2`, 
+			`prop3`, 
+			`prop4`, 
+			`prop5`
+		)
+		values
+		(
+			#{userId}, 
+			#{mealName}, 
+			#{type}, 
+			#{flow1}, 
+			#{flow2}, 
+			#{flow3}, 
+			#{flow4}, 
+			#{flow5}, 
+			#{cycle}, 
+			#{prop1}, 
+			#{porp2}, 
+			#{prop3}, 
+			#{prop4}, 
+			#{prop5}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.monitoring.domain.SetMealDO">
+		update set_meal 
+		<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="mealName != null">`meal_name` = #{mealName}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="flow1 != null">`flow1` = #{flow1}, </if>
+			<if test="flow2 != null">`flow2` = #{flow2}, </if>
+			<if test="flow3 != null">`flow3` = #{flow3}, </if>
+			<if test="flow4 != null">`flow4` = #{flow4}, </if>
+			<if test="flow5 != null">`flow5` = #{flow5}, </if>
+			<if test="cycle != null">`cycle` = #{cycle}, </if>
+			<if test="prop1 != null">`prop1` = #{prop1}, </if>
+			<if test="porp2 != null">`porp2` = #{porp2}, </if>
+			<if test="prop3 != null">`prop3` = #{prop3}, </if>
+			<if test="prop4 != null">`prop4` = #{prop4}, </if>
+			<if test="prop5 != null">`prop5` = #{prop5}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from set_meal where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from set_meal where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

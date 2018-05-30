@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.system.dao.AreaDao">
+
+	<select id="get" resultType="com.bootdo.system.domain.AreaDO">
+		select `area_id`,`area_name`,`area_parent_id`,`area_sort`,`area_deep`,`is_del`,`seq_num`,`create_time`,`update_time` from shop_area where area_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.system.domain.AreaDO">
+		select `area_id`,`area_name`,`area_parent_id`,`area_sort`,`area_deep`,`is_del`,`seq_num`,`create_time`,`update_time` from shop_area
+        <where>  
+		  		  <if test="areaId != null and areaId != ''"> and area_id = #{areaId} </if>
+		  		  <if test="areaName != null and areaName != ''"> and area_name = #{areaName} </if>
+		  		  <if test="areaParentId != null and areaParentId != ''"> and area_parent_id = #{areaParentId} </if>
+		  		  <if test="areaSort != null and areaSort != ''"> and area_sort = #{areaSort} </if>
+		  		  <if test="areaDeep != null and areaDeep != ''"> and area_deep = #{areaDeep} </if>
+		  		  <if test="isDel != null and isDel != ''"> and is_del = #{isDel} </if>
+		  		  <if test="seqNum != null and seqNum != ''"> and seq_num = #{seqNum} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by area_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from shop_area
+		 <where>  
+		  		  <if test="areaId != null and areaId != ''"> and area_id = #{areaId} </if>
+		  		  <if test="areaName != null and areaName != ''"> and area_name = #{areaName} </if>
+		  		  <if test="areaParentId != null and areaParentId != ''"> and area_parent_id = #{areaParentId} </if>
+		  		  <if test="areaSort != null and areaSort != ''"> and area_sort = #{areaSort} </if>
+		  		  <if test="areaDeep != null and areaDeep != ''"> and area_deep = #{areaDeep} </if>
+		  		  <if test="isDel != null and isDel != ''"> and is_del = #{isDel} </if>
+		  		  <if test="seqNum != null and seqNum != ''"> and seq_num = #{seqNum} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.system.domain.AreaDO">
+		insert into shop_area
+		(
+			`area_id`, 
+			`area_name`, 
+			`area_parent_id`, 
+			`area_sort`, 
+			`area_deep`, 
+			`is_del`, 
+			`seq_num`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{areaId}, 
+			#{areaName}, 
+			#{areaParentId}, 
+			#{areaSort}, 
+			#{areaDeep}, 
+			#{isDel}, 
+			#{seqNum}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.system.domain.AreaDO">
+		update shop_area 
+		<set>
+			<if test="areaName != null">`area_name` = #{areaName}, </if>
+			<if test="areaParentId != null">`area_parent_id` = #{areaParentId}, </if>
+			<if test="areaSort != null">`area_sort` = #{areaSort}, </if>
+			<if test="areaDeep != null">`area_deep` = #{areaDeep}, </if>
+			<if test="isDel != null">`is_del` = #{isDel}, </if>
+			<if test="seqNum != null">`seq_num` = #{seqNum}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where area_id = #{areaId}
+	</update>
+	
+	<delete id="remove">
+		delete from shop_area where area_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from shop_area where area_id in 
+		<foreach item="areaId" collection="array" open="(" separator="," close=")">
+			#{areaId}
+		</foreach>
+	</delete>
+
+	<!-- 根据父ID查询List -->
+	<select id="queryChildList" resultType="com.bootdo.system.domain.AreaDO" parameterType="java.lang.String">
+		select *
+		from shop_area where is_del = 0
+		and area_parent_id = #{parentId,jdbcType=VARCHAR}
+		order by create_time desc
+	</select>
+
+	<!-- 查出全部数据 -->
+	<select id="queryAll" resultType="com.bootdo.system.domain.AreaDO" >
+		select *
+		from shop_area where is_del = 0 and area_parent_id= '0'  order by create_time desc
+	</select>
+
+</mapper>

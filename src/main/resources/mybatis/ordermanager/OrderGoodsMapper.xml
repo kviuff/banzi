@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.ordermanager.dao.OrderGoodsDao">
+
+    <select id="get" resultType="com.bootdo.ordermanager.domain.OrderGoodsDO">
+		select `id`,`order_sn`,`goods_name`,`goos_sn`,`goods_price`,`goods_num`,`brand`,`tatal_price`,`create_time`,`update_time`,`prop1`,`prop2`,`prop3`,`prop4`,`prop5`,`prop6`,`prop7`,`prop8`,`prop9`,`prop10` from order_goods where id = #{value}
+	</select>
+
+    <select id="list" resultType="com.bootdo.ordermanager.domain.OrderGoodsDO">
+        select a.* from order_goods a
+        left join order_list olist on a.order_sn = olist.order_sn
+        <where>
+            <if test="id != null and id != ''">and a.id = #{id}</if>
+            <if test="orderSn != null and orderSn != ''">and a.order_sn = #{orderSn}</if>
+            <if test="goodsName != null and goodsName != ''">and a.goods_name = #{goodsName}</if>
+            <if test="goosSn != null and goosSn != ''">and a.goos_sn = #{goosSn}</if>
+            <if test="goodsPrice != null and goodsPrice != ''">and a.goods_price = #{goodsPrice}</if>
+            <if test="goodsNum != null and goodsNum != ''">and a.goods_num = #{goodsNum}</if>
+            <if test="brand != null and brand != ''">and a.brand = #{brand}</if>
+            <if test="tatalPrice != null and tatalPrice != ''">and a.tatal_price = #{tatalPrice}</if>
+            <if test="createTime != null and createTime != ''">and a.create_time = #{createTime}</if>
+            <if test="updateTime != null and updateTime != ''">and a.update_time = #{updateTime}</if>
+            <if test="prop1 != null and prop1 != ''">and a.prop1 = #{prop1}</if>
+            <if test="prop2 != null and prop2 != ''">and a.prop2 = #{prop2}</if>
+            <if test="prop3 != null and prop3 != ''">and a.prop3 = #{prop3}</if>
+            <if test="prop4 != null and prop4 != ''">and a.prop4 = #{prop4}</if>
+            <if test="prop5 != null and prop5 != ''">and a.prop5 = #{prop5}</if>
+            <if test="prop6 != null and prop6 != ''">and a.prop6 = #{prop6}</if>
+            <if test="prop7 != null and prop7 != ''">and a.prop7 = #{prop7}</if>
+            <if test="prop8 != null and prop8 != ''">and a.prop8 = #{prop8}</if>
+            <if test="prop9 != null and prop9 != ''">and a.prop9 = #{prop9}</if>
+            <if test="prop10 != null and prop10 != ''">and a.prop10 = #{prop10}</if>
+            <if test="olist != null and olist != ''">and olist.prop1 = #{olist}</if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by a.id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from order_goods a
+        left join order_list olist on a.order_sn = olist.order_sn
+        <where>
+            <if test="id != null and id != ''">and a.id = #{id}</if>
+            <if test="orderSn != null and orderSn != ''">and a.order_sn = #{orderSn}</if>
+            <if test="goodsName != null and goodsName != ''">and a.goods_name = #{goodsName}</if>
+            <if test="goosSn != null and goosSn != ''">and a.goos_sn = #{goosSn}</if>
+            <if test="goodsPrice != null and goodsPrice != ''">and a.goods_price = #{goodsPrice}</if>
+            <if test="goodsNum != null and goodsNum != ''">and a.goods_num = #{goodsNum}</if>
+            <if test="brand != null and brand != ''">and a.brand = #{brand}</if>
+            <if test="tatalPrice != null and tatalPrice != ''">and a.tatal_price = #{tatalPrice}</if>
+            <if test="createTime != null and createTime != ''">and a.create_time = #{createTime}</if>
+            <if test="updateTime != null and updateTime != ''">and a.update_time = #{updateTime}</if>
+            <if test="prop1 != null and prop1 != ''">and a.prop1 = #{prop1}</if>
+            <if test="prop2 != null and prop2 != ''">and a.prop2 = #{prop2}</if>
+            <if test="prop3 != null and prop3 != ''">and a.prop3 = #{prop3}</if>
+            <if test="prop4 != null and prop4 != ''">and a.prop4 = #{prop4}</if>
+            <if test="prop5 != null and prop5 != ''">and a.prop5 = #{prop5}</if>
+            <if test="prop6 != null and prop6 != ''">and a.prop6 = #{prop6}</if>
+            <if test="prop7 != null and prop7 != ''">and a.prop7 = #{prop7}</if>
+            <if test="prop8 != null and prop8 != ''">and a.prop8 = #{prop8}</if>
+            <if test="prop9 != null and prop9 != ''">and a.prop9 = #{prop9}</if>
+            <if test="prop10 != null and prop10 != ''">and a.prop10 = #{prop10}</if>
+            <if test="olist != null and olist != ''">and olist.prop1 = #{olist}</if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.bootdo.ordermanager.domain.OrderGoodsDO" useGeneratedKeys="true"
+            keyProperty="id">
+		insert into order_goods
+		(
+			`order_sn`, 
+			`goods_name`, 
+			`goos_sn`, 
+			`goods_price`, 
+			`goods_num`, 
+			`brand`, 
+			`tatal_price`, 
+			`create_time`, 
+			`update_time`, 
+			`prop1`, 
+			`prop2`, 
+			`prop3`, 
+			`prop4`, 
+			`prop5`, 
+			`prop6`, 
+			`prop7`, 
+			`prop8`, 
+			`prop9`, 
+			`prop10`
+		)
+		values
+		(
+			#{orderSn}, 
+			#{goodsName}, 
+			#{goosSn}, 
+			#{goodsPrice}, 
+			#{goodsNum}, 
+			#{brand}, 
+			#{tatalPrice}, 
+			#{createTime}, 
+			#{updateTime}, 
+			#{prop1}, 
+			#{prop2}, 
+			#{prop3}, 
+			#{prop4}, 
+			#{prop5}, 
+			#{prop6}, 
+			#{prop7}, 
+			#{prop8}, 
+			#{prop9}, 
+			#{prop10}
+		)
+	</insert>
+
+    <update id="update" parameterType="com.bootdo.ordermanager.domain.OrderGoodsDO">
+        update order_goods
+        <set>
+            <if test="orderSn != null">`order_sn` = #{orderSn},</if>
+            <if test="goodsName != null">`goods_name` = #{goodsName},</if>
+            <if test="goosSn != null">`goos_sn` = #{goosSn},</if>
+            <if test="goodsPrice != null">`goods_price` = #{goodsPrice},</if>
+            <if test="goodsNum != null">`goods_num` = #{goodsNum},</if>
+            <if test="brand != null">`brand` = #{brand},</if>
+            <if test="tatalPrice != null">`tatal_price` = #{tatalPrice},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="updateTime != null">`update_time` = #{updateTime},</if>
+            <if test="prop1 != null">`prop1` = #{prop1},</if>
+            <if test="prop2 != null">`prop2` = #{prop2},</if>
+            <if test="prop3 != null">`prop3` = #{prop3},</if>
+            <if test="prop4 != null">`prop4` = #{prop4},</if>
+            <if test="prop5 != null">`prop5` = #{prop5},</if>
+            <if test="prop6 != null">`prop6` = #{prop6},</if>
+            <if test="prop7 != null">`prop7` = #{prop7},</if>
+            <if test="prop8 != null">`prop8` = #{prop8},</if>
+            <if test="prop9 != null">`prop9` = #{prop9},</if>
+            <if test="prop10 != null">`prop10` = #{prop10}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+		delete from order_goods where id = #{value}
+	</delete>
+
+    <delete id="batchRemove">
+        delete from order_goods where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
