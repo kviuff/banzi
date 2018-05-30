@@ -1,0 +1,59 @@
+section {
+	width: 6.4rem;
+	height:100%;
+}
+
+section ul {
+	width: 6.4rem;
+	overflow: hidden;
+	height:100%;
+}
+
+section ul li {
+	padding: 0.3rem;
+	border-bottom: 1px solid #bbb;
+}
+
+section ul li:last-child {
+	border-bottom: 0;
+	background: #f6f6f6;
+}
+
+section ul li.textarea {
+	/*border-bottom: 0.2rem solid #f6f6f6;
+	height: 5.66rem;*/
+	position:absolute;
+	bottom:1.4rem;
+	top:3.21rem;
+}
+
+
+section ul li p {
+	color: #777;
+	font-size: 0.28rem;
+}
+
+section ul li input,
+section ul li textarea {
+	font-size: 0.34rem;
+	color: #333;
+	padding-top: 0.24rem;
+	width: 5.8rem;
+	box-sizing: border-box;
+	outline: none;
+	border: 0;
+	
+}
+section ul li:last-child{
+	position:absolute;
+	bottom:0;
+}
+section ul li button {
+	width: 5.8rem;
+	height: 0.8rem;
+	line-height: 0.8rem;
+	color: #fff;
+	font-size: 0.36rem;
+	background: #0F8CFF;
+	border-radius: 4px;
+}
